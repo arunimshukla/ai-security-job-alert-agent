@@ -11,7 +11,7 @@ const ENV = {
   GITHUB_REF: "main",
 };
 
-test("the dispatcher calls the selected private-repository workflow", async () => {
+test("the dispatcher calls the configured repository workflow", async () => {
   let request;
   const result = await dispatchWorkflow({
     env: ENV,
@@ -31,10 +31,10 @@ test("the dispatcher calls the selected private-repository workflow", async () =
   assert.equal(result.dispatched, true);
 });
 
-test("the dispatcher fails closed when the token is missing", async () => {
+test("the dispatcher fails closed when required configuration is missing", async () => {
   await assert.rejects(
     dispatchWorkflow({ env: {}, fetchImpl: async () => new Response(null, { status: 204 }) }),
-    /GITHUB_ACTIONS_TOKEN is not configured/,
+    /GITHUB_ACTIONS_TOKEN, GITHUB_OWNER, GITHUB_REPOSITORY/,
   );
 });
 

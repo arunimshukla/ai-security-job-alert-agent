@@ -1,5 +1,3 @@
-const DEFAULT_OWNER = "arunimshukla";
-const DEFAULT_REPOSITORY = "ai-security-job-alert-agent";
 const DEFAULT_WORKFLOW = "watch.yml";
 const DEFAULT_REF = "main";
 
@@ -20,13 +18,15 @@ export async function dispatchWorkflow({
     GITHUB_REF: runtimeValue("GITHUB_REF"),
   },
 } = {}) {
-  const token = env.GITHUB_ACTIONS_TOKEN;
-  if (!token) {
-    throw new Error("GITHUB_ACTIONS_TOKEN is not configured");
+  const required = ["GITHUB_ACTIONS_TOKEN", "GITHUB_OWNER", "GITHUB_REPOSITORY"];
+  const missing = required.filter((name) => !env[name]);
+  if (missing.length) {
+    throw new Error(`Missing required Netlify environment variables: ${missing.join(", ")}`);
   }
 
-  const owner = env.GITHUB_OWNER || DEFAULT_OWNER;
-  const repository = env.GITHUB_REPOSITORY || DEFAULT_REPOSITORY;
+  const token = env.GITHUB_ACTIONS_TOKEN;
+  const owner = env.GITHUB_OWNER;
+  const repository = env.GITHUB_REPOSITORY;
   const workflow = env.GITHUB_WORKFLOW || DEFAULT_WORKFLOW;
   const ref = env.GITHUB_REF || DEFAULT_REF;
   const endpoint = [
