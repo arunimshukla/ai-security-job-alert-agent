@@ -1,0 +1,70 @@
+name: Five-minute AI security job watcher
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+    inputs:
+      test_alert:
+        description: "Send a synthetic test alert"
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: job-watcher
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    runs-on: ubuntu-slim
+    timeout-minutes: 4
+    steps:
+      - name: Check out private repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run tests
+        run: python -m unittest discover -s tests -v
+
+      - name: Check first-party job boards
+        id: watcher
+        env:
+          SMTP_HOST: smtp.gmail.com
+          SMTP_PORT: "465"
+          SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          ALERT_EMAIL_TO: ${{ secrets.ALERT_EMAIL_TO }}
+          ALERT_EMAIL_FROM: ${{ secrets.SMTP_USERNAME }}
+          PROFILE_PROOF_POINTS: ${{ secrets.PROFILE_PROOF_POINTS }}
+        run: |
+          if [[ "${{ inputs.test_alert }}" == "true" ]]; then
+            python watcher.py --test-alert
+          else
+            python watcher.py
+          fi
+
+      - name: Persist deduplication state
+        if: ${{ inputs.test_alert != true }}
+        run: |
+          git config user.name "job-alert-agent[bot]"
+          git config user.email "job-alert-agent[bot]@users.noreply.github.com"
+          git add .state/seen.json
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: update job watcher state [skip ci]"
+            git push
+          fi
+
+      - name: Verify urgent email delivery
+        if: ${{ steps.watcher.outputs.alert_count != '0' && steps.watcher.outputs.email_sent != 'true' }}
+        run: |
+          echo "A matching job was found, but its email could not be delivered."
+          exit 1
