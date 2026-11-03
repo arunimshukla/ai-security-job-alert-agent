@@ -940,10 +940,10 @@
     "greenhouse:Abnormal Security:c00ebaa387c4def85d4d": {
       "company": "Abnormal Security",
       "eligible": false,
-      "fingerprint": "18fa73cb8a40871464680833",
+      "fingerprint": "b0eab857815007c300b0d9bf",
       "first_seen_at": "2026-11-03T17:42:34+00:00",
-      "last_seen_at": "2026-11-03T17:42:34+00:00",
-      "title": "Customer Success Manager, Mid-Market Florida",
+      "last_seen_at": "2026-11-03T19:47:41+00:00",
+      "title": "Customer Success Manager, Florida",
       "url": "https://abnormal.ai/careers/jobs/8165953003?gh_jid=8165953003"
     },
     "greenhouse:Abnormal Security:c4d8b9cb0fe1e7ff8293": {
@@ -1359,6 +1359,15 @@
       "last_seen_at": "2026-11-03T16:42:16+00:00",
       "title": "Customer Success Manager",
       "url": "https://job-boards.greenhouse.io/hiddenlayer/jobs/5141513007"
+    },
+    "greenhouse:HiddenLayer:37a421ff28cd1901be2c": {
+      "company": "HiddenLayer",
+      "eligible": false,
+      "fingerprint": "70f65459ec46a504bab2e142",
+      "first_seen_at": "2026-11-03T19:47:41+00:00",
+      "last_seen_at": "2026-11-03T19:47:41+00:00",
+      "title": "Technical Product Manager for AI Security Products (Portugal)",
+      "url": "https://job-boards.greenhouse.io/hiddenlayer/jobs/5283384007"
     },
     "greenhouse:HiddenLayer:381a2f891e73e550d502": {
       "company": "HiddenLayer",
