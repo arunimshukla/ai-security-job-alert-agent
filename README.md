@@ -147,11 +147,40 @@ The scanner itself was healthy. The failure was in the Netlify-to-GitHub authent
     python -m unittest discover -s tests -v
     node --test tests/test_dispatch.mjs
 
-### Expected monthly usage
+### Expected monthly usage and cost ceiling
 
-Five-minute monitoring produces 288 scans per day, or about 8,640 scans in a 30-day month. Each GitHub job is rounded up to a billed minute. At the current `ubuntu-slim` rate and sub-minute runtime, the baseline is approximately **$17.28/month** before GitHub's included allowance.
+Five-minute monitoring produces 288 scans per day, or about **8,640 scans in a 30-day month**.
 
-The Netlify dispatcher is small, but check both providers' usage dashboards after the first week. Retries, duplicate schedulers or jobs exceeding one billed minute increase the estimate.
+#### GitHub
+
+This repository is currently **public**. Standard GitHub-hosted runners are free for public repositories, so the current `ubuntu-slim` watcher has **no Actions compute charge and no run-count ceiling** under the standard-runner policy. The workflow stores no artifacts and uses no Actions cache.
+
+If the repository is made private, the economics change immediately: every sub-minute job is rounded up to one billable minute. Under GitHub's current dollar-based Free allowance, the included **$12/month** supports about **6,000 `ubuntu-slim` runs** at $0.002 per minute—roughly **20.8 days** at five-minute frequency—before paid overage or a configured hard stop. This allowance is account-wide and may be shared with other private repositories.
+
+Official references: [GitHub Actions billing](https://docs.github.com/en/billing/concepts/product-billing/github-actions) and [GitHub budgets and alerts](https://docs.github.com/en/billing/concepts/budgets-and-alerts).
+
+#### Netlify
+
+On Netlify's current credit-based Free plan, the account receives **300 credits per month with a hard limit and no auto recharge**. Exhaustion pauses the projects; it does not create a bill.
+
+The dispatcher uses the default 1 GB function allocation and normally exits after one GitHub API request. At the recently observed **0.05–0.20 second** execution time:
+
+- Compute: approximately **2.5–4.8 credits/month**
+- If every scheduled invocation is also counted as a web request: approximately **1.7 additional credits/month**
+- One production deploy in the month: **15 credits**
+
+That puts normal steady-state use near **4–7 credits/month**, or approximately **19–22 credits** in a month containing one production deploy—under 8% of the 300-credit allowance. Even a conservative one-second dispatcher would allow roughly **95,000 invocations per month** after reserving 15 credits for one deploy, versus the planned 8,640.
+
+Official references: [Netlify credit plans](https://docs.netlify.com/manage/accounts-and-billing/billing/billing-for-credit-based-plans/credit-based-pricing-plans/), [credit calculation](https://docs.netlify.com/manage/accounts-and-billing/billing/billing-for-credit-based-plans/how-credits-work/) and [Functions billing](https://docs.netlify.com/build/functions/usage-and-billing/).
+
+#### Cost-control optimizations already applied
+
+- Netlify remains the only five-minute production scheduler.
+- GitHub's native cron is now an **hourly emergency fallback**, and is skipped while `EXTERNAL_SCHEDULER_ENABLED=true`.
+- Unit tests run only when watcher, configuration, Netlify function, test or workflow code changes—not on every five-minute scan.
+- Unchanged listings do not rewrite state or create commits.
+- Netlify ignores commits that do not change `netlify/**` or `netlify.toml`, preventing state and documentation commits from consuming production-deploy credits.
+- The watcher has a four-minute timeout and serialized concurrency, preventing runaway overlapping jobs.
 
 ## What it monitors
 
