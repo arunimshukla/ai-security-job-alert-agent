@@ -3,7 +3,7 @@ name: Five-minute AI security job watcher
 on:
   schedule:
     # Offset from the top of the hour, when GitHub reports the heaviest cron load.
-    - cron: "2-57/5 * * * *"
+    - cron: "1,6,11,16,21,26,31,36,41,46,51,56 * * * *"
   workflow_dispatch:
     inputs:
       test_alert:
