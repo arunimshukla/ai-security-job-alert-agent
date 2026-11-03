@@ -55,7 +55,7 @@ This split is deliberate:
 
 ### Deploy the scheduler on Netlify
 
-1. Create a [fine-grained GitHub token](https://github.com/settings/personal-access-tokens/new?name=Netlify%20Job%20Watcher&description=Dispatches%20the%20private%20job%20watcher&target_name=arunimshukla&expires_in=366&actions=write).
+1. Create a [fine-grained GitHub token](https://github.com/settings/personal-access-tokens/new?name=Netlify%20Job%20Watcher&description=Dispatches%20the%20private%20job%20watcher&target_name=arunimshukla&expires_in=365&actions=write).
 2. Give it access to **only** `ai-security-job-alert-agent` and set **Repository permissions → Actions → Read and write**. No Contents, Administration or account permissions are required.
 3. In [Netlify](https://app.netlify.com/start), choose **Import an existing project → GitHub**, then select this private repository and the `main` branch.
 4. Keep the build settings from `netlify.toml` and deploy. The public site intentionally contains only a no-index `Not found` page; the scheduled function cannot be invoked through a public URL.
