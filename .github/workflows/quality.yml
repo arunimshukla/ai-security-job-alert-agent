@@ -1,0 +1,39 @@
+name: Test job watcher
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "watcher.py"
+      - "config.json"
+      - "netlify/functions/**"
+      - "tests/**"
+      - ".github/workflows/**"
+  pull_request:
+    paths:
+      - "watcher.py"
+      - "config.json"
+      - "netlify/functions/**"
+      - "tests/**"
+      - ".github/workflows/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: quality-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-slim
+    timeout-minutes: 2
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Run tests
+        run: |
+          python -m unittest discover -s tests -v
+          node --test tests/test_dispatch.mjs
