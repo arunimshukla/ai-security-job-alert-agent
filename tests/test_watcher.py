@@ -72,6 +72,36 @@ class WatcherTests(unittest.TestCase):
             self.assertIn("0 high-signal", alerts_path.read_text())
             self.assertTrue(json.loads(state_path.read_text())["initialized"])
 
+    def test_undelivered_match_is_not_consumed(self):
+        config = {
+            "rules": self.rules,
+            "targets": [{"name": "Example", "type": "ashby", "board": "example", "priority": 20}],
+        }
+        job = watcher.Job(
+            key="ashby:example:new",
+            company="Example",
+            source="Ashby",
+            title="Technical Product Marketing Manager",
+            location="India",
+            description="AI cybersecurity positioning and technical content",
+            url="https://example.com/new-job",
+            company_priority=20,
+        )
+        with tempfile.TemporaryDirectory() as tmp, patch.object(watcher, "collect_jobs", return_value=([job], [])):
+            root = Path(tmp)
+            config_path = root / "config.json"
+            state_path = root / "state.json"
+            alerts_path = root / "alerts.md"
+            config_path.write_text(json.dumps(config))
+            state_path.write_text(json.dumps({"version": 1, "initialized": True, "seen": {}}))
+            watcher.main([
+                "--config", str(config_path),
+                "--state", str(state_path),
+                "--alerts", str(alerts_path),
+            ])
+            saved = json.loads(state_path.read_text())
+            self.assertNotIn(job.key, saved["seen"])
+
 
 if __name__ == "__main__":
     unittest.main()
