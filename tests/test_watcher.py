@@ -341,7 +341,7 @@ class WatcherTests(unittest.TestCase):
             ])
             self.assertNotIn(job.key, json.loads(state_path.read_text())["seen"])
 
-    def test_material_update_is_alerted_once_and_recorded(self):
+    def test_material_update_migrates_without_realerting_old_role(self):
         config = {"rules": self.rules, "targets": []}
         original = watcher.Job(
             key="test:updated",
@@ -376,9 +376,51 @@ class WatcherTests(unittest.TestCase):
                 "--config", str(config_path), "--state", str(state_path),
                 "--alerts", str(alerts_path),
             ])
-            send_email.assert_called_once()
+            send_email.assert_not_called()
             saved = json.loads(state_path.read_text())["seen"][changed.key]
             self.assertEqual(saved["fingerprint"], watcher.job_fingerprint(changed))
+            self.assertTrue(saved["eligible"])
+            self.assertNotIn("last_alerted_at", saved)
+
+    def test_previously_ineligible_role_alerts_when_it_becomes_eligible(self):
+        config = {"rules": self.rules, "targets": []}
+        original = watcher.Job(
+            key="test:became-eligible",
+            company="Example",
+            source="test",
+            title="Technical Product Marketing Manager",
+            location="Remote",
+            description="AI cybersecurity positioning and launches.",
+            url="https://example.com/job",
+            company_priority=20,
+        )
+        changed = watcher.Job(**{**original.__dict__, "location": "Remote worldwide"})
+        previous = {
+            original.key: {
+                "company": original.company,
+                "title": original.title,
+                "url": original.url,
+                "fingerprint": watcher.job_fingerprint(original),
+                "eligible": False,
+                "first_seen_at": "2026-01-01T00:00:00+00:00",
+            }
+        }
+        with tempfile.TemporaryDirectory() as tmp, \
+                patch.object(watcher, "collect_jobs", return_value=([changed], [])), \
+                patch.object(watcher, "send_email") as send_email:
+            root = Path(tmp)
+            config_path = root / "config.json"
+            state_path = root / "state.json"
+            alerts_path = root / "alerts.md"
+            config_path.write_text(json.dumps(config))
+            state_path.write_text(json.dumps({"version": 3, "initialized": True, "seen": previous}))
+            watcher.main([
+                "--config", str(config_path), "--state", str(state_path),
+                "--alerts", str(alerts_path),
+            ])
+            send_email.assert_called_once()
+            saved = json.loads(state_path.read_text())["seen"][changed.key]
+            self.assertTrue(saved["eligible"])
             self.assertIn("last_alerted_at", saved)
 
     def test_unchanged_listing_does_not_churn_persisted_state(self):
@@ -399,6 +441,7 @@ class WatcherTests(unittest.TestCase):
                 "title": job.title,
                 "url": job.url,
                 "fingerprint": watcher.job_fingerprint(job),
+                "eligible": True,
                 "first_seen_at": "2026-01-01T00:00:00+00:00",
                 "last_seen_at": "2026-01-01T00:00:00+00:00",
             }
@@ -447,8 +490,9 @@ class WatcherTests(unittest.TestCase):
                 "--alerts", str(alerts_path), "--no-email",
             ])
             saved = json.loads(state_path.read_text())
-            self.assertEqual(saved["version"], 2)
+            self.assertEqual(saved["version"], 3)
             self.assertIn("fingerprint", saved["seen"][job.key])
+            self.assertIn("eligible", saved["seen"][job.key])
             self.assertIn("0 high-signal", alerts_path.read_text())
 
     def test_html_linkifier_does_not_include_trailing_colon(self):

@@ -673,11 +673,12 @@ def main(argv: Iterable[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     config = load_json(args.config, {})
-    state = load_json(args.state, {"version": 2, "initialized": False, "seen": {}})
+    state = load_json(args.state, {"version": 3, "initialized": False, "seen": {}})
     detected_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
     scanned_count = 0
     new_count = 0
     updated_count = 0
+    became_eligible_count = 0
     candidate_count = 0
     blocked_count = 0
     original_seen: dict[str, Any] = {}
@@ -707,7 +708,8 @@ def main(argv: Iterable[str] | None = None) -> int:
             score_job(job, config["rules"])
         is_baseline = not state.get("initialized", False)
         original_seen = json.loads(json.dumps(state.get("seen", {})))
-        candidates: list[Job] = []
+        alert_candidates: list[Job] = []
+        migration_candidates: list[Job] = []
         next_seen = json.loads(json.dumps(original_seen))
 
         for job in all_jobs:
@@ -715,12 +717,24 @@ def main(argv: Iterable[str] | None = None) -> int:
             fingerprint = job_fingerprint(job)
             is_new = previous is None
             is_updated = bool(previous and previous.get("fingerprint") and previous["fingerprint"] != fingerprint)
+            previous_eligible = (previous or {}).get("eligible")
+            became_eligible = previous_eligible is False and job.eligible
             if is_new:
                 new_count += 1
             elif is_updated:
                 updated_count += 1
-            if not is_baseline and (is_new or is_updated):
-                candidates.append(job)
+            if became_eligible:
+                became_eligible_count += 1
+
+            # Email only for a genuinely unseen posting or when a posting that
+            # we previously recorded as ineligible becomes eligible. A content
+            # or fingerprint schema change must never re-alert an old role.
+            if not is_baseline and (is_new or became_eligible):
+                alert_candidates.append(job)
+            elif previous and "eligible" not in previous and job.eligible:
+                # Hydrate old state once so the eligibility migration is
+                # accurate, but deliberately keep it out of the alert queue.
+                migration_candidates.append(job)
 
             # Preserve byte-stable state for unchanged jobs. Updating a
             # timestamp on every poll would create a Git commit every five
@@ -730,6 +744,8 @@ def main(argv: Iterable[str] | None = None) -> int:
                 or is_updated
                 or not (previous or {}).get("fingerprint")
                 or (previous or {}).get("company") != job.company
+                or previous_eligible is None
+                or previous_eligible != job.eligible
             )
             if needs_record_update:
                 next_seen[job.key] = {
@@ -738,22 +754,25 @@ def main(argv: Iterable[str] | None = None) -> int:
                     "title": job.title,
                     "url": job.url,
                     "fingerprint": fingerprint,
+                    "eligible": job.eligible,
                     "first_seen_at": (previous or {}).get("first_seen_at", detected_at),
                     "last_seen_at": detected_at,
                 }
 
-        candidate_count = len(candidates)
-        for job in candidates:
+        candidate_count = len(alert_candidates)
+        enrichment_candidates = alert_candidates + migration_candidates
+        for job in enrichment_candidates:
             if job.eligible:
                 hydrate_candidate_metadata(job)
                 score_job(job, config["rules"])
                 next_seen[job.key]["fingerprint"] = job_fingerprint(job)
+                next_seen[job.key]["eligible"] = job.eligible
                 if job.deadline_at:
                     next_seen[job.key]["deadline_at"] = job.deadline_at
 
-        jobs = [] if is_baseline else [job for job in candidates if job.eligible]
-        blocked_count = 0 if is_baseline else sum(not job.eligible for job in candidates)
-        state["version"] = 2
+        jobs = [] if is_baseline else [job for job in alert_candidates if job.eligible]
+        blocked_count = 0 if is_baseline else sum(not job.eligible for job in alert_candidates)
+        state["version"] = 3
         state["seen"] = next_seen
         state["initialized"] = True
 
@@ -770,7 +789,7 @@ def main(argv: Iterable[str] | None = None) -> int:
             email_error = str(exc)
             print(f"Email delivery failed: {email_error}", file=sys.stderr)
 
-    # Never consume a new or materially updated match unless its email was
+    # Never consume a new or newly eligible match unless its email was
     # delivered. Persist unrelated state while leaving failed/dry-run alerts
     # pending for the next execution.
     if not args.test_alert:
@@ -790,6 +809,7 @@ def main(argv: Iterable[str] | None = None) -> int:
         "scanned": scanned_count,
         "new": new_count,
         "materially_updated": updated_count,
+        "became_eligible": became_eligible_count,
         "candidates": candidate_count,
         "blocked": blocked_count,
         "alerts": len(jobs),
