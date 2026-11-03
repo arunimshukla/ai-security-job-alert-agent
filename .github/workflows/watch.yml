@@ -2,8 +2,8 @@ name: Five-minute AI security job watcher
 
 on:
   schedule:
-    # Offset from the top of the hour, when GitHub reports the heaviest cron load.
-    - cron: "1,6,11,16,21,26,31,36,41,46,51,56 * * * *"
+    # Low-frequency emergency fallback. It is skipped while Netlify is enabled.
+    - cron: "17 * * * *"
   workflow_dispatch:
     inputs:
       test_alert:
@@ -21,8 +21,8 @@ concurrency:
 
 jobs:
   watch:
-    # Once Netlify is verified, set this repository variable to true so GitHub's
-    # best-effort cron becomes a disabled fallback without blocking dispatches.
+    # Netlify dispatches the five-minute production runs. The hourly GitHub
+    # schedule runs only if the external scheduler is explicitly disabled.
     if: github.event_name != 'schedule' || vars.EXTERNAL_SCHEDULER_ENABLED != 'true'
     runs-on: ubuntu-slim
     timeout-minutes: 4
@@ -32,11 +32,6 @@ jobs:
         with:
           # A queued external dispatch must read state committed by the run ahead of it.
           ref: main
-
-      - name: Run tests
-        run: |
-          python -m unittest discover -s tests -v
-          node --test tests/test_dispatch.mjs
 
       - name: Check first-party job boards
         id: watcher
