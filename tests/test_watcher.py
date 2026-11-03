@@ -26,7 +26,7 @@ class WatcherTests(unittest.TestCase):
         self.assertTrue(job.eligible)
         self.assertGreaterEqual(job.score, 80)
 
-    def test_us_only_role_is_penalised(self):
+    def test_us_only_role_is_hard_excluded_even_with_high_score(self):
         job = watcher.Job(
             key="x",
             company="Example Security",
@@ -35,11 +35,87 @@ class WatcherTests(unittest.TestCase):
             location="Remote - US only",
             description="Cybersecurity positioning and messaging.",
             url="https://example.com",
-            company_priority=10,
+            company_priority=80,
         )
         watcher.score_job(job, self.rules)
         self.assertFalse(job.eligible)
+        self.assertGreaterEqual(job.score, self.rules["minimum_score"])
         self.assertTrue(any("restriction" in caution.lower() for caution in job.cautions))
+
+    def test_us_east_coast_wording_is_hard_excluded(self):
+        job = watcher.Job(
+            key="x",
+            company="Example AI",
+            source="test",
+            title="Technical Communications",
+            location="Remote",
+            description="This role can be executed from anywhere on the US East Coast.",
+            url="https://example.com",
+            company_priority=50,
+        )
+        watcher.score_job(job, self.rules)
+        self.assertFalse(job.eligible)
+        self.assertTrue(any("us east coast" in caution.lower() for caution in job.cautions))
+
+    def test_unclear_remote_location_is_not_alerted(self):
+        job = watcher.Job(
+            key="x",
+            company="Example AI",
+            source="test",
+            title="Product Marketing Manager",
+            location="Remote",
+            description="Own AI positioning and launches.",
+            url="https://example.com",
+            company_priority=50,
+        )
+        watcher.score_job(job, self.rules)
+        self.assertFalse(job.eligible)
+        self.assertTrue(any("unclear" in caution.lower() for caution in job.cautions))
+
+    def test_worldwide_remote_role_is_alerted(self):
+        job = watcher.Job(
+            key="x",
+            company="Example AI",
+            source="test",
+            title="Product Marketing Manager",
+            location="Remote worldwide",
+            description="Own AI positioning and launches.",
+            url="https://example.com",
+            company_priority=20,
+        )
+        watcher.score_job(job, self.rules)
+        self.assertTrue(job.eligible)
+
+    def test_people_manager_role_is_hard_excluded(self):
+        job = watcher.Job(
+            key="x",
+            company="Example Security",
+            source="test",
+            title="Product Marketing Manager",
+            location="India",
+            description="Manage a team while owning cybersecurity positioning.",
+            url="https://example.com",
+            company_priority=50,
+        )
+        watcher.score_job(job, self.rules)
+        self.assertFalse(job.eligible)
+        self.assertTrue(any("people-management" in caution.lower() for caution in job.cautions))
+
+    def test_expired_deadline_is_hard_excluded(self):
+        job = watcher.Job(
+            key="x",
+            company="Example Security",
+            source="test",
+            title="Product Marketing Manager",
+            location="India",
+            description="Cybersecurity positioning.",
+            url="https://example.com",
+            deadline_at="2020-01-01T00:00:00Z",
+            company_priority=50,
+        )
+        watcher.score_job(job, self.rules)
+        self.assertFalse(job.eligible)
+        self.assertTrue(any("deadline" in caution.lower() for caution in job.cautions))
 
     def test_first_run_is_a_quiet_baseline(self):
         config = {
@@ -101,6 +177,108 @@ class WatcherTests(unittest.TestCase):
             ])
             saved = json.loads(state_path.read_text())
             self.assertNotIn(job.key, saved["seen"])
+
+    def test_no_email_dry_run_does_not_consume_match(self):
+        config = {"rules": self.rules, "targets": []}
+        job = watcher.Job(
+            key="test:new",
+            company="Example",
+            source="test",
+            title="Technical Product Marketing Manager",
+            location="India",
+            description="AI cybersecurity positioning",
+            url="https://example.com/job",
+            company_priority=20,
+        )
+        with tempfile.TemporaryDirectory() as tmp, patch.object(watcher, "collect_jobs", return_value=([job], [])):
+            root = Path(tmp)
+            config_path = root / "config.json"
+            state_path = root / "state.json"
+            alerts_path = root / "alerts.md"
+            config_path.write_text(json.dumps(config))
+            state_path.write_text(json.dumps({"version": 2, "initialized": True, "seen": {}}))
+            watcher.main([
+                "--config", str(config_path), "--state", str(state_path),
+                "--alerts", str(alerts_path), "--no-email",
+            ])
+            self.assertNotIn(job.key, json.loads(state_path.read_text())["seen"])
+
+    def test_material_update_is_alerted_once_and_recorded(self):
+        config = {"rules": self.rules, "targets": []}
+        original = watcher.Job(
+            key="test:updated",
+            company="Example",
+            source="test",
+            title="Product Marketing Manager",
+            location="India",
+            description="Product positioning.",
+            url="https://example.com/job",
+            company_priority=20,
+        )
+        changed = watcher.Job(**{**original.__dict__, "description": "AI cybersecurity positioning and launches."})
+        previous = {
+            original.key: {
+                "company": original.company,
+                "title": original.title,
+                "url": original.url,
+                "fingerprint": watcher.job_fingerprint(original),
+                "first_seen_at": "2026-01-01T00:00:00+00:00",
+            }
+        }
+        with tempfile.TemporaryDirectory() as tmp, \
+                patch.object(watcher, "collect_jobs", return_value=([changed], [])), \
+                patch.object(watcher, "send_email") as send_email:
+            root = Path(tmp)
+            config_path = root / "config.json"
+            state_path = root / "state.json"
+            alerts_path = root / "alerts.md"
+            config_path.write_text(json.dumps(config))
+            state_path.write_text(json.dumps({"version": 2, "initialized": True, "seen": previous}))
+            watcher.main([
+                "--config", str(config_path), "--state", str(state_path),
+                "--alerts", str(alerts_path),
+            ])
+            send_email.assert_called_once()
+            saved = json.loads(state_path.read_text())["seen"][changed.key]
+            self.assertEqual(saved["fingerprint"], watcher.job_fingerprint(changed))
+            self.assertIn("last_alerted_at", saved)
+
+    def test_legacy_state_migrates_without_alert_storm(self):
+        config = {"rules": self.rules, "targets": []}
+        job = watcher.Job(
+            key="test:legacy",
+            company="Example",
+            source="test",
+            title="Product Marketing Manager",
+            location="India",
+            description="AI cybersecurity positioning.",
+            url="https://example.com/job",
+            company_priority=20,
+        )
+        legacy_entry = {
+            job.key: {"company": job.company, "title": job.title, "url": job.url,
+                      "first_seen_at": "2026-01-01T00:00:00+00:00"}
+        }
+        with tempfile.TemporaryDirectory() as tmp, patch.object(watcher, "collect_jobs", return_value=([job], [])):
+            root = Path(tmp)
+            config_path = root / "config.json"
+            state_path = root / "state.json"
+            alerts_path = root / "alerts.md"
+            config_path.write_text(json.dumps(config))
+            state_path.write_text(json.dumps({"version": 1, "initialized": True, "seen": legacy_entry}))
+            watcher.main([
+                "--config", str(config_path), "--state", str(state_path),
+                "--alerts", str(alerts_path), "--no-email",
+            ])
+            saved = json.loads(state_path.read_text())
+            self.assertEqual(saved["version"], 2)
+            self.assertIn("fingerprint", saved["seen"][job.key])
+            self.assertIn("0 high-signal", alerts_path.read_text())
+
+    def test_html_linkifier_does_not_include_trailing_colon(self):
+        rendered = watcher.markdown_to_html("Source: https://example.com/jobs/:")
+        self.assertIn('href="https://example.com/jobs/"', rendered)
+        self.assertNotIn('href="https://example.com/jobs/:"', rendered)
 
 
 if __name__ == "__main__":

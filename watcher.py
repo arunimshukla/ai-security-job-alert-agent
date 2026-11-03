@@ -42,6 +42,8 @@ class Job:
     description: str
     url: str
     posted_at: str = ""
+    deadline_at: str = ""
+    allow_unclear_location: bool = False
     company_priority: int = 0
     score: int = 0
     reasons: list[str] = field(default_factory=list)
@@ -83,6 +85,64 @@ def clean_text(value: Any) -> str:
     return re.sub(r"\s+", " ", text).strip()
 
 
+def normalize_timestamp(value: Any) -> str:
+    """Return provider timestamps as readable UTC ISO-8601 strings."""
+    if value in (None, ""):
+        return ""
+    try:
+        numeric = float(value)
+    except (TypeError, ValueError):
+        return str(value)
+    if numeric > 10_000_000_000:
+        numeric /= 1000
+    return datetime.fromtimestamp(numeric, tz=timezone.utc).isoformat(timespec="seconds")
+
+
+def parse_datetime(value: str) -> datetime | None:
+    if not value:
+        return None
+    normalized = value.strip().replace("Z", "+00:00")
+    try:
+        parsed = datetime.fromisoformat(normalized)
+    except ValueError:
+        return None
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=timezone.utc)
+    return parsed.astimezone(timezone.utc)
+
+
+def job_deadline_expired(job: Job, now: datetime | None = None) -> bool:
+    deadline = parse_datetime(job.deadline_at)
+    if deadline is None:
+        return False
+    return deadline < (now or datetime.now(timezone.utc))
+
+
+def job_fingerprint(job: Job) -> str:
+    """Track material listing changes without keying off provider timestamps."""
+    material = "\n".join(
+        clean_text(value).lower()
+        for value in [job.title, job.location, job.description, job.url, job.deadline_at]
+    )
+    return hashlib.sha256(material.encode()).hexdigest()[:24]
+
+
+def hydrate_candidate_metadata(job: Job) -> None:
+    """Fetch metadata omitted by list APIs only for new/updated candidates."""
+    if job.source != "Ashby" or not job.url:
+        return
+    if urllib.parse.urlparse(job.url).hostname != "jobs.ashbyhq.com":
+        return
+    detail_url = job.url.removesuffix("/application")
+    try:
+        page = fetch_text(detail_url, attempts=2)
+    except RuntimeError:
+        return
+    match = re.search(r'"applicationDeadline":"([^"]+)"', page)
+    if match:
+        job.deadline_at = match.group(1)
+
+
 def fetch_json(url: str) -> Any:
     return json.loads(fetch_text(url))
 
@@ -119,6 +179,7 @@ def fetch_ashby(target: dict[str, Any]) -> list[Job]:
             continue
         job_url = item.get("applyUrl") or item.get("jobUrl") or ""
         compensation = (item.get("compensation") or {}).get("compensationTierSummary", "")
+        workplace = item.get("workplaceType", "")
         location = item.get("location", "")
         if item.get("secondaryLocations"):
             extra = [x.get("location", "") for x in item["secondaryLocations"]]
@@ -130,7 +191,7 @@ def fetch_ashby(target: dict[str, Any]) -> list[Job]:
                 source="Ashby",
                 title=clean_text(item.get("title")),
                 location=clean_text(location),
-                description=clean_text(f"{item.get('descriptionPlain', '')} {compensation}"),
+                description=clean_text(f"{item.get('descriptionPlain', '')} {compensation} {workplace}"),
                 url=job_url,
                 posted_at=item.get("publishedAt", ""),
                 company_priority=int(target.get("priority", 0)),
@@ -182,7 +243,7 @@ def fetch_lever(target: dict[str, Any]) -> list[Job]:
                 location=clean_text(", ".join(x for x in locations if x)),
                 description=clean_text(f"{item.get('descriptionPlain', '')} {salary}"),
                 url=job_url,
-                posted_at=str(item.get("createdAt", "")),
+                posted_at=normalize_timestamp(item.get("createdAt", "")),
                 company_priority=int(target.get("priority", 0)),
             )
         )
@@ -219,6 +280,7 @@ def fetch_html_board(target: dict[str, Any]) -> list[Job]:
                 description="",
                 url=normalized_url,
                 company_priority=int(target.get("priority", 0)),
+                allow_unclear_location=bool(target.get("allow_unclear_location", False)),
             )
         )
     return jobs
@@ -243,6 +305,7 @@ def score_job(job: Job, rules: dict[str, Any]) -> Job:
     score = job.company_priority
     reasons: list[str] = []
     cautions: list[str] = []
+    hard_excluded = False
 
     role_hits = phrase_hits(title, rules["role_phrases"])
     if role_hits:
@@ -254,30 +317,46 @@ def score_job(job: Job, rules: dict[str, Any]) -> Job:
         cautions.append("No preferred role phrase in the title")
 
     skill_hits = phrase_hits(combined, rules["skill_phrases"])
-    skill_points = min(sum(points for _, points in skill_hits), 25)
+    skill_points = min(sum(points for _, points in skill_hits), 15)
     score += skill_points
     if skill_hits:
         reasons.append("Relevant scope: " + ", ".join(phrase for phrase, _ in skill_hits[:4]))
 
-    location_text = f"{job.location} {job.description[:2500]}".lower()
+    location_value = job.location.lower()
+    location_text = f"{job.location} {job.description}".lower()
     explicit_restrictions = [p for p in rules["blocked_location_phrases"] if p.lower() in location_text]
+    location_restrictions = [
+        p for p in rules.get("blocked_location_only_phrases", []) if p.lower() in location_value
+    ]
     allowed_hits = [p for p in rules["allowed_location_phrases"] if p.lower() in location_text]
-    india_hits = [p for p in rules["india_location_phrases"] if p.lower() in location_text]
+    india_hits = [p for p in rules["india_location_phrases"] if p.lower() in location_value]
+    india_eligibility_hits = [
+        p for p in rules.get("india_eligibility_phrases", []) if p.lower() in location_text
+    ]
 
-    if india_hits:
-        score += 25
+    if india_hits or india_eligibility_hits:
+        score += 15
         reasons.append("India/Delhi-NCR location match")
-    elif allowed_hits and not explicit_restrictions:
-        score += 20
-        reasons.append("Worldwide or geography-flexible remote language")
-    elif explicit_restrictions:
+    elif explicit_restrictions or location_restrictions:
         score -= 45
-        cautions.append("Explicit location restriction: " + ", ".join(explicit_restrictions[:2]))
+        restrictions = [*explicit_restrictions, *location_restrictions]
+        cautions.append("Explicit location restriction: " + ", ".join(dict.fromkeys(restrictions[:3])))
+        hard_excluded = True
+    elif allowed_hits:
+        score += 12
+        reasons.append("Worldwide or geography-flexible remote language")
     elif "remote" in location_text:
-        score += 5
         cautions.append("Remote role, but India eligibility is unclear")
+        hard_excluded = hard_excluded or (
+            bool(rules.get("require_explicit_india_or_worldwide", True))
+            and not job.allow_unclear_location
+        )
     else:
         cautions.append("Location eligibility is unclear")
+        hard_excluded = hard_excluded or (
+            bool(rules.get("require_explicit_india_or_worldwide", True))
+            and not job.allow_unclear_location
+        )
 
     # Job-family negatives are title-scoped. A PMM description may legitimately
     # mention the security engineers or account executives it supports.
@@ -289,12 +368,24 @@ def score_job(job: Job, rules: dict[str, Any]) -> Job:
 
     if any(phrase.lower() in combined for phrase in rules["management_phrases"]):
         score -= 15
-        cautions.append("May include people-management responsibility")
+        cautions.append("Explicit people-management responsibility")
+        hard_excluded = hard_excluded or bool(rules.get("hard_exclude_people_management", True))
+
+    blocked_titles = [
+        phrase for phrase in rules.get("blocked_title_phrases", []) if phrase.lower() in title
+    ]
+    if blocked_titles:
+        cautions.append("Non-IC seniority: " + ", ".join(blocked_titles[:2]))
+        hard_excluded = True
+
+    if job_deadline_expired(job):
+        cautions.append(f"Application deadline passed: {job.deadline_at}")
+        hard_excluded = True
 
     job.score = max(0, min(100, score))
     job.reasons = reasons
     job.cautions = cautions
-    job.eligible = job.score >= int(rules.get("minimum_score", 60))
+    job.eligible = job.score >= int(rules.get("minimum_score", 60)) and not hard_excluded
     return job
 
 
@@ -354,6 +445,8 @@ def render_alerts(jobs: list[Job], errors: list[str], detected_at: str) -> str:
             f"- **Published/updated:** {job.posted_at or 'Not supplied by ATS'}",
             f"- **Apply:** {job.url}",
         ]
+        if job.deadline_at:
+            lines.append(f"- **Application deadline:** {job.deadline_at}")
         if job.reasons:
             lines.append("- **Why it matched:** " + "; ".join(job.reasons))
         if job.cautions:
@@ -372,7 +465,15 @@ def markdown_to_html(markdown: str) -> str:
     escaped = re.sub(r"^# (.+)$", r"<h1>\1</h1>", escaped, flags=re.MULTILINE)
     escaped = re.sub(r"^## (.+)$", r"<h2>\1</h2>", escaped, flags=re.MULTILINE)
     escaped = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", escaped)
-    escaped = re.sub(r"(https?://[^\s<]+)", r'<a href="\1">Apply / open listing</a>', escaped)
+    def linkify(match: re.Match[str]) -> str:
+        url = match.group(0)
+        trailing = ""
+        while url and url[-1] in ".,;:!?)]}":
+            trailing = url[-1] + trailing
+            url = url[:-1]
+        return f'<a href="{url}">Open listing</a>{trailing}'
+
+    escaped = re.sub(r"https?://[^\s<]+", linkify, escaped)
     escaped = re.sub(r"^- (.+)$", r"<li>\1</li>", escaped, flags=re.MULTILINE)
     return f"<html><body style='font-family:Arial,sans-serif;line-height:1.5;max-width:760px'>{escaped.replace(chr(10), '<br>')}</body></html>"
 
@@ -416,8 +517,14 @@ def main(argv: Iterable[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     config = load_json(args.config, {})
-    state = load_json(args.state, {"version": 1, "initialized": False, "seen": {}})
+    state = load_json(args.state, {"version": 2, "initialized": False, "seen": {}})
     detected_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    scanned_count = 0
+    new_count = 0
+    updated_count = 0
+    candidate_count = 0
+    blocked_count = 0
+    original_seen: dict[str, Any] = {}
 
     if args.test_alert:
         jobs = [
@@ -439,19 +546,49 @@ def main(argv: Iterable[str] | None = None) -> int:
         is_baseline = False
     else:
         all_jobs, errors = collect_jobs(config)
+        scanned_count = len(all_jobs)
         for job in all_jobs:
             score_job(job, config["rules"])
         is_baseline = not state.get("initialized", False)
-        new_jobs = [job for job in all_jobs if job.key not in state.get("seen", {})]
-        jobs = [] if is_baseline else [job for job in new_jobs if job.eligible]
+        original_seen = json.loads(json.dumps(state.get("seen", {})))
+        candidates: list[Job] = []
+        next_seen = json.loads(json.dumps(original_seen))
+
         for job in all_jobs:
-            if job.key not in state.setdefault("seen", {}):
-                state["seen"][job.key] = {
-                    "company": job.company,
-                    "title": job.title,
-                    "url": job.url,
-                    "first_seen_at": detected_at,
-                }
+            previous = original_seen.get(job.key)
+            fingerprint = job_fingerprint(job)
+            is_new = previous is None
+            is_updated = bool(previous and previous.get("fingerprint") and previous["fingerprint"] != fingerprint)
+            if is_new:
+                new_count += 1
+            elif is_updated:
+                updated_count += 1
+            if not is_baseline and (is_new or is_updated):
+                candidates.append(job)
+
+            next_seen[job.key] = {
+                **(previous or {}),
+                "company": job.company,
+                "title": job.title,
+                "url": job.url,
+                "fingerprint": fingerprint,
+                "first_seen_at": (previous or {}).get("first_seen_at", detected_at),
+                "last_seen_at": detected_at,
+            }
+
+        candidate_count = len(candidates)
+        for job in candidates:
+            if job.eligible:
+                hydrate_candidate_metadata(job)
+                score_job(job, config["rules"])
+                next_seen[job.key]["fingerprint"] = job_fingerprint(job)
+                if job.deadline_at:
+                    next_seen[job.key]["deadline_at"] = job.deadline_at
+
+        jobs = [] if is_baseline else [job for job in candidates if job.eligible]
+        blocked_count = 0 if is_baseline else sum(not job.eligible for job in candidates)
+        state["version"] = 2
+        state["seen"] = next_seen
         state["initialized"] = True
 
     alert_markdown = render_alerts(jobs, errors, detected_at)
@@ -467,14 +604,28 @@ def main(argv: Iterable[str] | None = None) -> int:
             email_error = str(exc)
             print(f"Email delivery failed: {email_error}", file=sys.stderr)
 
-    # Never consume a newly matched job unless its email was delivered. This
-    # keeps the job pending for the next five-minute retry if SMTP is down or
-    # the repository secrets have not been configured yet.
-    if not args.test_alert and (is_baseline or not jobs or args.no_email or email_sent):
+    # Never consume a new or materially updated match unless its email was
+    # delivered. Persist unrelated state while leaving failed/dry-run alerts
+    # pending for the next execution.
+    if not args.test_alert:
+        if jobs and not email_sent:
+            for job in jobs:
+                if job.key in original_seen:
+                    state["seen"][job.key] = original_seen[job.key]
+                else:
+                    state["seen"].pop(job.key, None)
+        elif email_sent:
+            for job in jobs:
+                state["seen"][job.key]["last_alerted_at"] = detected_at
         save_json(args.state, state)
 
     summary = {
         "baseline": is_baseline,
+        "scanned": scanned_count,
+        "new": new_count,
+        "materially_updated": updated_count,
+        "candidates": candidate_count,
+        "blocked": blocked_count,
         "alerts": len(jobs),
         "email_sent": email_sent,
         "email_error": email_error,
@@ -484,6 +635,8 @@ def main(argv: Iterable[str] | None = None) -> int:
     write_github_output("alert_count", str(len(jobs)))
     write_github_output("email_sent", str(email_sent).lower())
     write_github_output("baseline", str(is_baseline).lower())
+    write_github_output("source_error_count", str(len(errors)))
+    write_github_output("scanned_count", str(scanned_count))
     return 0
 
 

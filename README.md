@@ -1,16 +1,17 @@
 # AI Security Job Alert Agent
 
-This private GitHub Action checks selected first-party career feeds every five minutes and alerts Arunim by email when a newly discovered role matches his profile.
+This GitHub Action checks selected first-party career feeds on a five-minute schedule and alerts Arunim by email when a newly discovered or materially updated role matches his profile.
 
 ## What it monitors
 
 - Ashby, Greenhouse and Lever public job-board APIs
 - Selected first-party careers pages that do not expose one of those feeds
-- Technical/product/solutions marketing, technical communications, content strategy, social/founder-brand and GTM roles
+- Technical/product/solutions marketing, technical communications, content strategy and social/founder-brand roles
 - AI, cybersecurity, developer-tooling and infrastructure companies
-- India, Delhi-NCR, APAC or explicitly worldwide-remote roles
+- India, Delhi-NCR or explicitly worldwide-remote roles
+- Strict exclusions for geography-restricted and people-management roles
 
-The first run records a quiet baseline, so existing vacancies do not flood the inbox. Later runs alert only on unseen jobs scoring at least 60/100.
+The first run records a quiet baseline, so existing vacancies do not flood the inbox. Later runs alert only on unseen or materially changed jobs scoring at least 60/100 and passing the hard eligibility gates.
 
 ## One-time email setup
 
@@ -35,9 +36,9 @@ Never put the App Password in a file, issue, commit or chat message.
 1. Open **Actions → Five-minute AI security job watcher → Run workflow**.
 2. Leave `Send a synthetic test alert` off for the first run. This creates the baseline.
 3. Run it again with the test option on. You should receive one synthetic email.
-4. Confirm that GitHub Actions are enabled for the private repository.
+4. Confirm that GitHub Actions are enabled for the repository.
 
-GitHub schedules are best-effort. Five minutes is the shortest supported interval, but runs can occasionally start late during heavy platform load.
+GitHub schedules are best-effort. Five minutes is the shortest supported interval, but runs can start late or be dropped during heavy platform load. The cron is offset from the top of the hour to reduce that risk.
 
 ## Editing the search
 
@@ -47,6 +48,8 @@ GitHub schedules are best-effort. Five minutes is the shortest supported interva
 
 To add a company, add an entry under `targets` using its public ATS board name. The watcher supports `ashby`, `greenhouse`, `lever` and `html` target types.
 
+The current first-party watchlist includes Arcanna.ai, Harmonic Security, Sola Security, Dropzone AI, Chainguard, Abnormal Security, SentinelOne, OpenAI, Anthropic, CloudSEK, JumpCloud, Cyara, Kantiv, OpenZeppelin, Cloudflare, Canonical, Prophet Security, HiddenLayer, Wiz and ElevenLabs.
+
 ## Delivery resilience
 
-If a matching job is found but SMTP delivery fails, the workflow is marked failed. Enable GitHub's workflow-failure notifications as a secondary warning without publishing the job alert in a public issue.
+If a matching job is found but SMTP delivery fails, it remains pending for the next run. A dry run also leaves matches pending. The workflow fails visibly when email delivery or any monitored source fails, instead of silently claiming full coverage.

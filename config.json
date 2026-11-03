@@ -1,6 +1,8 @@
 {
   "rules": {
     "minimum_score": 60,
+    "hard_exclude_people_management": true,
+    "require_explicit_india_or_worldwide": true,
     "role_phrases": {
       "technical product marketing": 48,
       "product marketing manager": 45,
@@ -16,9 +18,7 @@
       "founder brand": 38,
       "social media lead": 34,
       "social media manager": 32,
-      "marketing communications": 34,
-      "go-to-market": 32,
-      "gtm": 30
+      "marketing communications": 34
     },
     "skill_phrases": {
       "cybersecurity": 8,
@@ -58,6 +58,15 @@
       "direct reports",
       "people manager"
     ],
+    "blocked_title_phrases": [
+      "director",
+      "head of",
+      "vice president",
+      "vp,",
+      "vp ",
+      "chief ",
+      "senior manager"
+    ],
     "allowed_location_phrases": [
       "remote worldwide",
       "worldwide remote",
@@ -74,9 +83,16 @@
       "new delhi",
       "delhi",
       "gurugram",
-      "gurgaon",
-      "asia-pacific",
-      "apac"
+      "gurgaon"
+    ],
+    "india_eligibility_phrases": [
+      "remote in india",
+      "remote - india",
+      "remote, india",
+      "india - remote",
+      "based anywhere in india",
+      "authorized to work in india",
+      "authorised to work in india"
     ],
     "blocked_location_phrases": [
       "remote - us only",
@@ -89,10 +105,19 @@
       "remote (us)",
       "remote - usa",
       "remote, usa",
+      "usa - remote",
       "united states only",
+      "remote within the united states",
       "must be based in the united states",
       "must reside in the united states",
       "us work authorization required",
+      "authorized to work in the united states",
+      "anywhere on the us east coast",
+      "us east coast",
+      "u.s. east coast",
+      "north america only",
+      "americas only",
+      "gmt-5 to gmt-4",
       "remote - canada only",
       "canada only",
       "uk only",
@@ -103,6 +128,22 @@
       "europe only",
       "eu only",
       "emea only"
+    ],
+    "blocked_location_only_phrases": [
+      "united states",
+      "usa",
+      "u.s.",
+      "canada",
+      "united kingdom",
+      "uk",
+      "europe",
+      "emea",
+      "americas",
+      "latin america",
+      "latam",
+      "costa rica",
+      "australia",
+      "new zealand"
     ]
   },
   "targets": [
@@ -111,6 +152,7 @@
       "type": "html",
       "url": "https://arcanna.ai/careers",
       "priority": 22,
+      "allow_unclear_location": true,
       "include_href_regex": "(?i)arcanna\\.ai/jobs/.+",
       "include_text_regex": "(?i).+",
       "exclude_href_regex": "(?i)(#|javascript:|mailto:)$"
@@ -153,12 +195,9 @@
     },
     {
       "name": "SentinelOne",
-      "type": "html",
-      "url": "https://www.sentinelone.com/jobs/",
-      "priority": 15,
-      "include_href_regex": "(?i)sentinelone\\.com/jobs/.+",
-      "include_text_regex": "(?i).+",
-      "exclude_href_regex": "(?i)(#|javascript:|mailto:|/jobs/?$)"
+      "type": "greenhouse",
+      "board": "sentinellabs",
+      "priority": 15
     },
     {
       "name": "OpenAI",
@@ -177,6 +216,42 @@
       "type": "greenhouse",
       "board": "cloudsek",
       "priority": 18
+    },
+    {
+      "name": "JumpCloud",
+      "type": "lever",
+      "board": "jumpcloud",
+      "priority": 20
+    },
+    {
+      "name": "Cyara",
+      "type": "lever",
+      "board": "cyara",
+      "priority": 18
+    },
+    {
+      "name": "Kantiv",
+      "type": "ashby",
+      "board": "kantiv",
+      "priority": 18
+    },
+    {
+      "name": "OpenZeppelin",
+      "type": "greenhouse",
+      "board": "openzeppelin",
+      "priority": 20
+    },
+    {
+      "name": "Cloudflare",
+      "type": "greenhouse",
+      "board": "cloudflare",
+      "priority": 16
+    },
+    {
+      "name": "Canonical",
+      "type": "greenhouse",
+      "board": "canonical",
+      "priority": 14
     },
     {
       "name": "Prophet Security",
