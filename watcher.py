@@ -612,15 +612,25 @@ def main(argv: Iterable[str] | None = None) -> int:
             if not is_baseline and (is_new or is_updated):
                 candidates.append(job)
 
-            next_seen[job.key] = {
-                **(previous or {}),
-                "company": job.company,
-                "title": job.title,
-                "url": job.url,
-                "fingerprint": fingerprint,
-                "first_seen_at": (previous or {}).get("first_seen_at", detected_at),
-                "last_seen_at": detected_at,
-            }
+            # Preserve byte-stable state for unchanged jobs. Updating a
+            # timestamp on every poll would create a Git commit every five
+            # minutes and cause pointless downstream deployments.
+            needs_record_update = (
+                is_new
+                or is_updated
+                or not (previous or {}).get("fingerprint")
+                or (previous or {}).get("company") != job.company
+            )
+            if needs_record_update:
+                next_seen[job.key] = {
+                    **(previous or {}),
+                    "company": job.company,
+                    "title": job.title,
+                    "url": job.url,
+                    "fingerprint": fingerprint,
+                    "first_seen_at": (previous or {}).get("first_seen_at", detected_at),
+                    "last_seen_at": detected_at,
+                }
 
         candidate_count = len(candidates)
         for job in candidates:

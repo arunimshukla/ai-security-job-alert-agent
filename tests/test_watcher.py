@@ -290,6 +290,44 @@ class WatcherTests(unittest.TestCase):
             self.assertEqual(saved["fingerprint"], watcher.job_fingerprint(changed))
             self.assertIn("last_alerted_at", saved)
 
+    def test_unchanged_listing_does_not_churn_persisted_state(self):
+        config = {"rules": self.rules, "targets": []}
+        job = watcher.Job(
+            key="test:unchanged",
+            company="Example",
+            source="test",
+            title="Product Marketing Manager",
+            location="India",
+            description="AI cybersecurity positioning.",
+            url="https://example.com/job",
+            company_priority=20,
+        )
+        previous = {
+            job.key: {
+                "company": job.company,
+                "title": job.title,
+                "url": job.url,
+                "fingerprint": watcher.job_fingerprint(job),
+                "first_seen_at": "2026-01-01T00:00:00+00:00",
+                "last_seen_at": "2026-01-01T00:00:00+00:00",
+            }
+        }
+        with tempfile.TemporaryDirectory() as tmp, patch.object(
+            watcher, "collect_jobs", return_value=([job], [])
+        ):
+            root = Path(tmp)
+            config_path = root / "config.json"
+            state_path = root / "state.json"
+            alerts_path = root / "alerts.md"
+            config_path.write_text(json.dumps(config))
+            state_path.write_text(json.dumps({"version": 2, "initialized": True, "seen": previous}))
+            watcher.main([
+                "--config", str(config_path), "--state", str(state_path),
+                "--alerts", str(alerts_path), "--no-email",
+            ])
+            saved = json.loads(state_path.read_text())
+            self.assertEqual(saved["seen"], previous)
+
     def test_legacy_state_migrates_without_alert_storm(self):
         config = {"rules": self.rules, "targets": []}
         job = watcher.Job(

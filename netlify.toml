@@ -1,0 +1,8 @@
+[build]
+  command = "echo 'No public site build required'"
+  publish = "netlify/public"
+  functions = "netlify/functions"
+  ignore = "if [ \"$CACHED_COMMIT_REF\" = \"$COMMIT_REF\" ]; then exit 1; else git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- netlify netlify.toml; fi"
+
+[functions]
+  node_bundler = "esbuild"
