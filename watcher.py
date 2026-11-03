@@ -453,7 +453,6 @@ def main(argv: Iterable[str] | None = None) -> int:
                     "first_seen_at": detected_at,
                 }
         state["initialized"] = True
-        save_json(args.state, state)
 
     alert_markdown = render_alerts(jobs, errors, detected_at)
     args.alerts.write_text(alert_markdown, encoding="utf-8")
@@ -467,6 +466,12 @@ def main(argv: Iterable[str] | None = None) -> int:
         except Exception as exc:
             email_error = str(exc)
             print(f"Email delivery failed: {email_error}", file=sys.stderr)
+
+    # Never consume a newly matched job unless its email was delivered. This
+    # keeps the job pending for the next five-minute retry if SMTP is down or
+    # the repository secrets have not been configured yet.
+    if not args.test_alert and (is_baseline or not jobs or args.no_email or email_sent):
+        save_json(args.state, state)
 
     summary = {
         "baseline": is_baseline,
