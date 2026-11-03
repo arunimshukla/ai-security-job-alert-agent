@@ -30,6 +30,13 @@ DEFAULT_CONFIG = ROOT / "config.json"
 DEFAULT_STATE = ROOT / ".state" / "seen.json"
 DEFAULT_ALERTS = ROOT / "alerts.md"
 USER_AGENT = "Arunim-AI-Security-Job-Watcher/1.0 (+private personal monitor)"
+DEFAULT_HTML_ROLE_REGEX = (
+    r"(?i)(technical product marketing|product marketing|technical marketing|"
+    r"security marketing|solutions marketing|developer marketing|product communications|"
+    r"technical communications|content marketing|content strategist|technical content|"
+    r"developer advocate|developer relations|founder brand|social media|"
+    r"marketing communications)"
+)
 
 
 @dataclass
@@ -43,6 +50,8 @@ class Job:
     url: str
     posted_at: str = ""
     deadline_at: str = ""
+    employment_type: str = ""
+    compensation: str = ""
     allow_unclear_location: bool = False
     company_priority: int = 0
     score: int = 0
@@ -160,7 +169,15 @@ def job_fingerprint(job: Job) -> str:
     """Track material listing changes without keying off provider timestamps."""
     material = "\n".join(
         clean_text(value).lower()
-        for value in [job.title, job.location, job.description, job.url, job.deadline_at]
+        for value in [
+            job.title,
+            job.location,
+            job.description,
+            job.url,
+            job.deadline_at,
+            job.employment_type,
+            job.compensation,
+        ]
     )
     return hashlib.sha256(material.encode()).hexdigest()[:24]
 
@@ -232,6 +249,8 @@ def fetch_ashby(target: dict[str, Any]) -> list[Job]:
                 description=clean_text(f"{item.get('descriptionPlain', '')} {compensation} {workplace}"),
                 url=job_url,
                 posted_at=item.get("publishedAt", ""),
+                employment_type=clean_text(item.get("employmentType", "")),
+                compensation=clean_text(compensation),
                 company_priority=int(target.get("priority", 0)),
             )
         )
@@ -282,6 +301,8 @@ def fetch_lever(target: dict[str, Any]) -> list[Job]:
                 description=clean_text(f"{item.get('descriptionPlain', '')} {salary}"),
                 url=job_url,
                 posted_at=normalize_timestamp(item.get("createdAt", "")),
+                employment_type=clean_text(categories.get("commitment", "")),
+                compensation=clean_text(salary),
                 company_priority=int(target.get("priority", 0)),
             )
         )
@@ -293,7 +314,7 @@ def fetch_html_board(target: dict[str, Any]) -> list[Job]:
     parser = LinkParser(page_url)
     parser.feed(fetch_text(page_url))
     href_pattern = re.compile(target.get("include_href_regex", r"(?i)(jobs?|careers?|positions?|openings?)"))
-    text_pattern = re.compile(target.get("include_text_regex", r"(?i).+"))
+    text_pattern = re.compile(target.get("include_text_regex", DEFAULT_HTML_ROLE_REGEX))
     exclude_pattern = re.compile(target.get("exclude_href_regex", r"(?i)(#|javascript:|mailto:)$"))
     hydrate_pattern = re.compile(
         target.get("hydrate_title_regex", r"(?i)(product marketing|technical communications)")
@@ -312,19 +333,42 @@ def fetch_html_board(target: dict[str, Any]) -> list[Job]:
             continue
         seen_urls.add(normalized_url)
         description = ""
+        employment_type = ""
+        compensation = ""
+        location = clean_text(target.get("default_location", "See listing"))
         if target.get("hydrate_job_pages") and hydrate_pattern.search(title):
             detail_parser = VisibleTextParser()
             detail_parser.feed(fetch_text(normalized_url, attempts=2))
             description = detail_parser.text()
+            for field_name, pattern_name in [
+                ("location", "location_regex"),
+                ("employment_type", "employment_type_regex"),
+                ("compensation", "compensation_regex"),
+            ]:
+                pattern = target.get(pattern_name)
+                if not pattern:
+                    continue
+                match = re.search(pattern, description)
+                if not match:
+                    continue
+                value = clean_text(match.groupdict().get(field_name) or match.group(1))
+                if field_name == "location":
+                    location = value
+                elif field_name == "employment_type":
+                    employment_type = value
+                else:
+                    compensation = value
         jobs.append(
             Job(
                 key=stable_key("html", target["name"], "", normalized_url),
                 company=target["name"],
                 source="Career page",
                 title=title,
-                location=clean_text(target.get("default_location", "See listing")),
+                location=location,
                 description=description,
                 url=normalized_url,
+                employment_type=employment_type,
+                compensation=compensation,
                 company_priority=int(target.get("priority", 0)),
                 allow_unclear_location=bool(target.get("allow_unclear_location", False)),
             )
@@ -345,9 +389,52 @@ def phrase_hits(text: str, weighted_phrases: dict[str, int]) -> list[tuple[str, 
     return [(phrase, points) for phrase, points in weighted_phrases.items() if phrase.lower() in lowered]
 
 
+def compensation_below_floor(job: Job, rules: dict[str, Any]) -> str:
+    """Return a hard-rejection reason only for explicit structured salary ranges."""
+    text = clean_text(job.compensation)
+    if not text or re.search(r"(?i)(per hour|/hour|/hr|hourly)", text):
+        return ""
+
+    thresholds = [
+        (r"(?:US\$|USD|\$)", int(rules.get("minimum_usd_salary", 0)), "USD"),
+        (r"(?:INR|₹)", int(rules.get("minimum_inr_salary", 0)), "INR"),
+    ]
+    for marker, minimum, currency in thresholds:
+        if not minimum:
+            continue
+        amounts: list[float] = []
+        range_pattern = (
+            rf"(?i){marker}\s*([\d,.]+)\s*([km]?)\s*(?:-|–|—|to)\s*"
+            rf"(?:{marker}\s*)?([\d,.]+)\s*([km]?)"
+        )
+        for low_raw, low_suffix, high_raw, high_suffix in re.findall(range_pattern, text):
+            for raw, suffix in [(low_raw, low_suffix), (high_raw, high_suffix)]:
+                value = float(raw.replace(",", ""))
+                if suffix.lower() == "k":
+                    value *= 1_000
+                elif suffix.lower() == "m":
+                    value *= 1_000_000
+                amounts.append(value)
+        single_pattern = rf"(?i){marker}\s*([\d,.]+)\s*([km]?)"
+        for raw, suffix in re.findall(single_pattern, text):
+            value = float(raw.replace(",", ""))
+            if suffix.lower() == "k":
+                value *= 1_000
+            elif suffix.lower() == "m":
+                value *= 1_000_000
+            amounts.append(value)
+        if amounts and max(amounts) < minimum:
+            formatted = f"${minimum:,}" if currency == "USD" else f"₹{minimum:,}"
+            return f"Explicit {currency} compensation tops out below {formatted}"
+    return ""
+
+
 def score_job(job: Job, rules: dict[str, Any]) -> Job:
     title = job.title.lower()
-    combined = f"{job.title} {job.location} {job.description}".lower()
+    combined = (
+        f"{job.title} {job.location} {job.employment_type} "
+        f"{job.compensation} {job.description}"
+    ).lower()
     score = job.company_priority
     reasons: list[str] = []
     cautions: list[str] = []
@@ -416,6 +503,25 @@ def score_job(job: Job, rules: dict[str, Any]) -> Job:
         score -= 15
         cautions.append("Explicit people-management responsibility")
         hard_excluded = hard_excluded or bool(rules.get("hard_exclude_people_management", True))
+
+    employment_value = job.employment_type.lower()
+    blocked_employment = [
+        phrase
+        for phrase in rules.get("blocked_employment_phrases", [])
+        if phrase.lower() in employment_value or phrase.lower() in title
+    ]
+    if blocked_employment:
+        cautions.append("Not a full-time role: " + ", ".join(blocked_employment[:2]))
+        hard_excluded = True
+    elif not job.employment_type:
+        cautions.append("Employment type is not explicitly stated")
+
+    salary_rejection = compensation_below_floor(job, rules)
+    if salary_rejection:
+        cautions.append(salary_rejection)
+        hard_excluded = True
+    elif not job.compensation:
+        cautions.append("Compensation is not stated; verify the salary floor")
 
     blocked_titles = [
         phrase for phrase in rules.get("blocked_title_phrases", []) if phrase.lower() in title
@@ -491,6 +597,10 @@ def render_alerts(jobs: list[Job], errors: list[str], detected_at: str) -> str:
             f"- **Published/updated:** {job.posted_at or 'Not supplied by ATS'}",
             f"- **Apply:** {job.url}",
         ]
+        if job.employment_type:
+            lines.append(f"- **Employment:** {job.employment_type}")
+        if job.compensation:
+            lines.append(f"- **Compensation:** {job.compensation}")
         if job.deadline_at:
             lines.append(f"- **Application deadline:** {job.deadline_at}")
         if job.reasons:

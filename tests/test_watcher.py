@@ -20,6 +20,8 @@ class WatcherTests(unittest.TestCase):
             location="Remote - India",
             description="Own positioning, messaging, launches and technical content for an AI cybersecurity product.",
             url="https://example.com",
+            employment_type="Full-time",
+            compensation="$80k-$100k",
             company_priority=18,
         )
         watcher.score_job(job, self.rules)
@@ -86,6 +88,55 @@ class WatcherTests(unittest.TestCase):
         watcher.score_job(job, self.rules)
         self.assertTrue(job.eligible)
 
+    def test_part_time_role_is_hard_excluded(self):
+        job = watcher.Job(
+            key="x",
+            company="Example AI Security",
+            source="test",
+            title="Technical Product Marketing Manager",
+            location="Remote worldwide",
+            description="Own AI security positioning and launches.",
+            url="https://example.com",
+            employment_type="Part-time",
+            company_priority=25,
+        )
+        watcher.score_job(job, self.rules)
+        self.assertFalse(job.eligible)
+        self.assertTrue(any("full-time" in caution.lower() for caution in job.cautions))
+
+    def test_explicit_salary_below_floor_is_hard_excluded(self):
+        job = watcher.Job(
+            key="x",
+            company="Example AI Security",
+            source="test",
+            title="Technical Product Marketing Manager",
+            location="Remote worldwide",
+            description="Own AI security positioning and launches.",
+            url="https://example.com",
+            employment_type="Full-time",
+            compensation="$36k-$60k",
+            company_priority=25,
+        )
+        watcher.score_job(job, self.rules)
+        self.assertFalse(job.eligible)
+        self.assertTrue(any("$65,000" in caution for caution in job.cautions))
+
+    def test_salary_range_reaching_floor_is_not_rejected(self):
+        job = watcher.Job(
+            key="x",
+            company="Example AI Security",
+            source="test",
+            title="Technical Product Marketing Manager",
+            location="Remote worldwide",
+            description="Own AI security positioning and launches.",
+            url="https://example.com",
+            employment_type="Full-time",
+            compensation="$50k-$90k",
+            company_priority=25,
+        )
+        watcher.score_job(job, self.rules)
+        self.assertTrue(job.eligible)
+
     def test_worldwide_remote_outranks_equivalent_india_role(self):
         common = {
             "key": "x",
@@ -132,6 +183,46 @@ class WatcherTests(unittest.TestCase):
         self.assertNotIn("changing-build-id", jobs[0].description)
         watcher.score_job(jobs[0], self.rules)
         self.assertTrue(jobs[0].eligible)
+
+    def test_html_board_extracts_structured_location_and_employment(self):
+        target = {
+            "name": "Simbian",
+            "type": "html",
+            "url": "https://example.com/careers",
+            "priority": 24,
+            "hydrate_job_pages": True,
+            "hydrate_title_regex": "(?i)product marketing",
+            "include_href_regex": "(?i)example\\.com/jobs/.+",
+            "location_regex": "(?i)City\\s+(?P<location>.+?)\\s+State/Province",
+            "employment_type_regex": (
+                "(?i)Job Type\\s*:?\\s*(?P<employment_type>Full[- ]?time|Part[- ]?time)"
+            ),
+        }
+        careers = '<main><a href="/jobs/pmm">Product Marketing Manager</a></main>'
+        detail = (
+            "<main>City Bangalore (Remote), India State/Province Karnataka "
+            "Job Type Full time Own agentic AI cybersecurity positioning.</main>"
+        )
+        with patch.object(watcher, "fetch_text", side_effect=[careers, detail]):
+            jobs = watcher.fetch_html_board(target)
+        self.assertEqual(jobs[0].location, "Bangalore (Remote), India")
+        self.assertEqual(jobs[0].employment_type, "Full time")
+        watcher.score_job(jobs[0], self.rules)
+        self.assertTrue(jobs[0].eligible)
+
+    def test_watchlist_contains_only_ai_cybersecurity_targets(self):
+        config = json.loads((Path(__file__).parents[1] / "config.json").read_text())
+        names = {target["name"] for target in config["targets"]}
+        removed_irrelevant = {
+            "OpenAI", "Anthropic", "ElevenLabs", "Canonical", "Cloudflare",
+            "OpenZeppelin", "JumpCloud", "Cyara", "Kantiv", "Chainguard", "Wiz",
+        }
+        expected_core = {
+            "Arcanna.ai", "Harmonic Security", "Dropzone AI", "CloudSEK",
+            "Prophet Security", "HiddenLayer", "XBOW", "WitnessAI", "Simbian",
+        }
+        self.assertTrue(removed_irrelevant.isdisjoint(names))
+        self.assertTrue(expected_core.issubset(names))
 
     def test_people_manager_role_is_hard_excluded(self):
         job = watcher.Job(

@@ -1,18 +1,28 @@
 {
   "rules": {
-    "minimum_score": 60,
+    "minimum_score": 65,
+    "minimum_usd_salary": 65000,
+    "minimum_inr_salary": 3000000,
     "hard_exclude_people_management": true,
     "require_explicit_india_or_worldwide": true,
     "role_phrases": {
-      "technical product marketing": 48,
-      "product marketing manager": 45,
+      "technical product marketing": 50,
+      "security product marketing": 50,
+      "technical marketing manager": 48,
+      "product marketing manager": 46,
+      "product marketing lead": 44,
       "product marketing": 42,
-      "solutions marketing": 40,
-      "security marketing": 44,
+      "security marketing": 46,
+      "solutions marketing": 42,
       "developer marketing": 40,
       "product communications": 42,
       "technical communications": 42,
+      "technical content lead": 40,
+      "technical content writer": 36,
+      "developer advocate": 36,
+      "developer relations": 34,
       "content marketing lead": 38,
+      "content marketing manager": 36,
       "content strategist": 36,
       "content strategy": 34,
       "founder brand": 38,
@@ -21,10 +31,17 @@
       "marketing communications": 34
     },
     "skill_phrases": {
+      "ai security": 10,
+      "agentic security": 10,
       "cybersecurity": 8,
       "security": 6,
       "artificial intelligence": 6,
       " ai ": 5,
+      "autonomous soc": 8,
+      "security operations": 7,
+      "threat detection": 7,
+      "llm security": 8,
+      "identity security": 7,
       "developer tools": 6,
       "infrastructure": 5,
       "positioning": 5,
@@ -38,25 +55,31 @@
       "release notes": 5
     },
     "negative_phrases": {
-      "paid media": 25,
-      "performance marketing": 20,
-      "seo specialist": 30,
-      "search engine optimization specialist": 30,
-      "internship": 35,
-      "marketing intern": 40,
-      "account executive": 45,
-      "sales development representative": 45,
-      "software engineer": 45,
-      "security engineer": 35,
-      "data scientist": 45,
-      "product manager": 25
+      "paid media": 35,
+      "performance marketing": 35,
+      "demand generation": 30,
+      "field marketing": 30,
+      "growth marketing": 25,
+      "marketing operations": 30,
+      "events marketing": 25,
+      "seo specialist": 35,
+      "search engine optimization specialist": 35,
+      "internship": 45,
+      "marketing intern": 50,
+      "account executive": 50,
+      "sales development representative": 50,
+      "software engineer": 50,
+      "security engineer": 40,
+      "data scientist": 50,
+      "product manager": 30
     },
     "management_phrases": [
       "manage a team",
       "manage and develop a team",
       "build and lead a team",
       "direct reports",
-      "people manager"
+      "people manager",
+      "hire and manage"
     ],
     "blocked_title_phrases": [
       "director",
@@ -66,6 +89,17 @@
       "vp ",
       "chief ",
       "senior manager"
+    ],
+    "blocked_employment_phrases": [
+      "part-time",
+      "part time",
+      "internship",
+      "intern",
+      "temporary",
+      "freelance",
+      "contractor",
+      "contract role",
+      "fixed-term"
     ],
     "allowed_location_phrases": [
       "remote worldwide",
@@ -89,13 +123,17 @@
       "new delhi",
       "delhi",
       "gurugram",
-      "gurgaon"
+      "gurgaon",
+      "bengaluru",
+      "bangalore"
     ],
     "india_eligibility_phrases": [
       "remote in india",
       "remote - india",
       "remote, india",
+      "remote), india",
       "india - remote",
+      "india (remote)",
       "based anywhere in india",
       "authorized to work in india",
       "authorised to work in india"
@@ -157,133 +195,145 @@
       "name": "Arcanna.ai",
       "type": "html",
       "url": "https://arcanna.ai/careers",
-      "priority": 22,
+      "priority": 25,
       "default_location": "Remote worldwide",
       "hydrate_job_pages": true,
-      "hydrate_title_regex": "(?i)(product marketing|technical communications)",
+      "hydrate_title_regex": "(?i)(product marketing|technical marketing|technical communications|technical content|developer relations)",
       "include_href_regex": "(?i)arcanna\\.ai/jobs/.+",
-      "include_text_regex": "(?i).+",
       "exclude_href_regex": "(?i)(#|javascript:|mailto:)$"
     },
     {
       "name": "Harmonic Security",
       "type": "ashby",
       "board": "harmonic-security-inc",
-      "priority": 20
+      "priority": 22
     },
     {
       "name": "Sola Security",
       "type": "html",
       "url": "https://sola.security/careers/",
-      "priority": 20,
+      "priority": 22,
+      "hydrate_job_pages": true,
+      "hydrate_title_regex": "(?i)(product marketing|technical marketing|security marketing|content|communications|developer relations|social media)",
       "include_href_regex": "(?i)sola\\.security/careers/.+",
-      "include_text_regex": "(?i).+",
       "exclude_href_regex": "(?i)(#|javascript:|mailto:|/careers/?$)"
     },
     {
       "name": "Dropzone AI",
       "type": "html",
       "url": "https://www.dropzone.ai/careers",
-      "priority": 18,
+      "priority": 22,
+      "hydrate_job_pages": true,
+      "hydrate_title_regex": "(?i)(product marketing|technical marketing|security marketing|content|communications|developer relations|social media)",
       "include_href_regex": "(?i)(ats\\.rippling\\.com/dropzone-ai/jobs|dropzone\\.ai/.+(jobs|careers))",
-      "include_text_regex": "(?i).+",
       "exclude_href_regex": "(?i)(#|javascript:|mailto:|/careers/?$)"
-    },
-    {
-      "name": "Chainguard",
-      "type": "greenhouse",
-      "board": "chainguard",
-      "priority": 18
     },
     {
       "name": "Abnormal Security",
       "type": "greenhouse",
       "board": "abnormalsecurity",
-      "priority": 16
+      "priority": 18
     },
     {
       "name": "SentinelOne",
       "type": "greenhouse",
       "board": "sentinellabs",
-      "priority": 15
-    },
-    {
-      "name": "OpenAI",
-      "type": "ashby",
-      "board": "openai",
-      "priority": 12
-    },
-    {
-      "name": "Anthropic",
-      "type": "greenhouse",
-      "board": "anthropic",
-      "priority": 12
+      "priority": 18
     },
     {
       "name": "CloudSEK",
       "type": "greenhouse",
       "board": "cloudsek",
-      "priority": 18
-    },
-    {
-      "name": "JumpCloud",
-      "type": "lever",
-      "board": "jumpcloud",
-      "priority": 20
-    },
-    {
-      "name": "Cyara",
-      "type": "lever",
-      "board": "cyara",
-      "priority": 18
-    },
-    {
-      "name": "Kantiv",
-      "type": "ashby",
-      "board": "kantiv",
-      "priority": 18
-    },
-    {
-      "name": "OpenZeppelin",
-      "type": "greenhouse",
-      "board": "openzeppelin",
-      "priority": 20
-    },
-    {
-      "name": "Cloudflare",
-      "type": "greenhouse",
-      "board": "cloudflare",
-      "priority": 16
-    },
-    {
-      "name": "Canonical",
-      "type": "greenhouse",
-      "board": "canonical",
-      "priority": 14
+      "priority": 22
     },
     {
       "name": "Prophet Security",
       "type": "ashby",
       "board": "prophet-security",
-      "priority": 20
+      "priority": 22
     },
     {
       "name": "HiddenLayer",
       "type": "greenhouse",
       "board": "hiddenlayer",
-      "priority": 18
+      "priority": 20
     },
     {
-      "name": "Wiz",
-      "type": "greenhouse",
-      "board": "wizinc",
-      "priority": 14
-    },
-    {
-      "name": "ElevenLabs",
+      "name": "XBOW",
       "type": "ashby",
-      "board": "elevenlabs",
-      "priority": 14
+      "board": "xbowcareers",
+      "priority": 22
+    },
+    {
+      "name": "WitnessAI",
+      "type": "ashby",
+      "board": "witnessai",
+      "priority": 20
+    },
+    {
+      "name": "Keycard",
+      "type": "ashby",
+      "board": "keycard-labs",
+      "priority": 20
+    },
+    {
+      "name": "Cracken",
+      "type": "ashby",
+      "board": "crackenagi",
+      "priority": 20
+    },
+    {
+      "name": "Simbian",
+      "type": "html",
+      "url": "https://simbian.zohorecruit.in/jobs/Careers",
+      "priority": 24,
+      "hydrate_job_pages": true,
+      "hydrate_title_regex": "(?i)(product marketing|technical marketing|security marketing|content|communications|developer relations|social media)",
+      "location_regex": "(?i)City\\s+(?P<location>.+?)\\s+(?:State/Province|Country|Zip/Postal Code|Job Type)",
+      "employment_type_regex": "(?i)(?:Employment Type|Job Type)\\s*:?\\s*(?P<employment_type>Full[- ]?time|Part[- ]?time|Contract|Temporary|Internship|Freelance)",
+      "include_href_regex": "(?i)simbian\\.zohorecruit\\.in/jobs/Careers/.+",
+      "exclude_href_regex": "(?i)(#|javascript:|mailto:|/Careers/?$)"
+    },
+    {
+      "name": "Enkrypt AI",
+      "type": "html",
+      "url": "https://www.enkryptai.com/company/careers",
+      "priority": 22,
+      "hydrate_job_pages": true,
+      "hydrate_title_regex": "(?i)(product marketing|technical marketing|security marketing|content|communications|developer relations|social media)"
+    },
+    {
+      "name": "Noma Security",
+      "type": "html",
+      "url": "https://noma.security/careers",
+      "priority": 20,
+      "hydrate_job_pages": true,
+      "hydrate_title_regex": "(?i)(product marketing|technical marketing|security marketing|content|communications|developer relations|social media)"
+    },
+    {
+      "name": "Zenity",
+      "type": "html",
+      "url": "https://zenity.io/careers",
+      "priority": 20,
+      "hydrate_job_pages": true,
+      "hydrate_title_regex": "(?i)(product marketing|technical marketing|security marketing|content|communications|developer relations|social media)"
+    },
+    {
+      "name": "Pillar Security",
+      "type": "html",
+      "url": "https://www.pillar.security/careers",
+      "priority": 20,
+      "hydrate_job_pages": true,
+      "hydrate_title_regex": "(?i)(product marketing|technical marketing|security marketing|content|communications|developer relations|social media)",
+      "include_href_regex": "(?i)pillar\\.security/open-position/.+"
+    },
+    {
+      "name": "Straiker",
+      "type": "html",
+      "url": "https://www.straiker.ai/careers",
+      "priority": 20,
+      "hydrate_job_pages": true,
+      "hydrate_title_regex": "(?i)(product marketing|technical marketing|security marketing|content|communications|developer relations|social media)"
     }
   ]
 }
