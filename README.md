@@ -165,11 +165,11 @@ On Netlify's current credit-based Free plan, the account receives **300 credits 
 
 The dispatcher uses the default 1 GB function allocation and normally exits after one GitHub API request. At the recently observed **0.05–0.20 second** execution time:
 
-- Compute: approximately **2.5–4.8 credits/month**
+- Compute: approximately **1.2–4.8 credits/month**
 - If every scheduled invocation is also counted as a web request: approximately **1.7 additional credits/month**
 - One production deploy in the month: **15 credits**
 
-That puts normal steady-state use near **4–7 credits/month**, or approximately **19–22 credits** in a month containing one production deploy—under 8% of the 300-credit allowance. Even a conservative one-second dispatcher would allow roughly **95,000 invocations per month** after reserving 15 credits for one deploy, versus the planned 8,640.
+That puts normal steady-state use near **3–7 credits/month**, or approximately **18–22 credits** in a month containing one production deploy—under 8% of the 300-credit allowance. Even a conservative one-second dispatcher would allow roughly **95,000 invocations per month** after reserving 15 credits for one deploy, versus the planned 8,640.
 
 Official references: [Netlify credit plans](https://docs.netlify.com/manage/accounts-and-billing/billing/billing-for-credit-based-plans/credit-based-pricing-plans/), [credit calculation](https://docs.netlify.com/manage/accounts-and-billing/billing/billing-for-credit-based-plans/how-credits-work/) and [Functions billing](https://docs.netlify.com/build/functions/usage-and-billing/).
 
