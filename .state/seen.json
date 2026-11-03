@@ -19,6 +19,12 @@
       "title": "Public Sector Partnerships - US",
       "url": "https://jobs.ashbyhq.com/elevenlabs/71b1f886-593a-43a3-86db-1ab8e2a83496/application"
     },
+    "ashby:ElevenLabs:093f77f3e0608a2552a4": {
+      "company": "ElevenLabs",
+      "first_seen_at": "2026-11-03T10:02:07+00:00",
+      "title": "Product & Technical Communications",
+      "url": "https://jobs.ashbyhq.com/elevenlabs/db7abc8d-67b1-4d64-a623-59be88d65fba/application"
+    },
     "ashby:ElevenLabs:0a32cdf1dce83a6777e8": {
       "company": "ElevenLabs",
       "first_seen_at": "2026-11-03T08:34:16+00:00",
@@ -4878,6 +4884,12 @@
       "first_seen_at": "2026-11-03T08:34:16+00:00",
       "title": "Software Engineer, Privacy Engineering",
       "url": "https://jobs.ashbyhq.com/openai/07153f7c-7e8b-4283-a879-cb07a224e083/application"
+    },
+    "ashby:OpenAI:cf3a24c46d429b246ad7": {
+      "company": "OpenAI",
+      "first_seen_at": "2026-11-03T10:02:07+00:00",
+      "title": "Applied AI Engineer, Digital Natives",
+      "url": "https://jobs.ashbyhq.com/openai/7be58f3a-6005-42ed-86fa-77773ebfb294/application"
     },
     "ashby:OpenAI:cfd051b10dbb6c4426dc": {
       "company": "OpenAI",
@@ -10956,6 +10968,12 @@
       "first_seen_at": "2026-11-03T08:34:16+00:00",
       "title": "Channel Sales Manager - SEA",
       "url": "https://job-boards.greenhouse.io/cloudsek/jobs/6127369004"
+    },
+    "greenhouse:CloudSEK:68aaaadbff4d64daa4f6": {
+      "company": "CloudSEK",
+      "first_seen_at": "2026-11-03T10:02:07+00:00",
+      "title": "Director/AVP - HR",
+      "url": "https://job-boards.greenhouse.io/cloudsek/jobs/5790130004"
     },
     "greenhouse:CloudSEK:6f01db640363ec48513e": {
       "company": "CloudSEK",
