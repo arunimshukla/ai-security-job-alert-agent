@@ -32,7 +32,7 @@ The configuration uses first-party Ashby, Greenhouse and career-page sources onl
 
 A listing produces an email only when every condition below is satisfied:
 
-1. The listing is new or its title, location, description, URL, deadline, employment type or compensation materially changed.
+1. The posting has never been seen before, or a posting previously recorded as ineligible has become eligible.
 2. Its title matches one of the target role families.
 3. Its score is at least 65/100.
 4. It explicitly permits India/Delhi-NCR or worldwide work.
@@ -43,7 +43,7 @@ A listing produces an email only when every condition below is satisfied:
 
 Unpublished compensation and employment type are marked for verification instead of being silently treated as confirmed. Geography remains strict: a listing that merely says “Remote” is not emailed unless India or worldwide eligibility is explicit.
 
-The first execution creates a quiet baseline. Later executions email only unseen or materially changed eligible roles. Failed email delivery leaves the match pending so the next run retries it.
+The first execution creates a quiet baseline. Later executions email only genuinely unseen roles or roles that cross from ineligible to eligible. Ordinary listing edits and internal fingerprint-format changes are recorded silently and cannot re-alert an old role. Failed email delivery leaves a genuine match pending so the next run retries it.
 
 ## Minimal architecture
 
