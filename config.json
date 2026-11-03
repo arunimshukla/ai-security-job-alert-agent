@@ -1,0 +1,206 @@
+{
+  "rules": {
+    "minimum_score": 60,
+    "role_phrases": {
+      "technical product marketing": 48,
+      "product marketing manager": 45,
+      "product marketing": 42,
+      "solutions marketing": 40,
+      "security marketing": 44,
+      "developer marketing": 40,
+      "product communications": 42,
+      "technical communications": 42,
+      "content marketing lead": 38,
+      "content strategist": 36,
+      "content strategy": 34,
+      "founder brand": 38,
+      "social media lead": 34,
+      "social media manager": 32,
+      "marketing communications": 34,
+      "go-to-market": 32,
+      "gtm": 30
+    },
+    "skill_phrases": {
+      "cybersecurity": 8,
+      "security": 6,
+      "artificial intelligence": 6,
+      " ai ": 5,
+      "developer tools": 6,
+      "infrastructure": 5,
+      "positioning": 5,
+      "messaging": 5,
+      "technical content": 5,
+      "launch": 4,
+      "sales enablement": 4,
+      "founder": 4,
+      "editorial": 4,
+      "thought leadership": 4,
+      "release notes": 5
+    },
+    "negative_phrases": {
+      "paid media": 25,
+      "performance marketing": 20,
+      "seo specialist": 30,
+      "search engine optimization specialist": 30,
+      "internship": 35,
+      "marketing intern": 40,
+      "account executive": 45,
+      "sales development representative": 45,
+      "software engineer": 45,
+      "security engineer": 35,
+      "data scientist": 45,
+      "product manager": 25
+    },
+    "management_phrases": [
+      "manage a team",
+      "manage and develop a team",
+      "build and lead a team",
+      "direct reports",
+      "people manager"
+    ],
+    "allowed_location_phrases": [
+      "remote worldwide",
+      "worldwide remote",
+      "work from anywhere",
+      "remote globally",
+      "global remote",
+      "anywhere in the world",
+      "remote - global",
+      "remote, global"
+    ],
+    "india_location_phrases": [
+      "india",
+      "noida",
+      "new delhi",
+      "delhi",
+      "gurugram",
+      "gurgaon",
+      "asia-pacific",
+      "apac"
+    ],
+    "blocked_location_phrases": [
+      "remote - us only",
+      "remote, us only",
+      "remote us only",
+      "united states - remote",
+      "remote - united states",
+      "remote, united states",
+      "remote-friendly, united states",
+      "remote (us)",
+      "remote - usa",
+      "remote, usa",
+      "united states only",
+      "must be based in the united states",
+      "must reside in the united states",
+      "us work authorization required",
+      "remote - canada only",
+      "canada only",
+      "uk only",
+      "remote - uk",
+      "remote, uk",
+      "remote (uk)",
+      "united kingdom - remote",
+      "europe only",
+      "eu only",
+      "emea only"
+    ]
+  },
+  "targets": [
+    {
+      "name": "Arcanna.ai",
+      "type": "html",
+      "url": "https://arcanna.ai/careers",
+      "priority": 22,
+      "include_href_regex": "(?i)arcanna\\.ai/jobs/.+",
+      "include_text_regex": "(?i).+",
+      "exclude_href_regex": "(?i)(#|javascript:|mailto:)$"
+    },
+    {
+      "name": "Harmonic Security",
+      "type": "ashby",
+      "board": "harmonic-security-inc",
+      "priority": 20
+    },
+    {
+      "name": "Sola Security",
+      "type": "html",
+      "url": "https://sola.security/careers/",
+      "priority": 20,
+      "include_href_regex": "(?i)sola\\.security/careers/.+",
+      "include_text_regex": "(?i).+",
+      "exclude_href_regex": "(?i)(#|javascript:|mailto:|/careers/?$)"
+    },
+    {
+      "name": "Dropzone AI",
+      "type": "html",
+      "url": "https://www.dropzone.ai/careers",
+      "priority": 18,
+      "include_href_regex": "(?i)(ats\\.rippling\\.com/dropzone-ai/jobs|dropzone\\.ai/.+(jobs|careers))",
+      "include_text_regex": "(?i).+",
+      "exclude_href_regex": "(?i)(#|javascript:|mailto:|/careers/?$)"
+    },
+    {
+      "name": "Chainguard",
+      "type": "greenhouse",
+      "board": "chainguard",
+      "priority": 18
+    },
+    {
+      "name": "Abnormal Security",
+      "type": "greenhouse",
+      "board": "abnormalsecurity",
+      "priority": 16
+    },
+    {
+      "name": "SentinelOne",
+      "type": "html",
+      "url": "https://www.sentinelone.com/jobs/",
+      "priority": 15,
+      "include_href_regex": "(?i)sentinelone\\.com/jobs/.+",
+      "include_text_regex": "(?i).+",
+      "exclude_href_regex": "(?i)(#|javascript:|mailto:|/jobs/?$)"
+    },
+    {
+      "name": "OpenAI",
+      "type": "ashby",
+      "board": "openai",
+      "priority": 12
+    },
+    {
+      "name": "Anthropic",
+      "type": "greenhouse",
+      "board": "anthropic",
+      "priority": 12
+    },
+    {
+      "name": "CloudSEK",
+      "type": "greenhouse",
+      "board": "cloudsek",
+      "priority": 18
+    },
+    {
+      "name": "Prophet Security",
+      "type": "ashby",
+      "board": "prophet-security",
+      "priority": 20
+    },
+    {
+      "name": "HiddenLayer",
+      "type": "greenhouse",
+      "board": "hiddenlayer",
+      "priority": 18
+    },
+    {
+      "name": "Wiz",
+      "type": "greenhouse",
+      "board": "wizinc",
+      "priority": 14
+    },
+    {
+      "name": "ElevenLabs",
+      "type": "ashby",
+      "board": "elevenlabs",
+      "priority": 14
+    }
+  ]
+}
