@@ -79,6 +79,44 @@ class LinkParser(HTMLParser):
             self._parts = []
 
 
+class VisibleTextParser(HTMLParser):
+    """Extract stable visible page text while ignoring scripts and styling."""
+
+    SKIP_TAGS = {"script", "style", "noscript", "svg", "template"}
+    PRIMARY_TAGS = {"main", "article"}
+
+    def __init__(self) -> None:
+        super().__init__()
+        self._skip_depth = 0
+        self._primary_depth = 0
+        self._visible: list[str] = []
+        self._primary: list[str] = []
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        lowered = tag.lower()
+        if lowered in self.SKIP_TAGS:
+            self._skip_depth += 1
+        elif lowered in self.PRIMARY_TAGS and self._skip_depth == 0:
+            self._primary_depth += 1
+
+    def handle_endtag(self, tag: str) -> None:
+        lowered = tag.lower()
+        if lowered in self.SKIP_TAGS and self._skip_depth:
+            self._skip_depth -= 1
+        elif lowered in self.PRIMARY_TAGS and self._primary_depth:
+            self._primary_depth -= 1
+
+    def handle_data(self, data: str) -> None:
+        if self._skip_depth or not data.strip():
+            return
+        self._visible.append(data)
+        if self._primary_depth:
+            self._primary.append(data)
+
+    def text(self) -> str:
+        return clean_text(" ".join(self._primary or self._visible))
+
+
 def clean_text(value: Any) -> str:
     text = html.unescape(str(value or ""))
     text = re.sub(r"<[^>]+>", " ", text)
@@ -257,6 +295,9 @@ def fetch_html_board(target: dict[str, Any]) -> list[Job]:
     href_pattern = re.compile(target.get("include_href_regex", r"(?i)(jobs?|careers?|positions?|openings?)"))
     text_pattern = re.compile(target.get("include_text_regex", r"(?i).+"))
     exclude_pattern = re.compile(target.get("exclude_href_regex", r"(?i)(#|javascript:|mailto:)$"))
+    hydrate_pattern = re.compile(
+        target.get("hydrate_title_regex", r"(?i)(product marketing|technical communications)")
+    )
     seen_urls: set[str] = set()
     jobs: list[Job] = []
     for job_url, title in parser.links:
@@ -270,14 +311,19 @@ def fetch_html_board(target: dict[str, Any]) -> list[Job]:
         if normalized_url.rstrip("/") == page_url.rstrip("/"):
             continue
         seen_urls.add(normalized_url)
+        description = ""
+        if target.get("hydrate_job_pages") and hydrate_pattern.search(title):
+            detail_parser = VisibleTextParser()
+            detail_parser.feed(fetch_text(normalized_url, attempts=2))
+            description = detail_parser.text()
         jobs.append(
             Job(
                 key=stable_key("html", target["name"], "", normalized_url),
                 company=target["name"],
                 source="Career page",
                 title=title,
-                location="See listing",
-                description="",
+                location=clean_text(target.get("default_location", "See listing")),
+                description=description,
                 url=normalized_url,
                 company_priority=int(target.get("priority", 0)),
                 allow_unclear_location=bool(target.get("allow_unclear_location", False)),
@@ -343,7 +389,7 @@ def score_job(job: Job, rules: dict[str, Any]) -> Job:
         cautions.append("Explicit location restriction: " + ", ".join(dict.fromkeys(restrictions[:3])))
         hard_excluded = True
     elif allowed_hits:
-        score += 12
+        score += 20
         reasons.append("Worldwide or geography-flexible remote language")
     elif "remote" in location_text:
         cautions.append("Remote role, but India eligibility is unclear")

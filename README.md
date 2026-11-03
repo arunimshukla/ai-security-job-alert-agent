@@ -8,7 +8,7 @@ This GitHub Action checks selected first-party career feeds on a five-minute sch
 - Selected first-party careers pages that do not expose one of those feeds
 - Technical/product/solutions marketing, technical communications, content strategy and social/founder-brand roles
 - AI, cybersecurity, developer-tooling and infrastructure companies
-- India, Delhi-NCR or explicitly worldwide-remote roles
+- Explicitly worldwide-remote roles as the highest location priority, followed by India and Delhi-NCR
 - Strict exclusions for geography-restricted and people-management roles
 
 The first run records a quiet baseline, so existing vacancies do not flood the inbox. Later runs alert only on unseen or materially changed jobs scoring at least 60/100 and passing the hard eligibility gates.
@@ -49,6 +49,8 @@ GitHub schedules are best-effort. Five minutes is the shortest supported interva
 To add a company, add an entry under `targets` using its public ATS board name. The watcher supports `ashby`, `greenhouse`, `lever` and `html` target types.
 
 The current first-party watchlist includes Arcanna.ai, Harmonic Security, Sola Security, Dropzone AI, Chainguard, Abnormal Security, SentinelOne, OpenAI, Anthropic, CloudSEK, JumpCloud, Cyara, Kantiv, OpenZeppelin, Cloudflare, Canonical, Prophet Security, HiddenLayer, Wiz and ElevenLabs.
+
+Arcanna.ai is configured as verified worldwide-remote from its first-party careers policy. Its Technical Product Marketing Manager page is content-fingerprinted so a material page edit can trigger a new alert even when the title and URL do not change.
 
 ## Delivery resilience
 

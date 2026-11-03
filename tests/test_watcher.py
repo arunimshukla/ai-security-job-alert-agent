@@ -86,6 +86,53 @@ class WatcherTests(unittest.TestCase):
         watcher.score_job(job, self.rules)
         self.assertTrue(job.eligible)
 
+    def test_worldwide_remote_outranks_equivalent_india_role(self):
+        common = {
+            "key": "x",
+            "company": "Example AI Security",
+            "source": "test",
+            "title": "Technical Product Marketing Manager",
+            "description": "Own AI cybersecurity positioning and launches.",
+            "url": "https://example.com",
+            "company_priority": 10,
+        }
+        worldwide = watcher.Job(**common, location="Remote worldwide")
+        india = watcher.Job(**{**common, "key": "y"}, location="India")
+        watcher.score_job(worldwide, self.rules)
+        watcher.score_job(india, self.rules)
+        self.assertTrue(worldwide.eligible)
+        self.assertTrue(india.eligible)
+        self.assertGreater(worldwide.score, india.score)
+
+    def test_html_board_hydrates_priority_role_for_change_detection(self):
+        target = {
+            "name": "Arcanna.ai",
+            "type": "html",
+            "url": "https://arcanna.ai/careers",
+            "priority": 22,
+            "default_location": "Remote worldwide",
+            "hydrate_job_pages": True,
+            "hydrate_title_regex": "(?i)product marketing",
+            "include_href_regex": "(?i)arcanna\\.ai/jobs/.+",
+        }
+        careers = (
+            '<main><a href="/jobs/technical-product-marketing-manager">'
+            "Technical Product Marketing Manager Remote</a></main>"
+        )
+        detail = (
+            "<html><script>changing-build-id</script><main>"
+            "Own Agentic AI cybersecurity positioning and sales enablement."
+            "</main></html>"
+        )
+        with patch.object(watcher, "fetch_text", side_effect=[careers, detail]):
+            jobs = watcher.fetch_html_board(target)
+        self.assertEqual(len(jobs), 1)
+        self.assertEqual(jobs[0].location, "Remote worldwide")
+        self.assertIn("Agentic AI cybersecurity", jobs[0].description)
+        self.assertNotIn("changing-build-id", jobs[0].description)
+        watcher.score_job(jobs[0], self.rules)
+        self.assertTrue(jobs[0].eligible)
+
     def test_people_manager_role_is_hard_excluded(self):
         job = watcher.Job(
             key="x",

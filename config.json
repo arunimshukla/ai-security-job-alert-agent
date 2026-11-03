@@ -74,6 +74,12 @@
       "remote globally",
       "global remote",
       "anywhere in the world",
+      "work remotely from anywhere",
+      "remote from anywhere",
+      "remote anywhere",
+      "location agnostic",
+      "regardless of location",
+      "based anywhere",
       "remote - global",
       "remote, global"
     ],
@@ -152,7 +158,9 @@
       "type": "html",
       "url": "https://arcanna.ai/careers",
       "priority": 22,
-      "allow_unclear_location": true,
+      "default_location": "Remote worldwide",
+      "hydrate_job_pages": true,
+      "hydrate_title_regex": "(?i)(product marketing|technical communications)",
       "include_href_regex": "(?i)arcanna\\.ai/jobs/.+",
       "include_text_regex": "(?i).+",
       "exclude_href_regex": "(?i)(#|javascript:|mailto:)$"
