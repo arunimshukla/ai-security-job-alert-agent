@@ -1,6 +1,6 @@
 # AI-Cybersecurity Job Alert Agent
 
-An open, reusable fifteen-minute job monitor for AI-cybersecurity opportunities. It checks first-party career sources, applies configurable eligibility rules, deduplicates previously seen postings and emails only genuinely new matches.
+An open, reusable fifteen-minute job monitor for AI-cybersecurity opportunities. It checks first-party career sources and staggered global discovery feeds, applies configurable eligibility rules, deduplicates previously seen postings and emails only genuinely new matches.
 
 This project is shared as a public-good template for job seekers. Fork it, replace the example preferences with your own and keep all credentials in GitHub Secrets or Netlify environment variables—never in the repository.
 
@@ -32,6 +32,26 @@ The included watchlist is only a starting point. Edit [`config.json`](config.jso
 
 The collector supports first-party career pages and public ATS boards such as [Ashby](https://www.ashbyhq.com/), [Greenhouse](https://www.greenhouse.com/) and [Lever](https://www.lever.co/). Do not add scraped aggregators or private endpoints.
 
+## Global discovery markets
+
+The fixed company watchlist remains the fastest path. A second, best-effort layer checks public APIs and RSS feeds to find matching roles at companies that are not yet on that list:
+
+| Market | Interface | Cadence |
+|---|---|---:|
+| [ZeroDay Careers](https://zeroday.careers/jobs) | RSS | 30 minutes |
+| [Remote First Jobs](https://remotefirstjobs.com/) | Cybersecurity, AI and marketing RSS feeds | 30 minutes |
+| [Startup.jobs](https://startup.jobs/) | Remote RSS | 60 minutes |
+| [Himalayas](https://himalayas.app/jobs) | RSS | 60 minutes |
+| [Remote OK](https://remoteok.com/) | Public JSON API | 60 minutes |
+| [We Work Remotely](https://weworkremotely.com/) | Product and sales/marketing RSS feeds | 60 minutes |
+| [Jobicy](https://jobicy.com/) | Public JSON API | 60 minutes |
+| [Arbeitnow](https://www.arbeitnow.com/) | Europe and UK APIs | 6 hours |
+| [Remotive](https://remotive.com/) | Public API | 6 hours |
+
+These checks are staggered across the existing fifteen-minute workflow. They do not create additional cron jobs or Netlify invocations. A broad-market listing must still match a target title, contain an AI/cybersecurity signal, explicitly permit worldwide or India-based work, satisfy the IC and employment rules and pass the configured score. Temporary discovery-feed failures are reported as warnings; failures of a directly monitored company source still fail the workflow.
+
+Each discovery source creates a quiet baseline on its first successful check. Existing listings are indexed without email; only roles appearing after that source is initialized can alert. This prevents deployment from flooding the recipient with old aggregated jobs.
+
 ## Alert decision
 
 A listing produces an email only when all configured conditions pass. In the included example:
@@ -54,7 +74,9 @@ flowchart TD
     A["Netlify scheduled function<br/>every fifteen minutes"] --> B["GitHub workflow_dispatch"]
     B --> C["watcher.py"]
     C --> D["First-party career sources"]
+    C --> H["Staggered global discovery feeds"]
     C --> E["Eligibility filters"]
+    H --> E
     E -->|"Eligible new role"| F["Email alert"]
     C --> G["Deduplication state"]
 ```
@@ -70,6 +92,7 @@ flowchart TD
 Fork this repository, then edit [`config.json`](config.json). At minimum, review:
 
 - `targets`: companies and first-party job sources
+- `discovery_sources`: public global-market feeds, intervals and staggered offsets
 - `target_role_phrases`: role families you want
 - geography rules
 - minimum score
@@ -122,7 +145,7 @@ To test email delivery, open **Actions → Fifteen-minute AI security job watche
 
 | File | Purpose |
 |---|---|
-| `config.json` | Companies, roles, geography, compensation and scoring rules |
+| `config.json` | Companies, global discovery markets, cadence, geography, compensation and scoring rules |
 | `watcher.py` | Collection, eligibility, email and state handling |
 | `.state/seen.json` | Deduplication state; contains no credentials |
 | `.github/workflows/watch.yml` | Netlify-dispatched production scan |
@@ -142,7 +165,8 @@ The repository contains secret **names** and placeholder examples so the softwar
 
 ## Cost controls
 
-- Fifteen-minute monitoring can produce approximately 2,880 scans in a 30-day month.
+- Fifteen-minute monitoring produces approximately 2,880 scans in a 30-day month.
+- Global markets are checked inside those existing scans according to their own cadence; they do not multiply workflow or Netlify invocations.
 - Public-repository GitHub Actions usage and Netlify allowances can change; verify the current terms for your account and region.
 - Set account spending limits or hard stops if you do not want paid overages.
 - Netlify deploys only when `netlify/**` or `netlify.toml` changes.

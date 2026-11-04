@@ -1,6 +1,7 @@
 import json
 import tempfile
 import unittest
+from datetime import datetime, timezone
 from pathlib import Path
 from unittest.mock import patch
 
@@ -224,6 +225,126 @@ class WatcherTests(unittest.TestCase):
         self.assertTrue(removed_irrelevant.isdisjoint(names))
         self.assertTrue(expected_core.issubset(names))
 
+    def test_discovery_inventory_covers_global_remote_markets(self):
+        config = json.loads((Path(__file__).parents[1] / "config.json").read_text())
+        names = {source["name"] for source in config["discovery_sources"]}
+        expected = {
+            "ZeroDay Careers", "Startup.jobs", "Himalayas", "Remote OK", "Jobicy",
+            "We Work Remotely — Sales and Marketing", "Remotive",
+        }
+        self.assertTrue(expected.issubset(names))
+        self.assertTrue(all(source["cadence_minutes"] >= 30 for source in config["discovery_sources"]))
+
+    def test_discovery_cadence_reuses_quarter_hour_runs(self):
+        hourly = {"cadence_minutes": 60, "offset_minutes": 2}
+        self.assertTrue(
+            watcher.discovery_due(hourly, datetime(2026, 11, 4, 12, 2, tzinfo=timezone.utc))
+        )
+        self.assertFalse(
+            watcher.discovery_due(hourly, datetime(2026, 11, 4, 12, 17, tzinfo=timezone.utc))
+        )
+        staggered = {"cadence_minutes": 60, "offset_minutes": 32}
+        self.assertTrue(
+            watcher.discovery_due(staggered, datetime(2026, 11, 4, 12, 32, tzinfo=timezone.utc))
+        )
+
+    def test_rss_discovery_parses_company_location_and_description(self):
+        target = {
+            "name": "Example Remote Market",
+            "type": "rss",
+            "url": "https://example.com/jobs.rss",
+            "title_company_regex": "^(?P<company>[^:]+):\\s*(?P<title>.+)$",
+        }
+        feed = """<?xml version="1.0"?><rss><channel><item>
+          <title>Shield AI: Technical Product Marketing Manager</title>
+          <link>https://example.com/jobs/42</link>
+          <description>Own positioning for an AI security platform.</description>
+          <region>Anywhere in the world</region>
+          <guid>42</guid>
+        </item></channel></rss>"""
+        with patch.object(watcher, "fetch_text", return_value=feed):
+            jobs = watcher.fetch_rss_market(target)
+        self.assertEqual(len(jobs), 1)
+        self.assertEqual(jobs[0].company, "Shield AI")
+        self.assertEqual(jobs[0].title, "Technical Product Marketing Manager")
+        self.assertEqual(jobs[0].location, "Anywhere in the world")
+        self.assertTrue(jobs[0].discovery)
+
+    def test_jobicy_discovery_normalizes_worldwide_location(self):
+        target = {"name": "Jobicy", "type": "jobicy", "url": "https://example.com/api"}
+        payload = {
+            "jobs": [{
+                "id": 7,
+                "companyName": "Example Security",
+                "jobTitle": "Product Marketing Manager",
+                "jobGeo": "Worldwide",
+                "jobDescription": "Cybersecurity positioning and launches",
+                "url": "https://example.com/jobs/7",
+                "jobType": "Full-time",
+            }]
+        }
+        with patch.object(watcher, "fetch_json", return_value=payload):
+            jobs = watcher.fetch_jobicy_market(target)
+        self.assertEqual(jobs[0].location, "Remote worldwide")
+        watcher.score_job(jobs[0], self.rules)
+        self.assertTrue(jobs[0].eligible)
+
+    def test_broad_market_role_requires_ai_or_cybersecurity_signal(self):
+        job = watcher.Job(
+            key="discovery:x",
+            company="Generic SaaS",
+            source="Global market",
+            title="Technical Product Marketing Manager",
+            location="Remote worldwide",
+            description="Own positioning and launches for an accounting platform.",
+            url="https://example.com/job",
+            discovery=True,
+        )
+        watcher.score_job(job, self.rules)
+        self.assertFalse(job.eligible)
+        self.assertTrue(any("AI/cybersecurity" in caution for caution in job.cautions))
+
+    def test_cross_market_duplicate_prefers_first_party_record(self):
+        discovery = watcher.Job(
+            key="discovery:global:1",
+            company="Arcanna.ai",
+            source="Remote market",
+            title="Technical Product Marketing Manager",
+            location="Remote worldwide",
+            description="AI security role",
+            url="https://remote.example/jobs/1",
+            discovery=True,
+        )
+        direct = watcher.Job(
+            key="html:arcanna:1",
+            company="Arcanna AI",
+            source="Career page",
+            title="Technical Product Marketing Manager",
+            location="Remote worldwide",
+            description="Full employer description for this AI security role",
+            url="https://arcanna.ai/jobs/technical-product-marketing-manager",
+        )
+        self.assertEqual(watcher.deduplicate_jobs([discovery, direct]), [direct])
+
+    def test_optional_discovery_failure_does_not_fail_core_sources(self):
+        config = {
+            "targets": [{"name": "Core", "type": "ashby"}],
+            "discovery_sources": [{
+                "name": "Optional", "type": "rss", "cadence_minutes": 60,
+                "offset_minutes": 2,
+            }],
+        }
+        now = datetime(2026, 11, 4, 12, 2, tzinfo=timezone.utc)
+        with patch.dict(watcher.FETCHERS, {"ashby": lambda _: []}), patch.dict(
+            watcher.DISCOVERY_FETCHERS,
+            {"rss": lambda _: (_ for _ in ()).throw(RuntimeError("temporary outage"))},
+        ):
+            jobs, errors, warnings, completed = watcher.collect_jobs(config, now=now)
+        self.assertEqual(jobs, [])
+        self.assertEqual(errors, [])
+        self.assertEqual(len(warnings), 1)
+        self.assertEqual(completed, [])
+
     def test_people_manager_role_is_hard_excluded(self):
         job = watcher.Job(
             key="x",
@@ -285,6 +406,41 @@ class WatcherTests(unittest.TestCase):
             self.assertEqual(result, 0)
             self.assertIn("0 high-signal", alerts_path.read_text())
             self.assertTrue(json.loads(state_path.read_text())["initialized"])
+
+    def test_new_discovery_source_builds_its_own_quiet_baseline(self):
+        config = {"rules": self.rules, "targets": [], "discovery_sources": []}
+        job = watcher.Job(
+            key="discovery-rss:market:1",
+            company="Example Security",
+            source="New Global Market",
+            title="Technical Product Marketing Manager",
+            location="Remote worldwide",
+            description="AI cybersecurity positioning and launches",
+            url="https://example.com/job",
+            discovery=True,
+        )
+        collected = ([job], [], [], ["New Global Market"])
+        with tempfile.TemporaryDirectory() as tmp, patch.object(
+            watcher, "collect_jobs", return_value=collected
+        ), patch.object(watcher, "send_email") as send_email:
+            root = Path(tmp)
+            config_path = root / "config.json"
+            state_path = root / "state.json"
+            alerts_path = root / "alerts.md"
+            config_path.write_text(json.dumps(config))
+            state_path.write_text(json.dumps({
+                "version": 3, "initialized": True, "seen": {},
+            }))
+            watcher.main([
+                "--config", str(config_path), "--state", str(state_path),
+                "--alerts", str(alerts_path),
+            ])
+            saved = json.loads(state_path.read_text())
+            alert_text = alerts_path.read_text()
+        send_email.assert_not_called()
+        self.assertIn(job.key, saved["seen"])
+        self.assertEqual(saved["discovery_initialized"], ["New Global Market"])
+        self.assertIn("0 high-signal", alert_text)
 
     def test_undelivered_match_is_not_consumed(self):
         config = {
@@ -490,7 +646,7 @@ class WatcherTests(unittest.TestCase):
                 "--alerts", str(alerts_path), "--no-email",
             ])
             saved = json.loads(state_path.read_text())
-            self.assertEqual(saved["version"], 3)
+            self.assertEqual(saved["version"], 4)
             self.assertIn("fingerprint", saved["seen"][job.key])
             self.assertIn("eligible", saved["seen"][job.key])
             self.assertIn("0 high-signal", alerts_path.read_text())

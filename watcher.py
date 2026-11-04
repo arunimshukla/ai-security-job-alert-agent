@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Low-latency job watcher for public Ashby, Greenhouse, Lever and HTML boards."""
+"""Low-latency job watcher for first-party boards and global discovery feeds."""
 
 from __future__ import annotations
 
@@ -16,6 +16,7 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+import xml.etree.ElementTree as ET
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from email.message import EmailMessage
@@ -29,7 +30,10 @@ ROOT = Path(__file__).resolve().parent
 DEFAULT_CONFIG = ROOT / "config.json"
 DEFAULT_STATE = ROOT / ".state" / "seen.json"
 DEFAULT_ALERTS = ROOT / "alerts.md"
-USER_AGENT = "Arunim-AI-Security-Job-Watcher/1.0 (+private personal monitor)"
+USER_AGENT = (
+    "AI-Security-Job-Watcher/2.0 "
+    "(+https://github.com/arunimshukla/ai-security-job-alert-agent)"
+)
 DEFAULT_HTML_ROLE_REGEX = (
     r"(?i)(technical product marketing|product marketing|technical marketing|"
     r"security marketing|solutions marketing|developer marketing|product communications|"
@@ -37,6 +41,7 @@ DEFAULT_HTML_ROLE_REGEX = (
     r"developer advocate|developer relations|founder brand|social media|"
     r"marketing communications)"
 )
+DISCOVERY_WINDOW_MINUTES = 15
 
 
 @dataclass
@@ -53,6 +58,7 @@ class Job:
     employment_type: str = ""
     compensation: str = ""
     allow_unclear_location: bool = False
+    discovery: bool = False
     company_priority: int = 0
     score: int = 0
     reasons: list[str] = field(default_factory=list)
@@ -376,11 +382,263 @@ def fetch_html_board(target: dict[str, Any]) -> list[Job]:
     return jobs
 
 
+def discovery_due(target: dict[str, Any], now: datetime | None = None) -> bool:
+    """Place slower feeds into deterministic 15-minute windows without state churn."""
+    cadence = max(DISCOVERY_WINDOW_MINUTES, int(target.get("cadence_minutes", 60)))
+    offset = int(target.get("offset_minutes", 2)) % cadence
+    minute = int((now or datetime.now(timezone.utc)).timestamp() // 60)
+    return (minute - offset) % cadence < DISCOVERY_WINDOW_MINUTES
+
+
+def discovery_title_matches(target: dict[str, Any], title: str) -> bool:
+    pattern = target.get("include_title_regex", DEFAULT_HTML_ROLE_REGEX)
+    return bool(re.search(pattern, title))
+
+
+def normalize_discovery_location(value: Any, default: str = "") -> str:
+    location = clean_text(value) or clean_text(default)
+    lowered = location.lower().strip(" .,-")
+    if lowered in {"worldwide", "global", "anywhere", "anywhere worldwide"}:
+        return "Remote worldwide"
+    return location
+
+
+def build_discovery_job(
+    target: dict[str, Any],
+    *,
+    raw_id: Any,
+    company: Any,
+    title: Any,
+    location: Any,
+    description: Any,
+    url: Any,
+    posted_at: Any = "",
+    employment_type: Any = "",
+    compensation: Any = "",
+) -> Job | None:
+    clean_title = clean_text(title)
+    if not clean_title or not discovery_title_matches(target, clean_title):
+        return None
+    clean_url = clean_text(url)
+    if not clean_url:
+        return None
+    source_name = clean_text(target["name"])
+    clean_company = clean_text(company) or source_name
+    shared_identity = "|".join(
+        re.sub(r"[^a-z0-9]+", "", value.lower()) for value in [clean_company, clean_title]
+    )
+    return Job(
+        key=stable_key("discovery", "global", shared_identity or clean_text(raw_id), clean_url),
+        company=clean_company,
+        source=source_name,
+        title=clean_title,
+        location=normalize_discovery_location(location, target.get("default_location", "")),
+        description=clean_text(description),
+        url=clean_url,
+        posted_at=normalize_timestamp(posted_at) if isinstance(posted_at, (int, float)) else clean_text(posted_at),
+        employment_type=clean_text(employment_type),
+        compensation=clean_text(compensation),
+        company_priority=int(target.get("priority", 0)),
+        discovery=True,
+    )
+
+
+def deduplicate_jobs(jobs: list[Job]) -> list[Job]:
+    """Prefer first-party records and collapse cross-market copies of one role."""
+    selected: dict[str, Job] = {}
+    order: list[str] = []
+    for job in jobs:
+        identity = "|".join(
+            re.sub(r"[^a-z0-9]+", "", value.lower()) for value in [job.company, job.title]
+        )
+        if not identity:
+            identity = job.key
+        existing = selected.get(identity)
+        if existing is None:
+            selected[identity] = job
+            order.append(identity)
+            continue
+        if existing.discovery and not job.discovery:
+            selected[identity] = job
+        elif existing.discovery == job.discovery and len(job.description) > len(existing.description):
+            selected[identity] = job
+    return [selected[identity] for identity in order]
+
+
+def xml_local_name(tag: str) -> str:
+    return tag.rsplit("}", 1)[-1].lower()
+
+
+def rss_values(item: ET.Element, names: set[str]) -> list[str]:
+    values: list[str] = []
+    lowered_names = {name.lower() for name in names}
+    for child in item.iter():
+        if child is item or xml_local_name(child.tag) not in lowered_names:
+            continue
+        value = clean_text(child.text or child.attrib.get("href", ""))
+        if value and value not in values:
+            values.append(value)
+    return values
+
+
+def split_feed_title(target: dict[str, Any], raw_title: str, company: str) -> tuple[str, str]:
+    title = clean_text(raw_title)
+    company = clean_text(company)
+    pattern = target.get("title_company_regex")
+    if not company and pattern:
+        match = re.match(pattern, title)
+        if match:
+            company = clean_text(match.groupdict().get("company", ""))
+            title = clean_text(match.groupdict().get("title", title))
+    if company:
+        title = re.sub(rf"(?i)^{re.escape(company)}\s*[:|—-]\s*", "", title)
+        title = re.sub(rf"(?i)\s+at\s+{re.escape(company)}$", "", title)
+    return title, company
+
+
+def fetch_rss_market(target: dict[str, Any]) -> list[Job]:
+    root = ET.fromstring(fetch_text(target["url"]))
+    entries = [node for node in root.iter() if xml_local_name(node.tag) in {"item", "entry"}]
+    jobs: list[Job] = []
+    for item in entries:
+        raw_title = next(iter(rss_values(item, {"title"})), "")
+        company = next(iter(rss_values(item, {"company", "companyName", "creator"})), "")
+        title, company = split_feed_title(target, raw_title, company)
+        links = rss_values(item, {"link"})
+        descriptions = rss_values(item, {"description", "encoded", "content", "summary"})
+        categories = rss_values(item, {"category"})
+        locations = rss_values(
+            item,
+            {"location", "locationRestriction", "jobGeo", "region", "country"},
+        )
+        employment = rss_values(item, {"employmentType", "jobType"})
+        compensation = rss_values(item, {"salary", "compensation"})
+        published = rss_values(item, {"pubDate", "published", "updated", "date"})
+        identities = rss_values(item, {"guid", "id"})
+        job = build_discovery_job(
+            target,
+            raw_id=next(iter(identities), ""),
+            company=company,
+            title=title,
+            location=", ".join(locations),
+            description=" ".join([*descriptions, *categories]),
+            url=next(iter(links), ""),
+            posted_at=next(iter(published), ""),
+            employment_type=", ".join(employment),
+            compensation=" ".join(compensation),
+        )
+        if job:
+            jobs.append(job)
+    return jobs
+
+
+def fetch_remoteok_market(target: dict[str, Any]) -> list[Job]:
+    payload = fetch_json(target["url"])
+    jobs: list[Job] = []
+    for item in payload if isinstance(payload, list) else []:
+        if not isinstance(item, dict) or not item.get("position"):
+            continue
+        salary = ""
+        if item.get("salary_min") or item.get("salary_max"):
+            salary = f"${item.get('salary_min', '')}-${item.get('salary_max', '')}"
+        job = build_discovery_job(
+            target,
+            raw_id=item.get("id", ""),
+            company=item.get("company", ""),
+            title=item.get("position", ""),
+            location=item.get("location", ""),
+            description=f"{item.get('description', '')} {' '.join(item.get('tags') or [])}",
+            url=item.get("apply_url") or item.get("url", ""),
+            posted_at=item.get("date") or item.get("epoch", ""),
+            employment_type=item.get("job_type", ""),
+            compensation=salary,
+        )
+        if job:
+            jobs.append(job)
+    return jobs
+
+
+def fetch_jobicy_market(target: dict[str, Any]) -> list[Job]:
+    payload = fetch_json(target["url"])
+    jobs: list[Job] = []
+    for item in payload.get("jobs", []):
+        salary = item.get("annualSalary", "")
+        if not salary and (item.get("annualSalaryMin") or item.get("annualSalaryMax")):
+            currency = item.get("salaryCurrency", "USD")
+            salary = f"{currency} {item.get('annualSalaryMin', '')}-{item.get('annualSalaryMax', '')}"
+        job = build_discovery_job(
+            target,
+            raw_id=item.get("id", ""),
+            company=item.get("companyName", ""),
+            title=item.get("jobTitle", ""),
+            location=item.get("jobGeo", ""),
+            description=f"{item.get('jobDescription', '')} {item.get('jobIndustry', '')}",
+            url=item.get("url", ""),
+            posted_at=item.get("pubDate", ""),
+            employment_type=item.get("jobType", ""),
+            compensation=salary,
+        )
+        if job:
+            jobs.append(job)
+    return jobs
+
+
+def fetch_arbeitnow_market(target: dict[str, Any]) -> list[Job]:
+    payload = fetch_json(target["url"])
+    jobs: list[Job] = []
+    for item in payload.get("data", []):
+        if target.get("remote_only", True) and not item.get("remote"):
+            continue
+        job = build_discovery_job(
+            target,
+            raw_id=item.get("slug", ""),
+            company=item.get("company_name", ""),
+            title=item.get("title", ""),
+            location=item.get("location", ""),
+            description=f"{item.get('description', '')} {' '.join(item.get('tags') or [])}",
+            url=item.get("url", ""),
+            posted_at=item.get("created_at", ""),
+            employment_type=", ".join(item.get("job_types") or []),
+        )
+        if job:
+            jobs.append(job)
+    return jobs
+
+
+def fetch_remotive_market(target: dict[str, Any]) -> list[Job]:
+    payload = fetch_json(target["url"])
+    jobs: list[Job] = []
+    for item in payload.get("jobs", []):
+        job = build_discovery_job(
+            target,
+            raw_id=item.get("id", ""),
+            company=item.get("company_name", ""),
+            title=item.get("title", ""),
+            location=item.get("candidate_required_location", ""),
+            description=f"{item.get('description', '')} {item.get('category', '')}",
+            url=item.get("url", ""),
+            posted_at=item.get("publication_date", ""),
+            employment_type=item.get("job_type", ""),
+            compensation=item.get("salary", ""),
+        )
+        if job:
+            jobs.append(job)
+    return jobs
+
+
 FETCHERS = {
     "ashby": fetch_ashby,
     "greenhouse": fetch_greenhouse,
     "lever": fetch_lever,
     "html": fetch_html_board,
+}
+
+DISCOVERY_FETCHERS = {
+    "rss": fetch_rss_market,
+    "remoteok": fetch_remoteok_market,
+    "jobicy": fetch_jobicy_market,
+    "arbeitnow": fetch_arbeitnow_market,
+    "remotive": fetch_remotive_market,
 }
 
 
@@ -454,6 +712,18 @@ def score_job(job: Job, rules: dict[str, Any]) -> Job:
     score += skill_points
     if skill_hits:
         reasons.append("Relevant scope: " + ", ".join(phrase for phrase, _ in skill_hits[:4]))
+
+    if job.discovery:
+        discovery_signals = [
+            phrase
+            for phrase in rules.get("discovery_required_phrases", [])
+            if phrase.lower() in combined
+        ]
+        if discovery_signals:
+            reasons.append("Discovery-sector match: " + ", ".join(discovery_signals[:3]))
+        else:
+            cautions.append("Broad-market listing lacks an AI/cybersecurity signal")
+            hard_excluded = True
 
     location_value = job.location.lower()
     location_text = f"{job.location} {job.description}".lower()
@@ -552,19 +822,40 @@ def save_json(path: Path, payload: Any) -> None:
     path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
-def collect_jobs(config: dict[str, Any]) -> tuple[list[Job], list[str]]:
+def collect_jobs(
+    config: dict[str, Any], now: datetime | None = None
+) -> tuple[list[Job], list[str], list[str], list[str]]:
     jobs: list[Job] = []
     errors: list[str] = []
+    warnings: list[str] = []
+    completed_discovery: list[str] = []
     targets = [target for target in config["targets"] if target.get("enabled", True)]
-    with ThreadPoolExecutor(max_workers=min(8, max(1, len(targets)))) as pool:
-        futures = {pool.submit(FETCHERS[target["type"]], target): target for target in targets}
+    discovery_targets = [
+        target
+        for target in config.get("discovery_sources", [])
+        if target.get("enabled", True) and discovery_due(target, now)
+    ]
+    all_targets = [(target, False) for target in targets] + [
+        (target, True) for target in discovery_targets
+    ]
+    with ThreadPoolExecutor(max_workers=min(12, max(1, len(all_targets)))) as pool:
+        futures = {
+            pool.submit(
+                DISCOVERY_FETCHERS[target["type"]] if optional else FETCHERS[target["type"]],
+                target,
+            ): (target, optional)
+            for target, optional in all_targets
+        }
         for future in as_completed(futures):
-            target = futures[future]
+            target, optional = futures[future]
             try:
                 jobs.extend(future.result())
+                if optional:
+                    completed_discovery.append(target["name"])
             except Exception as exc:  # keep other sources alive
-                errors.append(f"{target['name']} ({target['type']}): {exc}")
-    return jobs, errors
+                message = f"{target['name']} ({target['type']}): {exc}"
+                (warnings if optional else errors).append(message)
+    return jobs, errors, warnings, completed_discovery
 
 
 def choose_proof_points(job: Job) -> list[str]:
@@ -586,7 +877,9 @@ def choose_proof_points(job: Job) -> list[str]:
     return points[:3]
 
 
-def render_alerts(jobs: list[Job], errors: list[str], detected_at: str) -> str:
+def render_alerts(
+    jobs: list[Job], errors: list[str], detected_at: str, warnings: list[str] | None = None
+) -> str:
     lines = [f"# {len(jobs)} high-signal job alert(s)", "", f"Detected: {detected_at}", ""]
     for job in sorted(jobs, key=lambda item: item.score, reverse=True):
         lines += [
@@ -613,6 +906,9 @@ def render_alerts(jobs: list[Job], errors: list[str], detected_at: str) -> str:
     if errors:
         lines += ["---", "", "Source errors (other sources continued normally):"]
         lines += [f"- {error}" for error in errors]
+    if warnings:
+        lines += ["---", "", "Optional discovery-source warnings:"]
+        lines += [f"- {warning}" for warning in warnings]
     return "\n".join(lines).strip() + "\n"
 
 
@@ -673,7 +969,10 @@ def main(argv: Iterable[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     config = load_json(args.config, {})
-    state = load_json(args.state, {"version": 3, "initialized": False, "seen": {}})
+    state = load_json(
+        args.state,
+        {"version": 4, "initialized": False, "seen": {}, "discovery_initialized": []},
+    )
     detected_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
     scanned_count = 0
     new_count = 0
@@ -700,9 +999,21 @@ def main(argv: Iterable[str] | None = None) -> int:
             )
         ]
         errors: list[str] = []
+        warnings: list[str] = []
+        completed_discovery: list[str] = []
         is_baseline = False
     else:
-        all_jobs, errors = collect_jobs(config)
+        collected = collect_jobs(config)
+        if len(collected) == 2:  # backward-compatible seam for existing integrations/tests
+            all_jobs, errors = collected
+            warnings = []
+            completed_discovery = []
+        elif len(collected) == 3:
+            all_jobs, errors, warnings = collected
+            completed_discovery = []
+        else:
+            all_jobs, errors, warnings, completed_discovery = collected
+        all_jobs = deduplicate_jobs(all_jobs)
         scanned_count = len(all_jobs)
         for job in all_jobs:
             score_job(job, config["rules"])
@@ -711,6 +1022,8 @@ def main(argv: Iterable[str] | None = None) -> int:
         alert_candidates: list[Job] = []
         migration_candidates: list[Job] = []
         next_seen = json.loads(json.dumps(original_seen))
+        initialized_discovery = set(state.get("discovery_initialized", []))
+        discovery_baselines = set(completed_discovery) - initialized_discovery
 
         for job in all_jobs:
             previous = original_seen.get(job.key)
@@ -729,7 +1042,8 @@ def main(argv: Iterable[str] | None = None) -> int:
             # Email only for a genuinely unseen posting or when a posting that
             # we previously recorded as ineligible becomes eligible. A content
             # or fingerprint schema change must never re-alert an old role.
-            if not is_baseline and (is_new or became_eligible):
+            is_discovery_baseline = job.discovery and job.source in discovery_baselines
+            if not is_baseline and not is_discovery_baseline and (is_new or became_eligible):
                 alert_candidates.append(job)
             elif previous and "eligible" not in previous and job.eligible:
                 # Hydrate old state once so the eligibility migration is
@@ -737,7 +1051,7 @@ def main(argv: Iterable[str] | None = None) -> int:
                 migration_candidates.append(job)
 
             # Preserve byte-stable state for unchanged jobs. Updating a
-            # timestamp on every poll would create a Git commit every five
+            # timestamp on every poll would create a Git commit every fifteen
             # minutes and cause pointless downstream deployments.
             needs_record_update = (
                 is_new
@@ -772,11 +1086,12 @@ def main(argv: Iterable[str] | None = None) -> int:
 
         jobs = [] if is_baseline else [job for job in alert_candidates if job.eligible]
         blocked_count = 0 if is_baseline else sum(not job.eligible for job in alert_candidates)
-        state["version"] = 3
+        state["version"] = 4
         state["seen"] = next_seen
         state["initialized"] = True
+        state["discovery_initialized"] = sorted(initialized_discovery | set(completed_discovery))
 
-    alert_markdown = render_alerts(jobs, errors, detected_at)
+    alert_markdown = render_alerts(jobs, errors, detected_at, warnings)
     args.alerts.write_text(alert_markdown, encoding="utf-8")
     email_sent = False
     email_error = ""
@@ -816,12 +1131,15 @@ def main(argv: Iterable[str] | None = None) -> int:
         "email_sent": email_sent,
         "email_error": email_error,
         "source_errors": errors,
+        "source_warnings": warnings,
+        "discovery_sources_checked": completed_discovery,
     }
     print(json.dumps(summary, indent=2))
     write_github_output("alert_count", str(len(jobs)))
     write_github_output("email_sent", str(email_sent).lower())
     write_github_output("baseline", str(is_baseline).lower())
     write_github_output("source_error_count", str(len(errors)))
+    write_github_output("source_warning_count", str(len(warnings)))
     write_github_output("scanned_count", str(scanned_count))
     return 0
 

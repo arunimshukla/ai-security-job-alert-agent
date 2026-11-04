@@ -5,6 +5,18 @@
     "minimum_inr_salary": 3000000,
     "hard_exclude_people_management": true,
     "require_explicit_india_or_worldwide": true,
+    "discovery_required_phrases": [
+      "ai security",
+      "agentic security",
+      "cybersecurity",
+      "cyber security",
+      "security",
+      "autonomous soc",
+      "security operations",
+      "threat detection",
+      "llm security",
+      "identity security"
+    ],
     "role_phrases": {
       "technical product marketing": 50,
       "security product marketing": 50,
@@ -334,6 +346,108 @@
       "priority": 20,
       "hydrate_job_pages": true,
       "hydrate_title_regex": "(?i)(product marketing|technical marketing|security marketing|content|communications|developer relations|social media)"
+    }
+  ],
+  "discovery_sources": [
+    {
+      "name": "ZeroDay Careers",
+      "type": "rss",
+      "url": "https://zeroday.careers/feed.xml",
+      "cadence_minutes": 30,
+      "offset_minutes": 2
+    },
+    {
+      "name": "Remote First Jobs — Cybersecurity",
+      "type": "rss",
+      "url": "https://remotefirstjobs.com/rss/jobs/cybersecurity.rss",
+      "cadence_minutes": 30,
+      "offset_minutes": 17,
+      "title_company_regex": "^(?P<title>.+?)\\s+at\\s+(?P<company>.+)$"
+    },
+    {
+      "name": "Remote First Jobs — AI",
+      "type": "rss",
+      "url": "https://remotefirstjobs.com/rss/jobs/ai.rss",
+      "cadence_minutes": 30,
+      "offset_minutes": 2,
+      "title_company_regex": "^(?P<title>.+?)\\s+at\\s+(?P<company>.+)$"
+    },
+    {
+      "name": "Remote First Jobs — Marketing",
+      "type": "rss",
+      "url": "https://remotefirstjobs.com/rss/jobs/marketing.rss",
+      "cadence_minutes": 30,
+      "offset_minutes": 17,
+      "title_company_regex": "^(?P<title>.+?)\\s+at\\s+(?P<company>.+)$"
+    },
+    {
+      "name": "Startup.jobs",
+      "type": "rss",
+      "url": "https://startup.jobs/feeds/jobs?workplace=remote",
+      "cadence_minutes": 60,
+      "offset_minutes": 2,
+      "title_company_regex": "^(?P<title>.+?)\\s+at\\s+(?P<company>.+)$"
+    },
+    {
+      "name": "Himalayas",
+      "type": "rss",
+      "url": "https://himalayas.app/jobs/rss",
+      "cadence_minutes": 60,
+      "offset_minutes": 17,
+      "default_location": "Remote worldwide"
+    },
+    {
+      "name": "Remote OK",
+      "type": "remoteok",
+      "url": "https://remoteok.com/api",
+      "cadence_minutes": 60,
+      "offset_minutes": 32
+    },
+    {
+      "name": "We Work Remotely — Sales and Marketing",
+      "type": "rss",
+      "url": "https://weworkremotely.com/categories/remote-sales-and-marketing-jobs.rss",
+      "cadence_minutes": 60,
+      "offset_minutes": 47,
+      "title_company_regex": "^(?P<company>[^:]+):\\s*(?P<title>.+)$"
+    },
+    {
+      "name": "We Work Remotely — Product",
+      "type": "rss",
+      "url": "https://weworkremotely.com/categories/remote-product-jobs.rss",
+      "cadence_minutes": 60,
+      "offset_minutes": 2,
+      "title_company_regex": "^(?P<company>[^:]+):\\s*(?P<title>.+)$"
+    },
+    {
+      "name": "Jobicy",
+      "type": "jobicy",
+      "url": "https://jobicy.com/api/jobs?count=100",
+      "cadence_minutes": 60,
+      "offset_minutes": 17
+    },
+    {
+      "name": "Arbeitnow Europe",
+      "type": "arbeitnow",
+      "url": "https://www.arbeitnow.com/api/job-board-api",
+      "cadence_minutes": 360,
+      "offset_minutes": 32,
+      "remote_only": true
+    },
+    {
+      "name": "Arbeitnow UK",
+      "type": "arbeitnow",
+      "url": "https://www.arbeitnow.co.uk/api/job-board-api",
+      "cadence_minutes": 360,
+      "offset_minutes": 47,
+      "remote_only": true
+    },
+    {
+      "name": "Remotive",
+      "type": "remotive",
+      "url": "https://remotive.com/api/remote-jobs",
+      "cadence_minutes": 360,
+      "offset_minutes": 2
     }
   ]
 }
