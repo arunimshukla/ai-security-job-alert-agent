@@ -1,4 +1,10 @@
 {
+  "discovery_initialized": [
+    "Arbeitnow UK",
+    "Remote First Jobs \u2014 Cybersecurity",
+    "Remote First Jobs \u2014 Marketing",
+    "We Work Remotely \u2014 Sales and Marketing"
+  ],
   "initialized": true,
   "seen": {
     "ashby:Cracken:1724563d966c0b483f10": {
@@ -405,6 +411,114 @@
       "last_seen_at": "2026-11-03T16:42:16+00:00",
       "title": "Software Engineer - Console",
       "url": "https://jobs.ashbyhq.com/xbowcareers/d30142de-7c89-4112-8743-10f1817c11bb/application"
+    },
+    "discovery:global:29aeb78e217501e1cf14": {
+      "company": "Storyblok",
+      "eligible": false,
+      "fingerprint": "a301273d5060ec7253056ea4",
+      "first_seen_at": "2026-11-04T12:47:18+00:00",
+      "last_seen_at": "2026-11-04T12:47:18+00:00",
+      "title": "Senior Content Marketing Specialist - UK",
+      "url": "https://weworkremotely.com/remote-jobs/storyblok-senior-content-marketing-specialist-uk"
+    },
+    "discovery:global:4ee9bf43262480f5d4b2": {
+      "company": "KnowBe4",
+      "eligible": false,
+      "fingerprint": "ed2d7df2b32938c8c6e97c14",
+      "first_seen_at": "2026-11-04T12:47:18+00:00",
+      "last_seen_at": "2026-11-04T12:47:18+00:00",
+      "title": "Principal Product Marketing Manager (Remote)",
+      "url": "https://remotefirstjobs.com/companies/knowbe4/jobs/principal-product-marketing-manager-remote-878847"
+    },
+    "discovery:global:5bf51437089863feb308": {
+      "company": "LightForce",
+      "eligible": false,
+      "fingerprint": "7a1c40510e8bf589b1fafd74",
+      "first_seen_at": "2026-11-04T12:47:18+00:00",
+      "last_seen_at": "2026-11-04T12:47:18+00:00",
+      "title": "Director, Product Marketing",
+      "url": "https://remotefirstjobs.com/companies/lightforce/jobs/director-product-marketing-878882"
+    },
+    "discovery:global:631184ea23b9e590c79e": {
+      "company": "Socure",
+      "eligible": false,
+      "fingerprint": "cc89b7736caf7f50bc78d509",
+      "first_seen_at": "2026-11-04T12:47:18+00:00",
+      "last_seen_at": "2026-11-04T12:47:18+00:00",
+      "title": "Technical Content Marketing Manager",
+      "url": "https://weworkremotely.com/remote-jobs/socure-technical-content-marketing-manager"
+    },
+    "discovery:global:727ae8b6a200a7b7b159": {
+      "company": "Amwell",
+      "eligible": false,
+      "fingerprint": "cbb7f950a1a6dd21dbf234f4",
+      "first_seen_at": "2026-11-04T12:47:18+00:00",
+      "last_seen_at": "2026-11-04T12:47:18+00:00",
+      "title": "Sr Product Marketing Manager",
+      "url": "https://weworkremotely.com/remote-jobs/amwell-sr-product-marketing-manager"
+    },
+    "discovery:global:7d19e4d6039314d3f5b2": {
+      "company": "Pendo",
+      "eligible": false,
+      "fingerprint": "2ca4e27ea60587a3e4970976",
+      "first_seen_at": "2026-11-04T12:47:18+00:00",
+      "last_seen_at": "2026-11-04T12:47:18+00:00",
+      "title": "Lead Product Marketing Manager - Novus",
+      "url": "https://weworkremotely.com/remote-jobs/pendo-lead-product-marketing-manager-novus"
+    },
+    "discovery:global:c722ba4b34041393ac7a": {
+      "company": "Huntress",
+      "eligible": false,
+      "fingerprint": "b86f71acba9b1c3388f7e453",
+      "first_seen_at": "2026-11-04T12:47:18+00:00",
+      "last_seen_at": "2026-11-04T12:47:18+00:00",
+      "title": "Principal Product Marketing Manager",
+      "url": "https://remotefirstjobs.com/companies/huntress/jobs/principal-product-marketing-manager-878565"
+    },
+    "discovery:global:d1fa7b97efca6dae67ac": {
+      "company": "Amwell",
+      "eligible": false,
+      "fingerprint": "b3bac709575856a8bb6f9d28",
+      "first_seen_at": "2026-11-04T12:47:18+00:00",
+      "last_seen_at": "2026-11-04T12:47:18+00:00",
+      "title": "Content Marketing Manager",
+      "url": "https://weworkremotely.com/remote-jobs/amwell-content-marketing-manager"
+    },
+    "discovery:global:ef6acd7b151597efb5c1": {
+      "company": "Storyblok",
+      "eligible": false,
+      "fingerprint": "f02d223cf2318a922cf7b667",
+      "first_seen_at": "2026-11-04T12:47:18+00:00",
+      "last_seen_at": "2026-11-04T12:47:18+00:00",
+      "title": "Developer Relations Engineer - USA",
+      "url": "https://weworkremotely.com/remote-jobs/storyblok-developer-relations-engineer-usa"
+    },
+    "discovery:global:f1563179a99ab7dcd80f": {
+      "company": "ClickHouse",
+      "eligible": false,
+      "fingerprint": "2ef88939d339ff6ba24861bf",
+      "first_seen_at": "2026-11-04T12:47:18+00:00",
+      "last_seen_at": "2026-11-04T12:47:18+00:00",
+      "title": "Principal Product Marketing Manager",
+      "url": "https://weworkremotely.com/remote-jobs/clickhouse-principal-product-marketing-manager"
+    },
+    "discovery:global:f165ab63c71c591eb957": {
+      "company": "Tebra",
+      "eligible": false,
+      "fingerprint": "1e8756bdaaaae2b3df1fac1a",
+      "first_seen_at": "2026-11-04T12:47:18+00:00",
+      "last_seen_at": "2026-11-04T12:47:18+00:00",
+      "title": "Product Marketing Manager (TEMPORARY)",
+      "url": "https://weworkremotely.com/remote-jobs/tebra-product-marketing-manager-temporary"
+    },
+    "discovery:global:fbdb32d23ecd0ea6ecb6": {
+      "company": "Pendo",
+      "eligible": false,
+      "fingerprint": "a9a4c2fcdd8375e96fd6fcdd",
+      "first_seen_at": "2026-11-04T12:47:18+00:00",
+      "last_seen_at": "2026-11-04T12:47:18+00:00",
+      "title": "Sr. Product Marketing Manager",
+      "url": "https://weworkremotely.com/remote-jobs/pendo-sr-product-marketing-manager"
     },
     "greenhouse:Abnormal Security:03ef86e114fc6f2dabb9": {
       "company": "Abnormal Security",
@@ -3685,9 +3799,9 @@
     "greenhouse:SentinelOne:d94f4a042e318cf45100": {
       "company": "SentinelOne",
       "eligible": false,
-      "fingerprint": "29bfd29bfb2681c0f5f26cb0",
+      "fingerprint": "e13bfc42d1afbd679908105b",
       "first_seen_at": "2026-11-03T16:42:16+00:00",
-      "last_seen_at": "2026-11-03T16:42:16+00:00",
+      "last_seen_at": "2026-11-04T12:47:18+00:00",
       "title": "Commercial Sales Representative",
       "url": "https://www.sentinelone.com/jobs/?gh_jid=8040359003"
     },
@@ -4169,5 +4283,5 @@
       "url": "https://arcanna.ai/jobs/technical-product-marketing-manager"
     }
   },
-  "version": 3
+  "version": 4
 }
