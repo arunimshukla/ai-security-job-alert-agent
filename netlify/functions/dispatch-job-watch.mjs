@@ -63,7 +63,7 @@ export default async () => {
   console.log(JSON.stringify({ ...result, dispatched_at: new Date().toISOString() }));
 };
 
-// Offset the trigger from the top of the hour and from the GitHub-native fallback.
+// Offset the trigger from the top of the hour to reduce peak scheduler contention.
 export const config = {
-  schedule: "2,7,12,17,22,27,32,37,42,47,52,57 * * * *",
+  schedule: "2,17,32,47 * * * *",
 };

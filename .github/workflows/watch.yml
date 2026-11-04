@@ -1,4 +1,4 @@
-name: Five-minute AI security job watcher
+name: Fifteen-minute AI security job watcher
 
 on:
   workflow_dispatch:

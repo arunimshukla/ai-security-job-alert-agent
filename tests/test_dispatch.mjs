@@ -52,6 +52,6 @@ test("the dispatcher surfaces GitHub API failures without exposing the token", a
   );
 });
 
-test("the schedule runs every five minutes at an offset", () => {
-  assert.equal(config.schedule, "2,7,12,17,22,27,32,37,42,47,52,57 * * * *");
+test("the schedule runs every fifteen minutes at an offset", () => {
+  assert.equal(config.schedule, "2,17,32,47 * * * *");
 });

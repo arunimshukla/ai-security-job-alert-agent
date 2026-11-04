@@ -1,6 +1,6 @@
 # AI-Cybersecurity Job Alert Agent
 
-An open, reusable five-minute job monitor for AI-cybersecurity opportunities. It checks first-party career sources, applies configurable eligibility rules, deduplicates previously seen postings and emails only genuinely new matches.
+An open, reusable fifteen-minute job monitor for AI-cybersecurity opportunities. It checks first-party career sources, applies configurable eligibility rules, deduplicates previously seen postings and emails only genuinely new matches.
 
 This project is shared as a public-good template for job seekers. Fork it, replace the example preferences with your own and keep all credentials in GitHub Secrets or Netlify environment variables—never in the repository.
 
@@ -51,7 +51,7 @@ The first execution creates a quiet baseline. Later executions alert only on gen
 
 ```mermaid
 flowchart TD
-    A["Netlify scheduled function<br/>every five minutes"] --> B["GitHub workflow_dispatch"]
+    A["Netlify scheduled function<br/>every fifteen minutes"] --> B["GitHub workflow_dispatch"]
     B --> C["watcher.py"]
     C --> D["First-party career sources"]
     C --> E["Eligibility filters"]
@@ -105,7 +105,7 @@ Deploy the repository to Netlify and configure these environment variables in **
 
 Restrict the fine-grained token to the selected repository and grant only the Actions permission required to dispatch workflows. Never place the token in `netlify.toml`, source code, commit messages, screenshots or issue text.
 
-The included schedule runs at minutes `2, 7, 12, …, 57` each hour. Change it in [`netlify/functions/dispatch-job-watch.mjs`](netlify/functions/dispatch-job-watch.mjs) if necessary.
+The included schedule runs at minutes `2, 17, 32 and 47` each hour. Change it in [`netlify/functions/dispatch-job-watch.mjs`](netlify/functions/dispatch-job-watch.mjs) if necessary.
 
 ### 4. Test safely
 
@@ -116,7 +116,7 @@ python -m unittest discover -s tests -v
 node --test tests/test_dispatch.mjs
 ```
 
-To test email delivery, open **Actions → Five-minute AI security job watcher → Run workflow** and enable the synthetic test-alert input. The synthetic alert is labelled clearly and is not a real job.
+To test email delivery, open **Actions → Fifteen-minute AI security job watcher → Run workflow** and enable the synthetic test-alert input. The synthetic alert is labelled clearly and is not a real job.
 
 ## Repository files
 
@@ -127,7 +127,7 @@ To test email delivery, open **Actions → Five-minute AI security job watcher �
 | `.state/seen.json` | Deduplication state; contains no credentials |
 | `.github/workflows/watch.yml` | Netlify-dispatched production scan |
 | `.github/workflows/quality.yml` | Change-only tests |
-| `netlify/functions/dispatch-job-watch.mjs` | Five-minute dispatcher |
+| `netlify/functions/dispatch-job-watch.mjs` | Fifteen-minute dispatcher |
 
 ## Security and privacy
 
@@ -142,7 +142,7 @@ The repository contains secret **names** and placeholder examples so the softwar
 
 ## Cost controls
 
-- Five-minute monitoring can produce approximately 8,640 scans in a 30-day month.
+- Fifteen-minute monitoring can produce approximately 2,880 scans in a 30-day month.
 - Public-repository GitHub Actions usage and Netlify allowances can change; verify the current terms for your account and region.
 - Set account spending limits or hard stops if you do not want paid overages.
 - Netlify deploys only when `netlify/**` or `netlify.toml` changes.
