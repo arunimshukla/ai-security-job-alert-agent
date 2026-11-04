@@ -1207,10 +1207,10 @@
     "greenhouse:Abnormal Security:ad579ff19048cc3dcfe6": {
       "company": "Abnormal Security",
       "eligible": false,
-      "fingerprint": "b5d9453cc7b84010619313a4",
+      "fingerprint": "3fab85cff89fa1e25101e052",
       "first_seen_at": "2026-11-03T16:42:16+00:00",
-      "last_seen_at": "2026-11-03T16:42:16+00:00",
-      "title": "Salesforce Administrator, CPQ",
+      "last_seen_at": "2026-11-04T21:02:17+00:00",
+      "title": "System Administrator, CPQ",
       "url": "https://abnormal.ai/careers/jobs/7894082003?gh_jid=7894082003"
     },
     "greenhouse:Abnormal Security:b62a796c6eb6493a6ee5": {
@@ -3385,9 +3385,9 @@
     "greenhouse:SentinelOne:972abeb5b5a289924678": {
       "company": "SentinelOne",
       "eligible": false,
-      "fingerprint": "c8729b599574498afad77c0f",
+      "fingerprint": "68260133791f90eebe20afc7",
       "first_seen_at": "2026-11-03T16:42:16+00:00",
-      "last_seen_at": "2026-11-03T16:42:16+00:00",
+      "last_seen_at": "2026-11-04T21:02:17+00:00",
       "title": "Staff Technical Support Engineer, Bangalore based role - Hybrid.",
       "url": "https://www.sentinelone.com/jobs/?gh_jid=8006292003"
     },
