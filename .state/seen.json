@@ -1,9 +1,18 @@
 {
   "discovery_initialized": [
+    "Arbeitnow Europe",
     "Arbeitnow UK",
+    "Himalayas",
+    "Jobicy",
+    "Remote First Jobs \u2014 AI",
     "Remote First Jobs \u2014 Cybersecurity",
     "Remote First Jobs \u2014 Marketing",
-    "We Work Remotely \u2014 Sales and Marketing"
+    "Remote OK",
+    "Remotive",
+    "Startup.jobs",
+    "We Work Remotely \u2014 Product",
+    "We Work Remotely \u2014 Sales and Marketing",
+    "ZeroDay Careers"
   ],
   "initialized": true,
   "seen": {
@@ -412,6 +421,15 @@
       "title": "Software Engineer - Console",
       "url": "https://jobs.ashbyhq.com/xbowcareers/d30142de-7c89-4112-8743-10f1817c11bb/application"
     },
+    "discovery:global:18e691c80b3171f45ee2": {
+      "company": "Supabase",
+      "eligible": false,
+      "fingerprint": "483061786fa1021f53e84e95",
+      "first_seen_at": "2026-11-04T12:51:12+00:00",
+      "last_seen_at": "2026-11-04T12:51:12+00:00",
+      "title": "Developer Relations Engineer (New York, NY)",
+      "url": "https://jobicy.com/jobs/158830-developer-relations-engineer-new-york-ny"
+    },
     "discovery:global:29aeb78e217501e1cf14": {
       "company": "Storyblok",
       "eligible": false,
@@ -421,6 +439,15 @@
       "title": "Senior Content Marketing Specialist - UK",
       "url": "https://weworkremotely.com/remote-jobs/storyblok-senior-content-marketing-specialist-uk"
     },
+    "discovery:global:496b590eb4bccc9bb042": {
+      "company": "RevenueCat",
+      "eligible": false,
+      "fingerprint": "00ffc67d4022ebac69df75fc",
+      "first_seen_at": "2026-11-04T12:51:12+00:00",
+      "last_seen_at": "2026-11-04T12:51:12+00:00",
+      "title": "Senior Product Marketing Manager",
+      "url": "https://jobicy.com/jobs/149965-senior-product-marketing-manager-2"
+    },
     "discovery:global:4ee9bf43262480f5d4b2": {
       "company": "KnowBe4",
       "eligible": false,
@@ -429,6 +456,15 @@
       "last_seen_at": "2026-11-04T12:47:18+00:00",
       "title": "Principal Product Marketing Manager (Remote)",
       "url": "https://remotefirstjobs.com/companies/knowbe4/jobs/principal-product-marketing-manager-remote-878847"
+    },
+    "discovery:global:583dbde35a5551e7b96f": {
+      "company": "Consensys",
+      "eligible": false,
+      "fingerprint": "9314035154667a57a00435c1",
+      "first_seen_at": "2026-11-04T12:51:12+00:00",
+      "last_seen_at": "2026-11-04T12:51:12+00:00",
+      "title": "Product Marketing Lead - Trade",
+      "url": "https://jobicy.com/jobs/149957-product-marketing-lead-trade"
     },
     "discovery:global:5bf51437089863feb308": {
       "company": "LightForce",
@@ -466,6 +502,15 @@
       "title": "Lead Product Marketing Manager - Novus",
       "url": "https://weworkremotely.com/remote-jobs/pendo-lead-product-marketing-manager-novus"
     },
+    "discovery:global:b653b9a7fb6b028ce6b4": {
+      "company": "Hearr Media UG (haftungsbeschr\u00e4nkt)",
+      "eligible": false,
+      "fingerprint": "2c89c016346b793d987c6c95",
+      "first_seen_at": "2026-11-04T12:51:12+00:00",
+      "last_seen_at": "2026-11-04T12:51:12+00:00",
+      "title": "Social Media Manager & Creator",
+      "url": "https://www.arbeitnow.com/jobs/companies/hearr-media-ug-haftungsbeschrankt/social-media-manager-creator-cologne-93535"
+    },
     "discovery:global:c722ba4b34041393ac7a": {
       "company": "Huntress",
       "eligible": false,
@@ -475,6 +520,15 @@
       "title": "Principal Product Marketing Manager",
       "url": "https://remotefirstjobs.com/companies/huntress/jobs/principal-product-marketing-manager-878565"
     },
+    "discovery:global:d1e398570d65179cc61e": {
+      "company": "Affinity Travels",
+      "eligible": false,
+      "fingerprint": "2b50d218cb3e4b526a720415",
+      "first_seen_at": "2026-11-04T12:51:12+00:00",
+      "last_seen_at": "2026-11-04T12:51:12+00:00",
+      "title": "Social Media Travel Planner",
+      "url": "https://himalayas.app/companies/affinity-travels/jobs/social-media-travel-planner-3247048402"
+    },
     "discovery:global:d1fa7b97efca6dae67ac": {
       "company": "Amwell",
       "eligible": false,
@@ -483,6 +537,24 @@
       "last_seen_at": "2026-11-04T12:47:18+00:00",
       "title": "Content Marketing Manager",
       "url": "https://weworkremotely.com/remote-jobs/amwell-content-marketing-manager"
+    },
+    "discovery:global:df4787394a0a2b58e1fc": {
+      "company": "Altametrics",
+      "eligible": false,
+      "fingerprint": "81bd88d91b21a2d7fe6f870f",
+      "first_seen_at": "2026-11-04T12:51:12+00:00",
+      "last_seen_at": "2026-11-04T12:51:12+00:00",
+      "title": "Social Media & Community Coordinator (Remote - Philippines)",
+      "url": "https://himalayas.app/companies/altametrics/jobs/social-media-community-coordinator-remote-philippines"
+    },
+    "discovery:global:eee17e54c382a98434b0": {
+      "company": "Canonical",
+      "eligible": false,
+      "fingerprint": "2d3181fa9cb91aaa24dcd4ab",
+      "first_seen_at": "2026-11-04T12:51:12+00:00",
+      "last_seen_at": "2026-11-04T12:51:12+00:00",
+      "title": "Developer Relations Engineer",
+      "url": "https://jobicy.com/jobs/149993-developer-relations-engineer"
     },
     "discovery:global:ef6acd7b151597efb5c1": {
       "company": "Storyblok",
@@ -519,6 +591,15 @@
       "last_seen_at": "2026-11-04T12:47:18+00:00",
       "title": "Sr. Product Marketing Manager",
       "url": "https://weworkremotely.com/remote-jobs/pendo-sr-product-marketing-manager"
+    },
+    "discovery:global:ff1ace4a63e28710a48d": {
+      "company": "Canonical",
+      "eligible": false,
+      "fingerprint": "dee03e2b81ddb0e77ee1fde5",
+      "first_seen_at": "2026-11-04T12:51:12+00:00",
+      "last_seen_at": "2026-11-04T12:51:12+00:00",
+      "title": "Content marketing lead",
+      "url": "https://jobicy.com/jobs/149995-content-marketing-lead"
     },
     "greenhouse:Abnormal Security:03ef86e114fc6f2dabb9": {
       "company": "Abnormal Security",
