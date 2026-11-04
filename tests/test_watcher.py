@@ -345,6 +345,25 @@ class WatcherTests(unittest.TestCase):
         self.assertEqual(len(warnings), 1)
         self.assertEqual(completed, [])
 
+    def test_uninitialized_discovery_source_runs_before_its_regular_slot(self):
+        config = {
+            "targets": [],
+            "discovery_sources": [{
+                "name": "New Market", "type": "rss", "cadence_minutes": 360,
+                "offset_minutes": 2,
+            }],
+        }
+        off_slot = datetime(2026, 11, 4, 13, 17, tzinfo=timezone.utc)
+        with patch.dict(watcher.DISCOVERY_FETCHERS, {"rss": lambda _: []}):
+            _, _, _, first_completed = watcher.collect_jobs(
+                config, now=off_slot, initialized_discovery=set()
+            )
+            _, _, _, later_completed = watcher.collect_jobs(
+                config, now=off_slot, initialized_discovery={"New Market"}
+            )
+        self.assertEqual(first_completed, ["New Market"])
+        self.assertEqual(later_completed, [])
+
     def test_people_manager_role_is_hard_excluded(self):
         job = watcher.Job(
             key="x",

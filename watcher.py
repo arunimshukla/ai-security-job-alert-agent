@@ -823,17 +823,21 @@ def save_json(path: Path, payload: Any) -> None:
 
 
 def collect_jobs(
-    config: dict[str, Any], now: datetime | None = None
+    config: dict[str, Any],
+    now: datetime | None = None,
+    initialized_discovery: set[str] | None = None,
 ) -> tuple[list[Job], list[str], list[str], list[str]]:
     jobs: list[Job] = []
     errors: list[str] = []
     warnings: list[str] = []
     completed_discovery: list[str] = []
+    initialized_discovery = initialized_discovery or set()
     targets = [target for target in config["targets"] if target.get("enabled", True)]
     discovery_targets = [
         target
         for target in config.get("discovery_sources", [])
-        if target.get("enabled", True) and discovery_due(target, now)
+        if target.get("enabled", True)
+        and (target["name"] not in initialized_discovery or discovery_due(target, now))
     ]
     all_targets = [(target, False) for target in targets] + [
         (target, True) for target in discovery_targets
@@ -1003,7 +1007,10 @@ def main(argv: Iterable[str] | None = None) -> int:
         completed_discovery: list[str] = []
         is_baseline = False
     else:
-        collected = collect_jobs(config)
+        collected = collect_jobs(
+            config,
+            initialized_discovery=set(state.get("discovery_initialized", [])),
+        )
         if len(collected) == 2:  # backward-compatible seam for existing integrations/tests
             all_jobs, errors = collected
             warnings = []
