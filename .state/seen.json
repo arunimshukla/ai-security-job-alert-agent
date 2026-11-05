@@ -604,11 +604,11 @@
     "discovery:global:631184ea23b9e590c79e": {
       "company": "Socure",
       "eligible": false,
-      "fingerprint": "cb514cea4d3508556f5fa37e",
+      "fingerprint": "cc89b7736caf7f50bc78d509",
       "first_seen_at": "2026-11-04T12:47:18+00:00",
-      "last_seen_at": "2026-11-05T21:17:17+00:00",
+      "last_seen_at": "2026-11-05T21:47:17+00:00",
       "title": "Technical Content Marketing Manager",
-      "url": "https://jobicy.com/jobs/159078-technical-content-marketing-manager"
+      "url": "https://weworkremotely.com/remote-jobs/socure-technical-content-marketing-manager"
     },
     "discovery:global:71b2c6a1fa7cf997ffd3": {
       "company": "Elevenlabs",
@@ -717,6 +717,15 @@
       "last_seen_at": "2026-11-05T18:17:23+00:00",
       "title": "Senior Social Media Manager",
       "url": "https://remotefirstjobs.com/companies/revalize/jobs/senior-social-media-manager-879664"
+    },
+    "discovery:global:afaf716c184f31025aea": {
+      "company": "London",
+      "eligible": false,
+      "fingerprint": "a919ee8d53e8278ebd24e5ee",
+      "first_seen_at": "2026-11-05T21:47:17+00:00",
+      "last_seen_at": "2026-11-05T21:47:17+00:00",
+      "title": "Recruitment and Social Media Specialist",
+      "url": "https://weworkremotely.com/remote-jobs/london-recruitment-and-social-media-specialist"
     },
     "discovery:global:b02883292001c1e600cb": {
       "company": "OKX",
