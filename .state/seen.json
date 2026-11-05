@@ -433,11 +433,11 @@
     "discovery:global:0cbe49869492165f8085": {
       "company": "Tester Work",
       "eligible": false,
-      "fingerprint": "36295a376d70a991d7d9c407",
+      "fingerprint": "f031d15e5243c131c3e23f6f",
       "first_seen_at": "2026-11-05T00:17:16+00:00",
-      "last_seen_at": "2026-11-05T00:17:16+00:00",
+      "last_seen_at": "2026-11-05T10:02:16+00:00",
       "title": "Social media advertisers wanted in Egypt!",
-      "url": "https://remotefirstjobs.com/companies/tester-work/jobs/social-media-advertisers-wanted-in-egypt-879243"
+      "url": "https://startup.jobs/social-media-advertisers-wanted-in-egypt-my-custom-page-title-12-10683529?utm_source=rss&utm_medium=feed&utm_campaign=remote"
     },
     "discovery:global:1431686e26e734347dd8": {
       "company": "ACIERTA HEADHUNTER",
@@ -451,11 +451,11 @@
     "discovery:global:177cdbba13b69c3079e2": {
       "company": "Tester Work",
       "eligible": false,
-      "fingerprint": "3baab88fa424fd4856af99ce",
+      "fingerprint": "7cf6d025c1e75b77da96c1ba",
       "first_seen_at": "2026-11-05T00:17:16+00:00",
-      "last_seen_at": "2026-11-05T00:17:16+00:00",
+      "last_seen_at": "2026-11-05T10:02:16+00:00",
       "title": "Social media advertisers wanted in the United Arab Emirates!",
-      "url": "https://remotefirstjobs.com/companies/tester-work/jobs/social-media-advertisers-wanted-in-the-united-arab-emirates-879235"
+      "url": "https://startup.jobs/social-media-advertisers-wanted-in-the-united-arab-emirates-my-custom-page-title-12-10683530?utm_source=rss&utm_medium=feed&utm_campaign=remote"
     },
     "discovery:global:18e691c80b3171f45ee2": {
       "company": "Supabase",
@@ -478,11 +478,11 @@
     "discovery:global:1e2ae41b73b143a34bed": {
       "company": "Tester Work",
       "eligible": false,
-      "fingerprint": "76e797dbaeb2535e4c374ee5",
+      "fingerprint": "39fa411c5b44d210f7b263e0",
       "first_seen_at": "2026-11-05T01:17:15+00:00",
-      "last_seen_at": "2026-11-05T01:17:15+00:00",
+      "last_seen_at": "2026-11-05T10:02:16+00:00",
       "title": "Social media advertisers wanted in Saudi Arabia!",
-      "url": "https://remotefirstjobs.com/companies/tester-work/jobs/social-media-advertisers-wanted-in-saudi-arabia-879250"
+      "url": "https://startup.jobs/social-media-advertisers-wanted-in-saudi-arabia-my-custom-page-title-12-10683531?utm_source=rss&utm_medium=feed&utm_campaign=remote"
     },
     "discovery:global:29aeb78e217501e1cf14": {
       "company": "Storyblok",
@@ -682,6 +682,15 @@
       "title": "Principal Product Marketing Manager",
       "url": "https://remotefirstjobs.com/companies/huntress/jobs/principal-product-marketing-manager-878565"
     },
+    "discovery:global:ca4f332d5e9d812843f7": {
+      "company": "PubNub",
+      "eligible": false,
+      "fingerprint": "a8f9e9e80fc8104c55ca996e",
+      "first_seen_at": "2026-11-05T10:02:16+00:00",
+      "last_seen_at": "2026-11-05T10:02:16+00:00",
+      "title": "Developer Content Marketing Manager",
+      "url": "https://startup.jobs/developer-content-marketing-manager-pubnub-10683789?utm_source=rss&utm_medium=feed&utm_campaign=remote"
+    },
     "discovery:global:cdc68b73bfbd7cbdb401": {
       "company": "Pavago",
       "eligible": false,
@@ -708,6 +717,15 @@
       "last_seen_at": "2026-11-04T12:47:18+00:00",
       "title": "Content Marketing Manager",
       "url": "https://weworkremotely.com/remote-jobs/amwell-content-marketing-manager"
+    },
+    "discovery:global:d97242479aad6c02735f": {
+      "company": "PubNub",
+      "eligible": false,
+      "fingerprint": "72367a6c8a4b9632c141fbcb",
+      "first_seen_at": "2026-11-05T10:02:16+00:00",
+      "last_seen_at": "2026-11-05T10:02:16+00:00",
+      "title": "Developer Advocate, Blocks.ai",
+      "url": "https://startup.jobs/developer-advocate-blocksai-pubnub-10683788?utm_source=rss&utm_medium=feed&utm_campaign=remote"
     },
     "discovery:global:df4787394a0a2b58e1fc": {
       "company": "Altametrics",
