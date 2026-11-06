@@ -7,11 +7,13 @@
     "Remote First Jobs \u2014 AI",
     "Remote First Jobs \u2014 Cybersecurity",
     "Remote First Jobs \u2014 Marketing",
+    "Remote Gig",
     "Remote OK",
     "Remotive",
     "Startup.jobs",
     "We Work Remotely \u2014 Product",
     "We Work Remotely \u2014 Sales and Marketing",
+    "YC startup jobs via Hacker News",
     "ZeroDay Careers"
   ],
   "initialized": true,
@@ -582,6 +584,15 @@
       "last_seen_at": "2026-11-04T17:17:18+00:00",
       "title": "Product Marketing Lead",
       "url": "https://jobicy.com/jobs/158950-product-marketing-lead-4"
+    },
+    "discovery:global:531187d2b4d0af4f2932": {
+      "company": "Coinbase",
+      "eligible": false,
+      "fingerprint": "96a16c3f4f182a7eef95e578",
+      "first_seen_at": "2026-11-06T11:32:16+00:00",
+      "last_seen_at": "2026-11-06T11:32:16+00:00",
+      "title": "Product Marketing Manager - EMEA",
+      "url": "https://remotegig.in/jobs/coinbase-product-marketing-manager-emea-354e9df0"
     },
     "discovery:global:583dbde35a5551e7b96f": {
       "company": "Consensys",
