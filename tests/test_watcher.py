@@ -231,6 +231,7 @@ class WatcherTests(unittest.TestCase):
         expected = {
             "ZeroDay Careers", "Startup.jobs", "Himalayas", "Remote OK", "Jobicy",
             "We Work Remotely — Sales and Marketing", "Remotive",
+            "Remote Gig", "YC startup jobs via Hacker News",
         }
         self.assertTrue(expected.issubset(names))
         self.assertTrue(all(source["cadence_minutes"] >= 30 for source in config["discovery_sources"]))
@@ -269,6 +270,46 @@ class WatcherTests(unittest.TestCase):
         self.assertEqual(jobs[0].title, "Technical Product Marketing Manager")
         self.assertEqual(jobs[0].location, "Anywhere in the world")
         self.assertTrue(jobs[0].discovery)
+
+    def test_remote_gig_atom_extracts_metadata_before_screening(self):
+        target = {"name": "Remote Gig", "url": "https://example.com/feed.xml", "summary_job_metadata": True}
+        feed = """<feed xmlns="http://www.w3.org/2005/Atom"><entry>
+          <title>Technical Product Marketing Manager at Shield at Work</title>
+          <link rel="alternate" href="https://example.com/jobs/42"/>
+          <updated>2026-11-06T09:00:00Z</updated>
+          <author><name>Shield at Work</name></author>
+          <summary>Remote, Global · Contract · USD 90,000–120,000/year
+
+Own positioning for an AI security platform.</summary>
+        </entry></feed>"""
+        with patch.object(watcher, "fetch_text", return_value=feed):
+            job, = watcher.fetch_rss_market(target)
+        self.assertEqual(job.company, "Shield at Work")
+        self.assertEqual(job.title, "Technical Product Marketing Manager")
+        self.assertEqual(job.location, "Remote, Global")
+        self.assertEqual(job.employment_type, "Contract")
+        self.assertEqual(job.compensation, "USD 90,000–120,000/year")
+        self.assertEqual(job.description, "Own positioning for an AI security platform.")
+        watcher.score_job(job, self.rules)
+        self.assertFalse(job.eligible)
+        self.assertIn("Not a full-time role: contract", job.cautions)
+
+    def test_hacker_news_jobs_keep_explicit_remote_evidence(self):
+        target = {"name": "YC startup jobs via Hacker News", "url": "https://example.com/v0/jobstories.json"}
+        items = {
+            "https://example.com/v0/jobstories.json": [11, 12],
+            "https://example.com/v0/item/11.json": {
+                "id": 11, "type": "job", "title": "Shield (YC W26) Is Hiring a Technical Product Marketing Manager (Remote, Global)",
+                "text": "Own positioning for our AI security platform.", "time": 1793955600,
+            },
+            "https://example.com/v0/item/12.json": {"id": 12, "type": "job", "deleted": True},
+        }
+        with patch.object(watcher, "fetch_text", side_effect=lambda url, **_: json.dumps(items[url])):
+            job, = watcher.fetch_hn_jobs_market(target)
+        self.assertEqual(job.company, "Shield")
+        self.assertEqual(job.url, "https://news.ycombinator.com/item?id=11")
+        watcher.score_job(job, self.rules)
+        self.assertTrue(job.eligible)
 
     def test_jobicy_discovery_normalizes_worldwide_location(self):
         target = {"name": "Jobicy", "type": "jobicy", "url": "https://example.com/api"}

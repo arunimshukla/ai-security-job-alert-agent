@@ -503,6 +503,10 @@ def fetch_rss_market(target: dict[str, Any]) -> list[Job]:
     for item in entries:
         raw_title = next(iter(rss_values(item, {"title"})), "")
         company = next(iter(rss_values(item, {"company", "companyName", "creator"})), "")
+        if not company and target.get("summary_job_metadata"):
+            author = next((node for node in item if xml_local_name(node.tag) == "author"), None)
+            if author is not None:
+                company = next(iter(rss_values(author, {"name"})), "")
         title, company = split_feed_title(target, raw_title, company)
         links = rss_values(item, {"link"})
         descriptions = rss_values(item, {"description", "encoded", "content", "summary"})
@@ -513,6 +517,15 @@ def fetch_rss_market(target: dict[str, Any]) -> list[Job]:
         )
         employment = rss_values(item, {"employmentType", "jobType"})
         compensation = rss_values(item, {"salary", "compensation"})
+        if target.get("summary_job_metadata"):
+            summary = next((node.text or "" for node in item if xml_local_name(node.tag) == "summary"), "")
+            header, _, body = summary.strip().partition("\n\n")
+            fields = [clean_text(value) for value in header.split("·", 2)]
+            if len(fields) >= 2:
+                locations = locations or [fields[0]]
+                employment = employment or [fields[1]]
+                compensation = compensation or fields[2:]
+                descriptions = [clean_text(body)]
         published = rss_values(item, {"pubDate", "published", "updated", "date"})
         identities = rss_values(item, {"guid", "id"})
         job = build_discovery_job(
@@ -526,6 +539,44 @@ def fetch_rss_market(target: dict[str, Any]) -> list[Job]:
             posted_at=next(iter(published), ""),
             employment_type=", ".join(employment),
             compensation=" ".join(compensation),
+        )
+        if job:
+            jobs.append(job)
+    return jobs
+
+
+def fetch_hn_jobs_market(target: dict[str, Any]) -> list[Job]:
+    ids = fetch_json(target["url"])
+    if not isinstance(ids, list):
+        raise ValueError("Expected a list of Hacker News job story IDs")
+    item_urls = [
+        urllib.parse.urljoin(target["url"], f"item/{item_id}.json")
+        for item_id in ids[:12]
+        if isinstance(item_id, int)
+    ]
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        items = list(pool.map(lambda url: json.loads(fetch_text(url, attempts=1)), item_urls))
+
+    jobs: list[Job] = []
+    for item in items:
+        if not item or item.get("type") != "job" or item.get("dead") or item.get("deleted"):
+            continue
+        headline = clean_text(item.get("title"))
+        match = re.fullmatch(
+            r"(.+?)(?:\s+\(YC [A-Z]\d+\))?\s+is hiring\s+(?:(?:a|an)\s+)?(.+)",
+            headline,
+            re.IGNORECASE,
+        )
+        company, title = match.groups() if match else ("", headline)
+        job = build_discovery_job(
+            target,
+            raw_id=item["id"],
+            company=company,
+            title=title,
+            location="",
+            description=f"{title} {item.get('text') or ''}",
+            url=item.get("url") or f"https://news.ycombinator.com/item?id={item['id']}",
+            posted_at=item.get("time", ""),
         )
         if job:
             jobs.append(job)
@@ -635,6 +686,7 @@ FETCHERS = {
 
 DISCOVERY_FETCHERS = {
     "rss": fetch_rss_market,
+    "hn_jobs": fetch_hn_jobs_market,
     "remoteok": fetch_remoteok_market,
     "jobicy": fetch_jobicy_market,
     "arbeitnow": fetch_arbeitnow_market,
@@ -780,6 +832,8 @@ def score_job(job: Job, rules: dict[str, Any]) -> Job:
         for phrase in rules.get("blocked_employment_phrases", [])
         if phrase.lower() in employment_value or phrase.lower() in title
     ]
+    if employment_value == "contract" and "contract" not in blocked_employment:
+        blocked_employment.append("contract")
     if blocked_employment:
         cautions.append("Not a full-time role: " + ", ".join(blocked_employment[:2]))
         hard_excluded = True

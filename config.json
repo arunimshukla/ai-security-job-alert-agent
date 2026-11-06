@@ -427,6 +427,22 @@
       "offset_minutes": 17
     },
     {
+      "name": "Remote Gig",
+      "type": "rss",
+      "url": "https://remotegig.in/feed.xml",
+      "cadence_minutes": 60,
+      "offset_minutes": 32,
+      "title_company_regex": "^(?P<title>.+)\\s+at\\s+(?P<company>.+)$",
+      "summary_job_metadata": true
+    },
+    {
+      "name": "YC startup jobs via Hacker News",
+      "type": "hn_jobs",
+      "url": "https://hacker-news.firebaseio.com/v0/jobstories.json",
+      "cadence_minutes": 60,
+      "offset_minutes": 47
+    },
+    {
       "name": "Arbeitnow Europe",
       "type": "arbeitnow",
       "url": "https://www.arbeitnow.com/api/job-board-api",

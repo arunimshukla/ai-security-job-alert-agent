@@ -45,12 +45,16 @@ The fixed company watchlist remains the fastest path. A second, best-effort laye
 | [Remote OK](https://remoteok.com/) | Public JSON API | 60 minutes |
 | [We Work Remotely](https://weworkremotely.com/) | Product and sales/marketing RSS feeds | 60 minutes |
 | [Jobicy](https://jobicy.com/) | Public JSON API | 60 minutes |
+| [Remote Gig](https://remotegig.in/alerts) | Public Atom feed | 60 minutes |
+| [YC startup jobs via Hacker News](https://news.ycombinator.com/jobs) | Official Hacker News Job Stories API, latest 12 posts | 60 minutes |
 | [Arbeitnow](https://www.arbeitnow.com/) | Europe and UK APIs | 6 hours |
 | [Remotive](https://remotive.com/) | Public API | 6 hours |
 
 These checks are staggered across the existing fifteen-minute workflow. They do not create additional cron jobs or Netlify invocations. A broad-market listing must still match a target title, contain an AI/cybersecurity signal, explicitly permit worldwide or India-based work, satisfy the IC and employment rules and pass the configured score. Temporary discovery-feed failures are reported as warnings; failures of a directly monitored company source still fail the workflow.
 
 Each discovery source creates a quiet baseline on its first successful check. Existing listings are indexed without email; only roles appearing after that source is initialized can alert. This prevents deployment from flooding the recipient with old aggregated jobs.
+
+Remote Gig provides a short summary and a link to its listing. Check the employer's posting for final eligibility details. The Hacker News API covers the YC startup jobs posted to Hacker News. The full [YC Startup Jobs board](https://www.ycombinator.com/jobs) is available for manual browsing.
 
 ## Alert decision
 
