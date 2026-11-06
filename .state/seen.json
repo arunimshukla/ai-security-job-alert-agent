@@ -345,27 +345,27 @@
     "ashby:WitnessAI:43ae2be8c147e18716d3": {
       "company": "WitnessAI",
       "eligible": false,
-      "fingerprint": "31a11a82ddc27134cf6d59c8",
+      "fingerprint": "52f7c3d1e505cc5c9fe37788",
       "first_seen_at": "2026-11-03T17:27:19+00:00",
-      "last_seen_at": "2026-11-03T17:27:19+00:00",
+      "last_seen_at": "2026-11-06T16:32:18+00:00",
       "title": "Head of DevOps",
       "url": "https://jobs.ashbyhq.com/witnessai/e989b594-2840-4f45-80f8-36ec73ac6603/application"
     },
     "ashby:WitnessAI:4926b83c992ffcbdae0c": {
       "company": "WitnessAI",
       "eligible": false,
-      "fingerprint": "4ca561dcf01fd42449131318",
+      "fingerprint": "0847017f1d5823e21dbb4f9b",
       "first_seen_at": "2026-11-03T17:12:15+00:00",
-      "last_seen_at": "2026-11-03T17:12:15+00:00",
+      "last_seen_at": "2026-11-06T16:32:18+00:00",
       "title": "Staff DevOps Engineer",
       "url": "https://jobs.ashbyhq.com/witnessai/37b17401-fdbb-4b20-9c28-0a4aefeb4697/application"
     },
     "ashby:WitnessAI:4f8f8242daa243e46250": {
       "company": "WitnessAI",
       "eligible": false,
-      "fingerprint": "8c6dc5299efc71578607bf28",
+      "fingerprint": "0e145666a8d8c1545a4b25c4",
       "first_seen_at": "2026-11-03T16:42:16+00:00",
-      "last_seen_at": "2026-11-03T16:42:16+00:00",
+      "last_seen_at": "2026-11-06T16:32:18+00:00",
       "title": "Machine Learning Engineer",
       "url": "https://jobs.ashbyhq.com/witnessai/17fc7435-f9b0-4c70-b582-d8f86d4f4d4c/application"
     },
@@ -408,9 +408,9 @@
     "ashby:WitnessAI:f1afdb96d60e04548d9b": {
       "company": "WitnessAI",
       "eligible": false,
-      "fingerprint": "dc090dcdb312adc1df16bf31",
+      "fingerprint": "85381cc3987437ea40650a12",
       "first_seen_at": "2026-11-03T16:42:16+00:00",
-      "last_seen_at": "2026-11-06T15:17:17+00:00",
+      "last_seen_at": "2026-11-06T16:32:18+00:00",
       "title": "Technical Support Engineer",
       "url": "https://jobs.ashbyhq.com/witnessai/434ec843-f75e-4cf1-9d67-8a774c8f197b/application"
     },
@@ -1413,6 +1413,15 @@
       "title": "Strategic Events Specialist, EMEA",
       "url": "https://abnormal.ai/careers/jobs/8019820003?gh_jid=8019820003"
     },
+    "greenhouse:Abnormal Security:60fe290353368706b803": {
+      "company": "Abnormal Security",
+      "eligible": false,
+      "fingerprint": "3168d2445d39b6641e008569",
+      "first_seen_at": "2026-11-06T16:32:18+00:00",
+      "last_seen_at": "2026-11-06T16:32:18+00:00",
+      "title": "Channel Enablement Manager",
+      "url": "https://abnormal.ai/careers/jobs/8196038003?gh_jid=8196038003"
+    },
     "greenhouse:Abnormal Security:6b2d6a3739770bff8272": {
       "company": "Abnormal Security",
       "eligible": false,
@@ -1448,6 +1457,15 @@
       "last_seen_at": "2026-11-03T16:42:16+00:00",
       "title": "Senior Security Engineer",
       "url": "https://abnormal.ai/careers/jobs/7655130003?gh_jid=7655130003"
+    },
+    "greenhouse:Abnormal Security:71f7b0f6f4e0ee872e92": {
+      "company": "Abnormal Security",
+      "eligible": false,
+      "fingerprint": "176b6df354c2cdfc7a942255",
+      "first_seen_at": "2026-11-06T16:32:18+00:00",
+      "last_seen_at": "2026-11-06T16:32:18+00:00",
+      "title": "Data Strategy Operations Manager",
+      "url": "https://abnormal.ai/careers/jobs/8196054003?gh_jid=8196054003"
     },
     "greenhouse:Abnormal Security:72663f5b84fb42af5297": {
       "company": "Abnormal Security",
