@@ -2872,9 +2872,9 @@
     "greenhouse:SentinelOne:47385655dfcbe554f195": {
       "company": "SentinelOne",
       "eligible": false,
-      "fingerprint": "9d5a31dda9ac42baf670116b",
+      "fingerprint": "701cb62c509796899377421d",
       "first_seen_at": "2026-11-03T16:42:16+00:00",
-      "last_seen_at": "2026-11-03T16:42:16+00:00",
+      "last_seen_at": "2026-11-06T09:32:16+00:00",
       "title": "Offensive Security Researcher",
       "url": "https://www.sentinelone.com/jobs/?gh_jid=8030657003"
     },
