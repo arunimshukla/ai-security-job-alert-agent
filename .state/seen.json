@@ -540,6 +540,15 @@
       "title": "Content Marketing Manager",
       "url": "https://startup.jobs/content-marketing-manager-rainforest-10684827?utm_source=rss&utm_medium=feed&utm_campaign=remote"
     },
+    "discovery:global:3bd103f4e99ec1647f0f": {
+      "company": "Ashby",
+      "eligible": false,
+      "fingerprint": "0df4de4b3585327abc1c6a40",
+      "first_seen_at": "2026-11-06T21:17:14+00:00",
+      "last_seen_at": "2026-11-06T21:17:14+00:00",
+      "title": "Sr. Product Marketing Manager, Enterprise",
+      "url": "https://jobicy.com/jobs/159412-sr-product-marketing-manager-enterprise-3"
+    },
     "discovery:global:43c7cbabdfa955e5ed5b": {
       "company": "Join our team",
       "eligible": false,
@@ -1961,6 +1970,15 @@
       "last_seen_at": "2026-11-03T16:42:16+00:00",
       "title": "Mid-Market Account Executive - MOLAT",
       "url": "https://abnormal.ai/careers/jobs/7894340003?gh_jid=7894340003"
+    },
+    "greenhouse:Abnormal Security:edcf7cb9b999c1ce3f9c": {
+      "company": "Abnormal Security",
+      "eligible": false,
+      "fingerprint": "e1c82d68c2f8635e5feb0302",
+      "first_seen_at": "2026-11-06T21:17:14+00:00",
+      "last_seen_at": "2026-11-06T21:17:14+00:00",
+      "title": "Software Engineer II, Attack Detection",
+      "url": "https://abnormal.ai/careers/jobs/8197230003?gh_jid=8197230003"
     },
     "greenhouse:Abnormal Security:f469395facb7d11eb6f9": {
       "company": "Abnormal Security",
@@ -4535,6 +4553,15 @@
       "last_seen_at": "2026-11-03T16:42:16+00:00",
       "title": "Senior Software Engineer - Low Level C++ - Linux & Cloud Security",
       "url": "https://www.sentinelone.com/jobs/?gh_jid=7561106003"
+    },
+    "greenhouse:SentinelOne:d538007e5bf04743b835": {
+      "company": "SentinelOne",
+      "eligible": false,
+      "fingerprint": "481612325e9c586ce8766f9c",
+      "first_seen_at": "2026-11-06T21:17:14+00:00",
+      "last_seen_at": "2026-11-06T21:17:14+00:00",
+      "title": "Account Executive, SMB (Mountain)",
+      "url": "https://www.sentinelone.com/jobs/?gh_jid=8181989003"
     },
     "greenhouse:SentinelOne:d7cbd97174ca0fbc11ec": {
       "company": "SentinelOne",
