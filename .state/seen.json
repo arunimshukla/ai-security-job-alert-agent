@@ -954,6 +954,15 @@
       "title": "Social Media & Community Coordinator (Remote - Philippines)",
       "url": "https://himalayas.app/companies/altametrics/jobs/social-media-community-coordinator-remote-philippines"
     },
+    "discovery:global:df89548e88dfc7c2db2e": {
+      "company": "Aduna Global",
+      "eligible": false,
+      "fingerprint": "4c5901ad849e8ab1c43b2d6c",
+      "first_seen_at": "2026-11-06T14:17:14+00:00",
+      "last_seen_at": "2026-11-06T14:17:14+00:00",
+      "title": "Developer Advocate - Network APIs",
+      "url": "https://himalayas.app/companies/aduna-global/jobs/developer-advocate-network-apis"
+    },
     "discovery:global:ec33ed473af416c615b9": {
       "company": "Nintex",
       "eligible": false,
@@ -4233,9 +4242,9 @@
     "greenhouse:SentinelOne:c3eb6f6dec54eee089b5": {
       "company": "SentinelOne",
       "eligible": false,
-      "fingerprint": "12602d78055fe1fac1e4635f",
+      "fingerprint": "7324e935e0355e09bbb7be29",
       "first_seen_at": "2026-11-03T16:42:16+00:00",
-      "last_seen_at": "2026-11-03T16:42:16+00:00",
+      "last_seen_at": "2026-11-06T14:17:14+00:00",
       "title": "Director, Commercial Sales",
       "url": "https://www.sentinelone.com/jobs/?gh_jid=7994513003"
     },
