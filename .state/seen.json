@@ -1038,11 +1038,11 @@
     "discovery:global:df89548e88dfc7c2db2e": {
       "company": "Aduna Global",
       "eligible": false,
-      "fingerprint": "4c5901ad849e8ab1c43b2d6c",
+      "fingerprint": "f13417e200c89bf4e6caa474",
       "first_seen_at": "2026-11-06T14:17:14+00:00",
-      "last_seen_at": "2026-11-06T14:17:14+00:00",
+      "last_seen_at": "2026-11-06T19:17:14+00:00",
       "title": "Developer Advocate - Network APIs",
-      "url": "https://himalayas.app/companies/aduna-global/jobs/developer-advocate-network-apis"
+      "url": "https://himalayas.app/companies/aduna-global/jobs/developer-advocate-network-apis-7119485508"
     },
     "discovery:global:e08e383aee757daa3344": {
       "company": "Wpromote",
@@ -1079,6 +1079,15 @@
       "last_seen_at": "2026-11-04T12:47:18+00:00",
       "title": "Developer Relations Engineer - USA",
       "url": "https://weworkremotely.com/remote-jobs/storyblok-developer-relations-engineer-usa"
+    },
+    "discovery:global:efdea355b0b80fb2f60a": {
+      "company": "Supabase",
+      "eligible": false,
+      "fingerprint": "94f8a870e39e6b4509e68429",
+      "first_seen_at": "2026-11-06T19:17:14+00:00",
+      "last_seen_at": "2026-11-06T19:17:14+00:00",
+      "title": "Senior Developer Relations, Twitter Brand Rep",
+      "url": "https://jobicy.com/jobs/159353-senior-developer-relations-twitter-brand-rep"
     },
     "discovery:global:f106d69b3ced7122e31f": {
       "company": "Kickstarter",
