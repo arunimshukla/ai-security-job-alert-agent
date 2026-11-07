@@ -552,9 +552,9 @@
     "discovery:global:3bd103f4e99ec1647f0f": {
       "company": "Ashby",
       "eligible": false,
-      "fingerprint": "0df4de4b3585327abc1c6a40",
+      "fingerprint": "49e900f78bc62a80008a5d09",
       "first_seen_at": "2026-11-06T21:17:14+00:00",
-      "last_seen_at": "2026-11-06T21:17:14+00:00",
+      "last_seen_at": "2026-11-07T07:17:14+00:00",
       "title": "Sr. Product Marketing Manager, Enterprise",
       "url": "https://jobicy.com/jobs/159412-sr-product-marketing-manager-enterprise-3"
     },
@@ -768,9 +768,9 @@
     "discovery:global:832469235b74cb0cd931": {
       "company": "Canonical",
       "eligible": false,
-      "fingerprint": "2176ab84498dabb953b7a17c",
+      "fingerprint": "dfcb23a80bf9d6e12ec11c05",
       "first_seen_at": "2026-11-06T22:17:15+00:00",
-      "last_seen_at": "2026-11-06T22:17:15+00:00",
+      "last_seen_at": "2026-11-07T07:17:14+00:00",
       "title": "Senior communications specialist - social media",
       "url": "https://jobicy.com/jobs/159432-senior-communications-specialist-social-media"
     },
@@ -975,11 +975,11 @@
     "discovery:global:c2eeb9db9f2019354734": {
       "company": "PandaDoc",
       "eligible": false,
-      "fingerprint": "a3d296bee2d717471e2c0730",
+      "fingerprint": "4d4c6005600190585f347f6a",
       "first_seen_at": "2026-11-06T16:02:28+00:00",
-      "last_seen_at": "2026-11-06T16:02:28+00:00",
+      "last_seen_at": "2026-11-07T07:17:14+00:00",
       "title": "Director of Product Marketing",
-      "url": "https://startup.jobs/director-of-product-marketing-pandadoc-2-10698717?utm_source=rss&utm_medium=feed&utm_campaign=remote"
+      "url": "https://himalayas.app/companies/pandadoc/jobs/director-of-product-marketing"
     },
     "discovery:global:c48576a74921a3971a06": {
       "company": "Carlisle Companies Incorporated",
@@ -998,6 +998,15 @@
       "last_seen_at": "2026-11-05T17:17:17+00:00",
       "title": "Senior Product Marketing Manager [IC4]",
       "url": "https://remotefirstjobs.com/companies/sourcegraph/jobs/senior-product-marketing-manager-ic4-879648"
+    },
+    "discovery:global:c6d0ea7b28a3d8f0ec6c": {
+      "company": "Contentstack",
+      "eligible": false,
+      "fingerprint": "728ef8effce2e40c91052916",
+      "first_seen_at": "2026-11-07T07:17:14+00:00",
+      "last_seen_at": "2026-11-07T07:17:14+00:00",
+      "title": "Sr. Product Marketing Manager, Content Cloud",
+      "url": "https://jobicy.com/jobs/154783-sr-product-marketing-manager-content-cloud"
     },
     "discovery:global:c722ba4b34041393ac7a": {
       "company": "Huntress",
