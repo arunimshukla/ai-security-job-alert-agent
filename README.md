@@ -4,6 +4,25 @@ An open, reusable fifteen-minute job monitor for AI-cybersecurity opportunities.
 
 This project is shared as a public-good template for job seekers. Fork it, replace the example preferences with your own and keep all credentials in GitHub Secrets or Netlify environment variables—never in the repository.
 
+## Schedule
+
+Netlify dispatches a scan every 15 minutes, at `02`, `17`, `32` and `47` minutes past the hour. GitHub records these dispatches as **Manually triggered**. The first successful check establishes a quiet baseline. Later scans send email when a role passes the configured filters and qualifies as new or newly eligible.
+
+## Example decisions
+
+These examples use fictional employers and listings.
+
+| Listing | Result | Reason |
+| --- | --- | --- |
+| Security Product Marketing Manager at Example Security · full-time IC · Remote worldwide | Email on a later scan if the role is new and meets the configured score | The title and location pass the example filters. |
+| Security Product Marketing Manager at Example Security · Remote US only | No email under the example rules | The posting restricts remote work to the US. |
+
+Example subject for the eligible listing, with an illustrative score.
+
+```text
+JOB ALERT: 88/100 Example Security — Security Product Marketing Manager
+```
+
 ## What it monitors
 
 The default configuration focuses on individual-contributor roles such as:
