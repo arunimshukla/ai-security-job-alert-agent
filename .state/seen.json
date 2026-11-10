@@ -1146,11 +1146,11 @@
     "discovery:global:a34bd2cb7d229355d346": {
       "company": "Huntress",
       "eligible": false,
-      "fingerprint": "28c7c1ef50d5b8c682abfe97",
+      "fingerprint": "91f4266b30d64e440f873dcc",
       "first_seen_at": "2026-11-09T21:02:24+00:00",
-      "last_seen_at": "2026-11-09T21:02:24+00:00",
+      "last_seen_at": "2026-11-10T15:02:34+00:00",
       "title": "Principal Product Marketing Manager - IIS",
-      "url": "https://remotefirstjobs.com/companies/huntress/jobs/principal-product-marketing-manager-iis-880952"
+      "url": "https://startup.jobs/principal-product-marketing-manager-iis-huntress-10722007?utm_source=rss&utm_medium=feed&utm_campaign=remote"
     },
     "discovery:global:a82b1c70bd0ef55daf87": {
       "company": "2100 NVIDIA USA",
@@ -1322,6 +1322,15 @@
       "last_seen_at": "2026-11-04T12:47:18+00:00",
       "title": "Principal Product Marketing Manager",
       "url": "https://remotefirstjobs.com/companies/huntress/jobs/principal-product-marketing-manager-878565"
+    },
+    "discovery:global:c755a729734a22912d04": {
+      "company": "Keyapp.top",
+      "eligible": false,
+      "fingerprint": "a7039d478a6513f2ff3565e4",
+      "first_seen_at": "2026-11-10T15:02:34+00:00",
+      "last_seen_at": "2026-11-10T15:02:34+00:00",
+      "title": "Product Marketing Specialist (Growth Focus)",
+      "url": "https://startup.jobs/product-marketing-specialist-growth-focus-keyapptop-10733039?utm_source=rss&utm_medium=feed&utm_campaign=remote"
     },
     "discovery:global:c8aa4cb3c2af97fcefa2": {
       "company": "PandaDoc",
@@ -1781,6 +1790,15 @@
       "last_seen_at": "2026-11-03T16:42:16+00:00",
       "title": "Senior Software Engineer - Product Data Gateway",
       "url": "https://abnormal.ai/careers/jobs/7481102003?gh_jid=7481102003"
+    },
+    "greenhouse:Abnormal Security:3d88f707b83a62cddbe7": {
+      "company": "Abnormal Security",
+      "eligible": false,
+      "fingerprint": "9ab5ae4f93c0707218865815",
+      "first_seen_at": "2026-11-10T15:02:34+00:00",
+      "last_seen_at": "2026-11-10T15:02:34+00:00",
+      "title": "L1 Technical Support Engineer (Spanish-Speaking)",
+      "url": "https://abnormal.ai/careers/jobs/8180130003?gh_jid=8180130003"
     },
     "greenhouse:Abnormal Security:4152ad2b79f0c4734d20": {
       "company": "Abnormal Security",
