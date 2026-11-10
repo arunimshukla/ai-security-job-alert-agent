@@ -3603,10 +3603,10 @@
     "greenhouse:SentinelOne:45f03179a548b3089dfb": {
       "company": "SentinelOne",
       "eligible": false,
-      "fingerprint": "2beba37ca32253ded37843ae",
+      "fingerprint": "6cc500fdcd64a24a6f5c219d",
       "first_seen_at": "2026-11-06T22:02:16+00:00",
-      "last_seen_at": "2026-11-06T22:02:16+00:00",
-      "title": "Senior Software Engineer - Java",
+      "last_seen_at": "2026-11-10T20:32:20+00:00",
+      "title": "Senior Software Engineer - Analyst Experience (Java)",
       "url": "https://www.sentinelone.com/jobs/?gh_jid=7772360003"
     },
     "greenhouse:SentinelOne:469d86ae5d3454be2168": {
@@ -4440,9 +4440,9 @@
     "greenhouse:SentinelOne:8ee96cf6929fe0e86d87": {
       "company": "SentinelOne",
       "eligible": false,
-      "fingerprint": "bc5ac13683466a6c529d64ea",
+      "fingerprint": "bbb33ed3cf1fc57dfed6680d",
       "first_seen_at": "2026-11-03T16:42:16+00:00",
-      "last_seen_at": "2026-11-10T17:02:28+00:00",
+      "last_seen_at": "2026-11-10T20:32:20+00:00",
       "title": "Solutions Engineer, SLED (West)",
       "url": "https://www.sentinelone.com/jobs/?gh_jid=7997163003"
     },
