@@ -912,11 +912,11 @@
     "discovery:global:6a08e08250177a19a290": {
       "company": "Muon Space",
       "eligible": false,
-      "fingerprint": "114fb66ada39d06202048a36",
+      "fingerprint": "bef21fb0e4db35dcbff96084",
       "first_seen_at": "2026-11-10T09:47:19+00:00",
-      "last_seen_at": "2026-11-10T09:47:19+00:00",
+      "last_seen_at": "2026-11-11T01:02:24+00:00",
       "title": "Events and Social Media Marketing Manager",
-      "url": "https://remotefirstjobs.com/companies/muon-space/jobs/events-and-social-media-marketing-manager-881046"
+      "url": "https://startup.jobs/events-and-social-media-marketing-manager-muon-space-10727095?utm_source=rss&utm_medium=feed&utm_campaign=remote"
     },
     "discovery:global:6bf3e8deb71a023027de": {
       "company": "SMG Swiss Marketplace Group",
@@ -998,6 +998,15 @@
       "last_seen_at": "2026-11-05T18:17:23+00:00",
       "title": "Director, Product Marketing",
       "url": "https://remotefirstjobs.com/companies/grace-hill/jobs/director-product-marketing-879678"
+    },
+    "discovery:global:7a6af2a1bd07ac78dd17": {
+      "company": "TRM Labs",
+      "eligible": false,
+      "fingerprint": "1816ef60995e8db5e8429df3",
+      "first_seen_at": "2026-11-11T01:02:24+00:00",
+      "last_seen_at": "2026-11-11T01:02:24+00:00",
+      "title": "Senior Product Marketing Manager, Public Sector",
+      "url": "https://startup.jobs/senior-product-marketing-manager-public-sector-trmlabs-com-10737244?utm_source=rss&utm_medium=feed&utm_campaign=remote"
     },
     "discovery:global:7a7170fa5d7729fc4d87": {
       "company": "1Password",
@@ -1340,6 +1349,15 @@
       "last_seen_at": "2026-11-06T20:02:20+00:00",
       "title": "Regional Content Strategist, Global Public Sector",
       "url": "https://startup.jobs/regional-content-strategist-global-public-sector-elastic-10702024?utm_source=rss&utm_medium=feed&utm_campaign=remote"
+    },
+    "discovery:global:c1cb6335909185cb9f9c": {
+      "company": "Menlo Security",
+      "eligible": false,
+      "fingerprint": "b46d4c98e07c5c7c9b50bee1",
+      "first_seen_at": "2026-11-11T01:02:24+00:00",
+      "last_seen_at": "2026-11-11T01:02:24+00:00",
+      "title": "Technical Marketing Engineer",
+      "url": "https://startup.jobs/technical-marketing-engineer-menlo-security-2-10737265?utm_source=rss&utm_medium=feed&utm_campaign=remote"
     },
     "discovery:global:c2eeb9db9f2019354734": {
       "company": "PandaDoc",
