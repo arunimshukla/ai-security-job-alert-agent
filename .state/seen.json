@@ -2433,10 +2433,10 @@
     "greenhouse:Abnormal Security:88a6d70e45b15ff531a1": {
       "company": "Abnormal Security",
       "eligible": false,
-      "fingerprint": "93e1ac05ba70fc21e35b54d7",
+      "fingerprint": "549c064f1fa8d03484c7a382",
       "first_seen_at": "2026-11-03T16:42:16+00:00",
-      "last_seen_at": "2026-11-03T16:42:16+00:00",
-      "title": "Software Engineer II - Insider Risk",
+      "last_seen_at": "2026-11-12T21:47:14+00:00",
+      "title": "Senior Software Engineer - Insider Risk",
       "url": "https://abnormal.ai/careers/jobs/7992780003?gh_jid=7992780003"
     },
     "greenhouse:Abnormal Security:88aa1830d111b52a371d": {
