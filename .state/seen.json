@@ -594,6 +594,15 @@
       "title": "Product Marketing Manager",
       "url": "https://jobicy.com/jobs/159050-product-marketing-manager-6"
     },
+    "discovery:global:1e051fe3d42e1bcfd53a": {
+      "company": "Together Light Inc",
+      "eligible": false,
+      "fingerprint": "3ff5875f1c290ee5ba860d50",
+      "first_seen_at": "2026-11-12T05:17:38+00:00",
+      "last_seen_at": "2026-11-12T05:17:38+00:00",
+      "title": "Sr. Project Marketing Manager and Social Media Head",
+      "url": "https://himalayas.app/companies/together-light-inc/jobs/sr-project-marketing-manager-and-social-media-head"
+    },
     "discovery:global:1e2ae41b73b143a34bed": {
       "company": "Tester Work",
       "eligible": false,
@@ -3405,9 +3414,9 @@
     "greenhouse:SentinelOne:1ce3f32e36db4269ab4c": {
       "company": "SentinelOne",
       "eligible": false,
-      "fingerprint": "7dcc13bd704a032e4756b1ae",
+      "fingerprint": "4ecc0ab6f00838454666b4aa",
       "first_seen_at": "2026-11-12T05:02:15+00:00",
-      "last_seen_at": "2026-11-12T05:02:15+00:00",
+      "last_seen_at": "2026-11-12T05:17:38+00:00",
       "title": "Senior Detection Engineer",
       "url": "https://www.sentinelone.com/jobs/?gh_jid=8196372003"
     },
