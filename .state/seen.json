@@ -5088,9 +5088,9 @@
     "greenhouse:SentinelOne:b360997579b7936ad195": {
       "company": "SentinelOne",
       "eligible": false,
-      "fingerprint": "5395ed1f7d1bbd63ec23778b",
+      "fingerprint": "587161fca6ce623b67bbaf13",
       "first_seen_at": "2026-11-03T16:42:16+00:00",
-      "last_seen_at": "2026-11-03T16:42:16+00:00",
+      "last_seen_at": "2026-11-12T12:17:20+00:00",
       "title": "Professional Services Architect",
       "url": "https://www.sentinelone.com/jobs/?gh_jid=7977919003"
     },
