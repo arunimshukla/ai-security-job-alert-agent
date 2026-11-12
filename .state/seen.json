@@ -2433,9 +2433,9 @@
     "greenhouse:Abnormal Security:92a301522a435b9deba9": {
       "company": "Abnormal Security",
       "eligible": false,
-      "fingerprint": "d8b6d7e66d582b47ec704746",
+      "fingerprint": "9780e6b53093d076a7365350",
       "first_seen_at": "2026-11-03T16:42:16+00:00",
-      "last_seen_at": "2026-11-03T16:42:16+00:00",
+      "last_seen_at": "2026-11-12T09:47:23+00:00",
       "title": "Sales Development Representative, French Speaking",
       "url": "https://abnormal.ai/careers/jobs/7998348003?gh_jid=7998348003"
     },
