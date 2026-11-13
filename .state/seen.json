@@ -585,6 +585,15 @@
       "title": "Social media advertisers wanted in the United Arab Emirates!",
       "url": "https://startup.jobs/social-media-advertisers-wanted-in-the-united-arab-emirates-my-custom-page-title-12-10683530?utm_source=rss&utm_medium=feed&utm_campaign=remote"
     },
+    "discovery:global:17da9d996bbee32ce3d0": {
+      "company": "Acosta",
+      "eligible": false,
+      "fingerprint": "d617181e7959a1dec43345d8",
+      "first_seen_at": "2026-11-13T02:17:12+00:00",
+      "last_seen_at": "2026-11-13T02:17:12+00:00",
+      "title": "Product Marketing Manager",
+      "url": "https://himalayas.app/companies/acosta/jobs/product-marketing-manager"
+    },
     "discovery:global:18e691c80b3171f45ee2": {
       "company": "Supabase",
       "eligible": false,
@@ -2609,6 +2618,15 @@
       "last_seen_at": "2026-11-03T16:42:16+00:00",
       "title": "Enterprise Account Executive - Chicago",
       "url": "https://abnormal.ai/careers/jobs/7990482003?gh_jid=7990482003"
+    },
+    "greenhouse:Abnormal Security:ab23dc2d508b14fdd7e0": {
+      "company": "Abnormal Security",
+      "eligible": false,
+      "fingerprint": "07faa4327ab23cd1dc4acfcd",
+      "first_seen_at": "2026-11-13T02:17:12+00:00",
+      "last_seen_at": "2026-11-13T02:17:12+00:00",
+      "title": "Software Engineer I, Data Platforms",
+      "url": "https://abnormal.ai/careers/jobs/8196352003?gh_jid=8196352003"
     },
     "greenhouse:Abnormal Security:ab7a910c698fb52e202b": {
       "company": "Abnormal Security",
