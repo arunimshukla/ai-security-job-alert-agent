@@ -603,6 +603,15 @@
       "title": "Product Marketing Manager",
       "url": "https://himalayas.app/companies/acosta/jobs/product-marketing-manager"
     },
+    "discovery:global:188f665bb3b7ed868ecf": {
+      "company": "Mind Security Inc.",
+      "eligible": false,
+      "fingerprint": "7139f6ca5c8ff3e899ce3abb",
+      "first_seen_at": "2026-11-13T17:17:21+00:00",
+      "last_seen_at": "2026-11-13T17:17:21+00:00",
+      "title": "Content Marketing Manager",
+      "url": "https://himalayas.app/companies/mind-security-inc/jobs/content-marketing-manager"
+    },
     "discovery:global:18e691c80b3171f45ee2": {
       "company": "Supabase",
       "eligible": false,
