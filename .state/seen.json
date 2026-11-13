@@ -396,6 +396,15 @@
       "title": "Field Marketing Manager",
       "url": "https://jobs.ashbyhq.com/witnessai/e40b6cb1-f125-404d-98b6-5002d1187625/application"
     },
+    "ashby:WitnessAI:59200c7edeed8449b9af": {
+      "company": "WitnessAI",
+      "eligible": false,
+      "fingerprint": "de551446df63af9dbfffca55",
+      "first_seen_at": "2026-11-13T13:47:25+00:00",
+      "last_seen_at": "2026-11-13T13:47:25+00:00",
+      "title": "Staff/Principal Fullstack Software Engineer",
+      "url": "https://jobs.ashbyhq.com/witnessai/a05ce4fb-6fc4-442e-acb6-1f52a4914896/application"
+    },
     "ashby:WitnessAI:6921fdc3de2d9fccaf72": {
       "company": "WitnessAI",
       "eligible": false,
@@ -6155,6 +6164,15 @@
       "last_seen_at": "2026-11-03T16:42:16+00:00",
       "title": "Technical Product Marketing Manager Remote",
       "url": "https://arcanna.ai/jobs/technical-product-marketing-manager"
+    },
+    "html:Noma Security:4113eaa49a378a8e7ef0": {
+      "company": "Noma Security",
+      "eligible": false,
+      "fingerprint": "f3226df56b905f450800f6c3",
+      "first_seen_at": "2026-11-13T13:47:25+00:00",
+      "last_seen_at": "2026-11-13T13:47:25+00:00",
+      "title": "Content Marketing Specialist Full-time Remote, USA",
+      "url": "https://noma.security/positions/position-44_574"
     }
   },
   "version": 4
