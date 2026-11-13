@@ -3720,9 +3720,9 @@
     "greenhouse:SentinelOne:228a695597df12947121": {
       "company": "SentinelOne",
       "eligible": false,
-      "fingerprint": "8fe6a154163e7297b30a04cf",
+      "fingerprint": "039433333aafbe8a4481f1ec",
       "first_seen_at": "2026-11-03T16:42:16+00:00",
-      "last_seen_at": "2026-11-03T16:42:16+00:00",
+      "last_seen_at": "2026-11-13T18:47:16+00:00",
       "title": "Staff AI Platform Engineer",
       "url": "https://www.sentinelone.com/jobs/?gh_jid=7805775003"
     },
