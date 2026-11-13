@@ -111,9 +111,9 @@
     "ashby:Harmonic Security:0a37e3a0c49f678eae44": {
       "company": "Harmonic Security",
       "eligible": false,
-      "fingerprint": "cbe9b6a42efb56964d01c46f",
+      "fingerprint": "22e3556967e64952777669ad",
       "first_seen_at": "2026-11-03T16:42:16+00:00",
-      "last_seen_at": "2026-11-03T16:42:16+00:00",
+      "last_seen_at": "2026-11-13T15:47:15+00:00",
       "title": "Regional Sales Manager - Chicago",
       "url": "https://jobs.ashbyhq.com/harmonic-security-inc/1b8e0562-d12d-476c-8710-934a28a0765d/application"
     },
@@ -210,9 +210,9 @@
     "ashby:Harmonic Security:fa9fd863806a4b88040d": {
       "company": "Harmonic Security",
       "eligible": false,
-      "fingerprint": "ad3ce191c8ec94f71139d533",
+      "fingerprint": "f47d3255576c13a46939e840",
       "first_seen_at": "2026-11-03T16:42:16+00:00",
-      "last_seen_at": "2026-11-03T16:42:16+00:00",
+      "last_seen_at": "2026-11-13T15:47:15+00:00",
       "title": "Regional Sales Manager - Pacific Northwest",
       "url": "https://jobs.ashbyhq.com/harmonic-security-inc/216a3449-1c2c-4614-9a26-16ece016e9c7/application"
     },
@@ -3225,10 +3225,10 @@
     "greenhouse:HiddenLayer:381a2f891e73e550d502": {
       "company": "HiddenLayer",
       "eligible": false,
-      "fingerprint": "1eacab0ea0910d351e83e260",
+      "fingerprint": "2e1e1a0b650092d38a57fe74",
       "first_seen_at": "2026-11-03T16:42:16+00:00",
-      "last_seen_at": "2026-11-03T16:42:16+00:00",
-      "title": "AI Solutions Architect- Federal",
+      "last_seen_at": "2026-11-13T15:47:15+00:00",
+      "title": "Solutions Engineer- Federal",
       "url": "https://job-boards.greenhouse.io/hiddenlayer/jobs/5162409007"
     },
     "greenhouse:HiddenLayer:3fb99418663631bd11dc": {
@@ -3315,10 +3315,10 @@
     "greenhouse:HiddenLayer:a912fbacd4fee9b356a5": {
       "company": "HiddenLayer",
       "eligible": false,
-      "fingerprint": "5b273a9944e8543fc79c8adc",
+      "fingerprint": "2112bacc2491b1e026f8ff93",
       "first_seen_at": "2026-11-03T16:42:16+00:00",
-      "last_seen_at": "2026-11-03T16:42:16+00:00",
-      "title": "AI Solutions Architect- Pre-sales (UK)",
+      "last_seen_at": "2026-11-13T15:47:15+00:00",
+      "title": "Solutions Engineer- Pre-sales (UK)",
       "url": "https://job-boards.greenhouse.io/hiddenlayer/jobs/5249199007"
     },
     "greenhouse:HiddenLayer:c9db00d187bdabc1ee42": {
