@@ -13,6 +13,8 @@
     "Startup.jobs",
     "We Work Remotely \u2014 Product",
     "We Work Remotely \u2014 Sales and Marketing",
+    "YC Startup Jobs \u2014 India Marketing",
+    "YC Startup Jobs \u2014 Remote Marketing",
     "YC startup jobs via Hacker News",
     "ZeroDay Careers"
   ],
@@ -6356,12 +6358,22 @@
     },
     "html:Arcanna.ai:766f9bb9831f85bd8508": {
       "company": "Arcanna.ai",
-      "eligible": true,
-      "fingerprint": "025130fb3346e84453f9502b",
+      "eligible": false,
+      "fingerprint": "90b3d92b712292a2f55ee769",
       "first_seen_at": "2026-11-03T16:42:16+00:00",
-      "last_seen_at": "2026-11-03T16:42:16+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
       "title": "Technical Product Marketing Manager Remote",
       "url": "https://arcanna.ai/jobs/technical-product-marketing-manager"
+    },
+    "html:Grafyn:f8abaae8635c6e018d26": {
+      "company": "Grafyn",
+      "eligible": true,
+      "fingerprint": "454d8769977a11bfaffb55c8",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_alerted_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "Product Marketing Manager (Full-time/Intern/Co-op)",
+      "url": "https://www.grafyn.ai/careers#w-node-c31647c8-41ac-496a-f819-4bbdb02a85f6-0779011a"
     },
     "html:Noma Security:4113eaa49a378a8e7ef0": {
       "company": "Noma Security",
@@ -6371,6 +6383,376 @@
       "last_seen_at": "2026-11-13T13:47:25+00:00",
       "title": "Content Marketing Specialist Full-time Remote, USA",
       "url": "https://noma.security/positions/position-44_574"
+    },
+    "lever:JumpCloud:03527f694f0d98958b6e": {
+      "company": "JumpCloud",
+      "eligible": false,
+      "fingerprint": "f618371ed3b9e644a7479885",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "Sales Engineer - United States",
+      "url": "https://jobs.lever.co/jumpcloud/9c0c9a19-3f1f-4e83-abc1-2121f09c05dd/apply"
+    },
+    "lever:JumpCloud:05158b3aebfda0f775f2": {
+      "company": "JumpCloud",
+      "eligible": false,
+      "fingerprint": "035d0eaaafd7c445685037c8",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "Director, Product Strategy and Operations -India",
+      "url": "https://jobs.lever.co/jumpcloud/a99356ea-e217-4fef-8406-3d83dc1ff2c5/apply"
+    },
+    "lever:JumpCloud:0efc8aa0d432bbdd80b2": {
+      "company": "JumpCloud",
+      "eligible": false,
+      "fingerprint": "0797b90e20ef58e3dca44552",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "Director, Product Strategy and Operations - Mexico",
+      "url": "https://jobs.lever.co/jumpcloud/5538068d-b61a-4897-a928-7e3dab28d7bb/apply"
+    },
+    "lever:JumpCloud:1648ce7fd325dbd93683": {
+      "company": "JumpCloud",
+      "eligible": false,
+      "fingerprint": "c26f820bf3fbd2f3240593e6",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "Customer Support Engineer, Tier 2 (Windows) - Brazil",
+      "url": "https://jobs.lever.co/jumpcloud/d1f5f329-b3de-441e-a008-8f5613206210/apply"
+    },
+    "lever:JumpCloud:210a4bf10f1c730e8f97": {
+      "company": "JumpCloud",
+      "eligible": false,
+      "fingerprint": "200378944d7ea3eb260750cf",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "Account Executive - United States",
+      "url": "https://jobs.lever.co/jumpcloud/acb03da4-6d71-4ba0-ae3e-3dfb94d6b70c/apply"
+    },
+    "lever:JumpCloud:210b8eb1ff63566054b9": {
+      "company": "JumpCloud",
+      "eligible": true,
+      "fingerprint": "5f245857c2b06cd84f9fbcfb",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_alerted_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "Principal Product Marketing Manager - India",
+      "url": "https://jobs.lever.co/jumpcloud/6a3f9f0d-f5e5-490d-b5cf-305b99a03c63/apply"
+    },
+    "lever:JumpCloud:2f4cabb374898af8111e": {
+      "company": "JumpCloud",
+      "eligible": false,
+      "fingerprint": "c48d74ffe260c3a3a1b1673e",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "Senior Site Reliability Engineer - India",
+      "url": "https://jobs.lever.co/jumpcloud/c30df081-4282-4b54-92f7-92f8a9225728/apply"
+    },
+    "lever:JumpCloud:35ff1352bfb8a83f2577": {
+      "company": "JumpCloud",
+      "eligible": false,
+      "fingerprint": "793fbd059ace79ee674c4313",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "Technical Writer - India",
+      "url": "https://jobs.lever.co/jumpcloud/7e142e32-874c-4dbe-a8fc-96284503c553/apply"
+    },
+    "lever:JumpCloud:435438e21e57b3119e8e": {
+      "company": "JumpCloud",
+      "eligible": false,
+      "fingerprint": "0eb4f7609dee9cab28a58322",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "Senior Software Engineer, Authorization - India",
+      "url": "https://jobs.lever.co/jumpcloud/0c72f8ee-8074-4d46-ba36-5217fba8cfa6/apply"
+    },
+    "lever:JumpCloud:4ad347fd410782dfccad": {
+      "company": "JumpCloud",
+      "eligible": false,
+      "fingerprint": "9d7415ddce87ff8d80676e48",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "Staff Data Scientist, Machine Learning - India",
+      "url": "https://jobs.lever.co/jumpcloud/60f9796e-9f63-416e-8c7b-8e16cd2ee3dc/apply"
+    },
+    "lever:JumpCloud:4f9a23e1d4037dbc4dad": {
+      "company": "JumpCloud",
+      "eligible": false,
+      "fingerprint": "9068a8b438d6ee7bb6ca1631",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "Account Executive, SMB, North America Region - India",
+      "url": "https://jobs.lever.co/jumpcloud/af1484dc-9751-4da2-9536-38e34bf6e588/apply"
+    },
+    "lever:JumpCloud:50f731d57b9e424c1638": {
+      "company": "JumpCloud",
+      "eligible": false,
+      "fingerprint": "512ff8f3f28ce29258494643",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "Senior Software Engineer - Privileged Access Management (PAM / IAM)- India",
+      "url": "https://jobs.lever.co/jumpcloud/0dce2d6a-7e11-40a3-bd2c-a96055f4ee12/apply"
+    },
+    "lever:JumpCloud:5296af782ab68b62c09e": {
+      "company": "JumpCloud",
+      "eligible": false,
+      "fingerprint": "1def300322463662a6cb8e73",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "Manager, Professional Services - India",
+      "url": "https://jobs.lever.co/jumpcloud/98f8aa15-434b-4a8c-83a0-3bb40ef425ab/apply"
+    },
+    "lever:JumpCloud:63233e29234fcba23828": {
+      "company": "JumpCloud",
+      "eligible": false,
+      "fingerprint": "c1926bb5a660370453d0a746",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "Director of Global Account Management - India",
+      "url": "https://jobs.lever.co/jumpcloud/d045efcf-da77-4ec8-976b-42de957c8f3d/apply"
+    },
+    "lever:JumpCloud:6eaf25a71e3cfd86f1e8": {
+      "company": "JumpCloud",
+      "eligible": false,
+      "fingerprint": "11fc62dc3c0951aaf21c3779",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "Strategic Alliances Partnership Manager - United States",
+      "url": "https://jobs.lever.co/jumpcloud/93ea3ee6-3ca8-454f-9e1a-cafb7a8adec0/apply"
+    },
+    "lever:JumpCloud:713c28d732f90e9fe8d0": {
+      "company": "JumpCloud",
+      "eligible": false,
+      "fingerprint": "37f1a082e804fea203a79021",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "Senior Technical Program Manager, Security - Mexico",
+      "url": "https://jobs.lever.co/jumpcloud/4242488a-ac2a-47d8-a422-ab6ce5053ee4/apply"
+    },
+    "lever:JumpCloud:80570297e0dec1a4ef8c": {
+      "company": "JumpCloud",
+      "eligible": false,
+      "fingerprint": "4ea9fff8d9caef79f6ca6b1d",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "Sales Engineer - Singapore",
+      "url": "https://jobs.lever.co/jumpcloud/4c522ac8-51e2-4fa0-82ba-6d2836a712dd/apply"
+    },
+    "lever:JumpCloud:855e186437f8d3a26e8a": {
+      "company": "JumpCloud",
+      "eligible": false,
+      "fingerprint": "095cc58bcb3c97d8c395ba10",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "Customer Support Engineer, Tier 2 - Mexico",
+      "url": "https://jobs.lever.co/jumpcloud/f8c7ad2e-38fb-4873-a9c9-28976fb834e3/apply"
+    },
+    "lever:JumpCloud:8633a5b10587b3df1f5b": {
+      "company": "JumpCloud",
+      "eligible": false,
+      "fingerprint": "21ef3ab774372333d0b39003",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "Customer Support Engineer, Tier 1 (MacOS and MDM) - Mexico",
+      "url": "https://jobs.lever.co/jumpcloud/72907d16-2d4b-4daa-a8db-77439ec7fb92/apply"
+    },
+    "lever:JumpCloud:8f9303fa856625c21d7f": {
+      "company": "JumpCloud",
+      "eligible": false,
+      "fingerprint": "368cdaa0fada8b81ee58a76c",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "Director, Product Marketing Management - United States",
+      "url": "https://jobs.lever.co/jumpcloud/61788a74-57b5-4821-bbb0-8e1605fbed5c/apply"
+    },
+    "lever:JumpCloud:94f1ff47c5af0d67df53": {
+      "company": "JumpCloud",
+      "eligible": false,
+      "fingerprint": "18cc5982c7c3ef898b487ae3",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "Customer Support Engineer, Tier 1 Windows - Mexico",
+      "url": "https://jobs.lever.co/jumpcloud/bc24de3b-d0f9-4729-81d6-75b700bbae27/apply"
+    },
+    "lever:JumpCloud:9f9aab78e710c8b45da5": {
+      "company": "JumpCloud",
+      "eligible": false,
+      "fingerprint": "58c9190ff36b487d99b29aef",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "Manager, Direct Sales, North America Region - India",
+      "url": "https://jobs.lever.co/jumpcloud/097d7a4b-c79f-41fe-8173-3271e5558381/apply"
+    },
+    "lever:JumpCloud:a0244d3628dc46d5dc63": {
+      "company": "JumpCloud",
+      "eligible": false,
+      "fingerprint": "bc022a73673623348ec1e219",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "Staff Software Engineer (Device Management / MDM) - India",
+      "url": "https://jobs.lever.co/jumpcloud/7bc2d24c-a892-4032-9b86-ac01bf8c085f/apply"
+    },
+    "lever:JumpCloud:a31e08fe12ba41cb935a": {
+      "company": "JumpCloud",
+      "eligible": false,
+      "fingerprint": "b8afb58b9f06f09cc48f0e5e",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "Chief Architect - India",
+      "url": "https://jobs.lever.co/jumpcloud/5021c758-9273-43f3-ac21-8d1b4fdb57fa/apply"
+    },
+    "lever:JumpCloud:aa1288f570120edc18c4": {
+      "company": "JumpCloud",
+      "eligible": false,
+      "fingerprint": "6f20235004651a2ee1471aa0",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "Staff Engineer, Cloud Platform - India",
+      "url": "https://jobs.lever.co/jumpcloud/70b35b11-8ce1-4eea-a9fd-44f30fe617f5/apply"
+    },
+    "lever:JumpCloud:ad9482b70f92c067cdc2": {
+      "company": "JumpCloud",
+      "eligible": false,
+      "fingerprint": "ac9758513b6d277ce3a5c6c0",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "Senior Solution Architect - United States",
+      "url": "https://jobs.lever.co/jumpcloud/8d71b185-01a4-47e2-92dd-e20d96d55d3f/apply"
+    },
+    "lever:JumpCloud:b0d2fffb2f31e1b9421e": {
+      "company": "JumpCloud",
+      "eligible": false,
+      "fingerprint": "aa8422ddc650e94f14685da2",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "Business Development Representative - Mexico (Outbound)",
+      "url": "https://jobs.lever.co/jumpcloud/707888fa-90d2-413e-baa8-89131a9e7f14/apply"
+    },
+    "lever:JumpCloud:c951223276405a482d5f": {
+      "company": "JumpCloud",
+      "eligible": false,
+      "fingerprint": "f9a94c887832748e505c081b",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "Senior Mobile Software Engineer (iOS / Android), Identity & Security - India",
+      "url": "https://jobs.lever.co/jumpcloud/f6cf0d3c-f5f0-4140-9b47-36849bba00eb/apply"
+    },
+    "lever:JumpCloud:cb1f2e70eee437df1f4b": {
+      "company": "JumpCloud",
+      "eligible": false,
+      "fingerprint": "84f6dc56f016ce6dd25611d7",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "Site Reliability Engineer - India",
+      "url": "https://jobs.lever.co/jumpcloud/9bfc9bfb-15f0-4984-85dc-d1adc90a415c/apply"
+    },
+    "lever:JumpCloud:cd82dcb6399c616dec42": {
+      "company": "JumpCloud",
+      "eligible": false,
+      "fingerprint": "340a549de8d3de10890fff93",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "Customer Support Engineer, Tier 1 (Windows) - Brazil",
+      "url": "https://jobs.lever.co/jumpcloud/60f8dc5d-9827-4b44-b656-18c578887c40/apply"
+    },
+    "lever:JumpCloud:ce499881f97f1be1d6e4": {
+      "company": "JumpCloud",
+      "eligible": false,
+      "fingerprint": "ac2da32980afa672eef48014",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "Manager, Sales Engineering - United Kingdom",
+      "url": "https://jobs.lever.co/jumpcloud/3b92f862-f00c-41cd-8c1e-fae73997fbde/apply"
+    },
+    "lever:JumpCloud:d9f35b008a830232d889": {
+      "company": "JumpCloud",
+      "eligible": false,
+      "fingerprint": "b5bc56afadcf3c652cf0f6d3",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "Senior Manager, Data Engineering - India",
+      "url": "https://jobs.lever.co/jumpcloud/ebf3b99a-a193-4ac8-83c3-d901af4a3de2/apply"
+    },
+    "lever:JumpCloud:dbe7d58acb45a5112f2a": {
+      "company": "JumpCloud",
+      "eligible": false,
+      "fingerprint": "a6bf17dbb802808c257ab839",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "Director, Product Experience & Design - India",
+      "url": "https://jobs.lever.co/jumpcloud/fe814ed3-7c8e-49a1-9fb2-166bbcacc85e/apply"
+    },
+    "lever:JumpCloud:e91ee5a05378ef5d3e67": {
+      "company": "JumpCloud",
+      "eligible": false,
+      "fingerprint": "6e3d5ad6acf7cf0ded2757c0",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "AR & Collections Associate - Mexico (Temporary role)",
+      "url": "https://jobs.lever.co/jumpcloud/431dc3ee-ab06-4c27-b0e9-776489e9264d/apply"
+    },
+    "lever:JumpCloud:f1c9bfb0ff4f88d4b01a": {
+      "company": "JumpCloud",
+      "eligible": false,
+      "fingerprint": "d2da7e32e46df56e8dc98225",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "Chief of Staff, Office of the CTO - Mexico",
+      "url": "https://jobs.lever.co/jumpcloud/9553ee1c-9ee7-4708-b573-0549d43e8fce/apply"
+    },
+    "lever:JumpCloud:f36e43c517d5467ca3aa": {
+      "company": "JumpCloud",
+      "eligible": false,
+      "fingerprint": "f270ec4f62989d73bbc26d4c",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "Software Engineer, Privileged Access Management (PAM) / Password Manager (PWM) - India",
+      "url": "https://jobs.lever.co/jumpcloud/9a65a641-2a5a-44be-b40f-3cd6e9d8949c/apply"
+    },
+    "lever:JumpCloud:f40b2c4751baf257e5ea": {
+      "company": "JumpCloud",
+      "eligible": false,
+      "fingerprint": "ad6c2a504374ba0ba87b57df",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "GTM Strategy Program Manager - Mexico",
+      "url": "https://jobs.lever.co/jumpcloud/794d57b9-9269-4835-80b6-2be9c2d87921/apply"
+    },
+    "yc:global:3c07d67a5b20073fee9f": {
+      "company": "LightSprint",
+      "eligible": false,
+      "fingerprint": "48e408d37b09b71179513b52",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "Product Marketing / GTM Engineer",
+      "url": "https://www.ycombinator.com/companies/lightsprint/jobs/f42QPiX-product-marketing-gtm-engineer"
+    },
+    "yc:global:6da102234077d42a8444": {
+      "company": "TraceRoot.AI",
+      "eligible": false,
+      "fingerprint": "7fd90992eaff7cdebdc8a4b6",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "Developer Marketing Intern",
+      "url": "https://www.ycombinator.com/companies/traceroot-ai/jobs/dk1ep2K-developer-marketing-intern"
+    },
+    "yc:global:99bc5aa305730af96678": {
+      "company": "Text Blaze",
+      "eligible": false,
+      "fingerprint": "25a571271bb7fe6992e095f2",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "Product Marketing",
+      "url": "https://www.ycombinator.com/companies/text-blaze/jobs/CidfA3r-product-marketing"
+    },
+    "yc:global:c04d97c0a90b6ec59818": {
+      "company": "Zensors",
+      "eligible": false,
+      "fingerprint": "a3a4451ad81139f667bd53d4",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "title": "Product Marketing Lead - Spatial AI",
+      "url": "https://www.ycombinator.com/companies/zensors-inc/jobs/9WxsbSF-product-marketing-lead-spatial-ai"
     }
   },
   "version": 4
