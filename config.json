@@ -5,6 +5,7 @@
     "minimum_inr_salary": 3000000,
     "hard_exclude_people_management": true,
     "require_explicit_india_or_worldwide": true,
+    "require_remote_outside_delhi_ncr": true,
     "discovery_required_phrases": [
       "ai security",
       "agentic security",
@@ -21,6 +22,7 @@
       "technical product marketing": 50,
       "security product marketing": 50,
       "technical marketing manager": 48,
+      "technical marketing engineer": 40,
       "product marketing manager": 46,
       "product marketing lead": 44,
       "product marketing": 42,
@@ -119,6 +121,7 @@
       "work from anywhere",
       "remote globally",
       "global remote",
+      "worldwide remote work",
       "anywhere in the world",
       "work remotely from anywhere",
       "remote from anywhere",
@@ -159,6 +162,7 @@
       "remote, united states",
       "remote-friendly, united states",
       "remote (us)",
+      "us only",
       "remote - usa",
       "remote, usa",
       "usa - remote",
@@ -208,7 +212,7 @@
       "type": "html",
       "url": "https://arcanna.ai/careers",
       "priority": 25,
-      "default_location": "Remote worldwide",
+      "default_location": "Remote",
       "hydrate_job_pages": true,
       "hydrate_title_regex": "(?i)(product marketing|technical marketing|technical communications|technical content|developer relations)",
       "include_href_regex": "(?i)arcanna\\.ai/jobs/.+",
@@ -340,6 +344,20 @@
       "include_href_regex": "(?i)pillar\\.security/open-position/.+"
     },
     {
+      "name": "JumpCloud",
+      "type": "lever",
+      "board": "jumpcloud",
+      "priority": 18
+    },
+    {
+      "name": "Grafyn",
+      "type": "html",
+      "url": "https://www.grafyn.ai/careers",
+      "priority": 22,
+      "card_class": "careeritem",
+      "location_regex": "(?i)Location:\\s*([A-Za-z ,]+?)(?=\\s+Apply\\b|$)"
+    },
+    {
       "name": "Straiker",
       "type": "html",
       "url": "https://www.straiker.ai/careers",
@@ -393,8 +411,7 @@
       "type": "rss",
       "url": "https://himalayas.app/jobs/rss",
       "cadence_minutes": 60,
-      "offset_minutes": 17,
-      "default_location": "Remote worldwide"
+      "offset_minutes": 17
     },
     {
       "name": "Remote OK",
@@ -441,6 +458,20 @@
       "url": "https://hacker-news.firebaseio.com/v0/jobstories.json",
       "cadence_minutes": 60,
       "offset_minutes": 47
+    },
+    {
+      "name": "YC Startup Jobs — Remote Marketing",
+      "type": "yc_jobs",
+      "url": "https://www.ycombinator.com/jobs/role/marketing/remote",
+      "cadence_minutes": 60,
+      "offset_minutes": 2
+    },
+    {
+      "name": "YC Startup Jobs — India Marketing",
+      "type": "yc_jobs",
+      "url": "https://www.ycombinator.com/jobs/role/marketing/india",
+      "cadence_minutes": 60,
+      "offset_minutes": 32
     },
     {
       "name": "Arbeitnow Europe",

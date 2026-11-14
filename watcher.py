@@ -42,6 +42,7 @@ DEFAULT_HTML_ROLE_REGEX = (
     r"marketing communications)"
 )
 DISCOVERY_WINDOW_MINUTES = 15
+PUBLIC_ATS_HOSTS = {"jobs.ashbyhq.com", "jobs.lever.co", "jobs.eu.lever.co", "job-boards.greenhouse.io"}
 
 
 @dataclass
@@ -64,6 +65,10 @@ class Job:
     reasons: list[str] = field(default_factory=list)
     cautions: list[str] = field(default_factory=list)
     eligible: bool = True
+
+
+FULL_TIME = re.compile(r"\bfull[ -]time\b", re.IGNORECASE)
+FULL_TIME_TRACK = re.compile(r"\s*\(([^()]*\bfull[ -]time\b[^()]*)\)\s*$", re.IGNORECASE)
 
 
 class LinkParser(HTMLParser):
@@ -132,10 +137,71 @@ class VisibleTextParser(HTMLParser):
         return clean_text(" ".join(self._primary or self._visible))
 
 
+class BoardPageParser(HTMLParser):
+    """Read the job records embedded in YC's public, server-rendered pages."""
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.props: dict[str, Any] = {}
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        data = dict(attrs).get("data-page")
+        if tag == "div" and data:
+            self.props = json.loads(data).get("props", {})
+
+
+class JobCardParser(HTMLParser):
+    """Collect one record per career card, including boards with shared forms."""
+
+    def __init__(self, card_class: str) -> None:
+        super().__init__()
+        self.card_class = card_class
+        self.depth = 0
+        self.in_title = False
+        self.parts: list[str] = []
+        self.title_parts: list[str] = []
+        self.anchor = ""
+        self.cards: list[tuple[str, str, str]] = []
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        attributes = dict(attrs)
+        if tag == "div":
+            if not self.depth and self.card_class in (attributes.get("class") or "").split():
+                self.parts, self.title_parts, self.anchor = [], [], ""
+                self.depth = 1
+            elif self.depth:
+                self.depth += 1
+                self.anchor = self.anchor or attributes.get("id") or ""
+        if self.depth and tag == "h4":
+            self.in_title = True
+
+    def handle_endtag(self, tag: str) -> None:
+        if tag == "h4":
+            self.in_title = False
+        if tag == "div" and self.depth:
+            self.depth -= 1
+            if not self.depth:
+                self.cards.append((clean_text(" ".join(self.title_parts)), clean_text(" ".join(self.parts)), self.anchor))
+
+    def handle_data(self, data: str) -> None:
+        if self.depth:
+            self.parts.append(data)
+            if self.in_title:
+                self.title_parts.append(data)
+
+
 def clean_text(value: Any) -> str:
     text = html.unescape(str(value or ""))
     text = re.sub(r"<[^>]+>", " ", text)
     return re.sub(r"\s+", " ", text).strip()
+
+
+def location_words(value: str) -> str:
+    return " ".join(re.findall(r"[\w]+", value.casefold()))
+
+
+def location_has(phrase: str, text: str) -> bool:
+    return f" {location_words(phrase)} " in f" {text} "
 
 
 def normalize_timestamp(value: Any) -> str:
@@ -202,6 +268,17 @@ def hydrate_candidate_metadata(job: Job) -> None:
     match = re.search(r'"applicationDeadline":"([^"]+)"', page)
     if match:
         job.deadline_at = match.group(1)
+
+
+def enrich_discovery_listing(job: Job) -> None:
+    """Recover evidence from established public ATS hosts when a feed omits it."""
+    page = VisibleTextParser()
+    try:
+        page.feed(fetch_text(job.url.removesuffix("/application"), attempts=1))
+    except RuntimeError:
+        return
+    if page.text():
+        job.description = page.text()
 
 
 def fetch_json(url: str) -> Any:
@@ -303,7 +380,7 @@ def fetch_lever(target: dict[str, Any]) -> list[Job]:
                 company=target["name"],
                 source="Lever",
                 title=clean_text(item.get("text")),
-                location=clean_text(", ".join(x for x in locations if x)),
+                location=clean_text(", ".join(x for x in [*locations, item.get("workplaceType", "")] if x)),
                 description=clean_text(f"{item.get('descriptionPlain', '')} {salary}"),
                 url=job_url,
                 posted_at=normalize_timestamp(item.get("createdAt", "")),
@@ -317,8 +394,30 @@ def fetch_lever(target: dict[str, Any]) -> list[Job]:
 
 def fetch_html_board(target: dict[str, Any]) -> list[Job]:
     page_url = target["url"]
+    page = fetch_text(page_url)
+    if target.get("card_class"):
+        parser = JobCardParser(target["card_class"])
+        parser.feed(page)
+        if not parser.cards:
+            raise ValueError("No career cards found in the public board")
+        jobs = []
+        for title, details, anchor in parser.cards:
+            if not re.search(target.get("include_text_regex", DEFAULT_HTML_ROLE_REGEX), title):
+                continue
+            match = re.search(target["location_regex"], details)
+            location = clean_text(match.group(1)) if match else ""
+            if re.match(r"^Remote\b", details.removeprefix(title).strip(), re.IGNORECASE):
+                location = f"Remote {location}".strip()
+            jobs.append(Job(
+                key=stable_key("html", target["name"], title, page_url),
+                company=target["name"], source="Career page", title=title, location=location,
+                description=details, url=f"{page_url}#{anchor}" if anchor else page_url,
+                employment_type="Full-time track" if FULL_TIME_TRACK.search(title) else "",
+                company_priority=int(target.get("priority", 0)),
+            ))
+        return jobs
     parser = LinkParser(page_url)
-    parser.feed(fetch_text(page_url))
+    parser.feed(page)
     href_pattern = re.compile(target.get("include_href_regex", r"(?i)(jobs?|careers?|positions?|openings?)"))
     text_pattern = re.compile(target.get("include_text_regex", DEFAULT_HTML_ROLE_REGEX))
     exclude_pattern = re.compile(target.get("exclude_href_regex", r"(?i)(#|javascript:|mailto:)$"))
@@ -427,8 +526,11 @@ def build_discovery_job(
     shared_identity = "|".join(
         re.sub(r"[^a-z0-9]+", "", value.lower()) for value in [clean_company, clean_title]
     )
+    key = stable_key("discovery", "global", shared_identity or clean_text(raw_id), clean_url)
+    if target.get("type") == "yc_jobs":
+        key = stable_key("yc", "global", clean_text(raw_id), clean_url)
     return Job(
-        key=stable_key("discovery", "global", shared_identity or clean_text(raw_id), clean_url),
+        key=key,
         company=clean_company,
         source=source_name,
         title=clean_title,
@@ -583,6 +685,46 @@ def fetch_hn_jobs_market(target: dict[str, Any]) -> list[Job]:
     return jobs
 
 
+def fetch_yc_jobs_market(target: dict[str, Any]) -> list[Job]:
+    board = BoardPageParser()
+    board.feed(fetch_text(target["url"], attempts=1))
+    records = board.props.get("jobPostings")
+    if not isinstance(records, list):
+        raise ValueError("YC's public job listings were missing from the page")
+
+    jobs: list[Job] = []
+    for item in records:
+        path = item.get("url") or ""
+        if not re.fullmatch(r"/companies/[\w-]+/jobs/[\w-]+", path):
+            continue
+        location = clean_text(item.get("location"))
+        location = re.sub(r"\bRemote \(IN\)", "Remote India", location)
+        if item.get("visa") == "US citizen/visa only":
+            location = f"{location}; US only"
+        job = build_discovery_job(
+            target, raw_id=item.get("id"), company=item.get("companyName"),
+            title=item.get("title"), location=location, description=item.get("companyOneLiner"),
+            url=urllib.parse.urljoin(target["url"], path), employment_type=item.get("type"),
+            compensation=item.get("salaryRange"),
+        )
+        if job:
+            jobs.append(job)
+
+    def enrich(job: Job) -> None:
+        detail = BoardPageParser()
+        try:
+            detail.feed(fetch_text(job.url, attempts=1))
+        except (RuntimeError, ValueError):
+            return  # The board record still provides structured location and job type.
+        description = clean_text(detail.props.get("job", {}).get("description"))
+        if description:
+            job.description = clean_text(f"{job.description} {description}")
+
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        list(pool.map(enrich, jobs))
+    return jobs
+
+
 def fetch_remoteok_market(target: dict[str, Any]) -> list[Job]:
     payload = fetch_json(target["url"])
     jobs: list[Job] = []
@@ -687,6 +829,7 @@ FETCHERS = {
 DISCOVERY_FETCHERS = {
     "rss": fetch_rss_market,
     "hn_jobs": fetch_hn_jobs_market,
+    "yc_jobs": fetch_yc_jobs_market,
     "remoteok": fetch_remoteok_market,
     "jobicy": fetch_jobicy_market,
     "arbeitnow": fetch_arbeitnow_market,
@@ -777,27 +920,46 @@ def score_job(job: Job, rules: dict[str, Any]) -> Job:
             cautions.append("Broad-market listing lacks an AI/cybersecurity signal")
             hard_excluded = True
 
-    location_value = job.location.lower()
-    location_text = f"{job.location} {job.description}".lower()
-    explicit_restrictions = [p for p in rules["blocked_location_phrases"] if p.lower() in location_text]
+    location_value = location_words(job.location)
+    location_text = location_words(f"{job.location} {job.description}")
+    explicit_restrictions = [p for p in rules["blocked_location_phrases"] if location_has(p, location_text)]
     location_restrictions = [
-        p for p in rules.get("blocked_location_only_phrases", []) if p.lower() in location_value
+        p for p in rules.get("blocked_location_only_phrases", []) if location_has(p, location_value)
     ]
-    allowed_hits = [p for p in rules["allowed_location_phrases"] if p.lower() in location_text]
-    india_hits = [p for p in rules["india_location_phrases"] if p.lower() in location_value]
+    allowed_hits = [p for p in rules["allowed_location_phrases"] if location_has(p, location_text)]
+    worldwide_location = location_value in {"worldwide", "global", "anywhere", "anywhere worldwide"}
+    india_hits = [p for p in rules["india_location_phrases"] if location_has(p, location_value)]
     india_eligibility_hits = [
-        p for p in rules.get("india_eligibility_phrases", []) if p.lower() in location_text
+        p for p in rules.get("india_eligibility_phrases", []) if location_has(p, location_text)
     ]
+    remote_scopes = re.findall(r"\bremote\s*\(([^)]+)\)", job.location, re.IGNORECASE)
+    regional_remote = any(
+        not any(location_has(p, location_words(scope)) for p in rules["india_location_phrases"])
+        and location_words(scope) not in {"global", "worldwide", "anywhere"}
+        for scope in remote_scopes
+    )
+    if regional_remote:
+        location_restrictions.extend(remote_scopes)
 
-    if india_hits or india_eligibility_hits:
-        score += 15
-        reasons.append("India/Delhi-NCR location match")
-    elif explicit_restrictions or location_restrictions:
+    if explicit_restrictions or (regional_remote and not india_eligibility_hits):
         score -= 45
         restrictions = [*explicit_restrictions, *location_restrictions]
         cautions.append("Explicit location restriction: " + ", ".join(dict.fromkeys(restrictions[:3])))
         hard_excluded = True
-    elif allowed_hits:
+    elif india_hits or india_eligibility_hits:
+        score += 15
+        reasons.append("India/Delhi-NCR location match")
+        if rules.get("require_remote_outside_delhi_ncr") and not any(
+            location_has(place, location_value)
+            for place in ("noida", "delhi", "gurugram", "gurgaon")
+        ) and not (india_eligibility_hits or location_has("remote", location_value) or allowed_hits):
+            cautions.append("India remote eligibility is unclear outside Delhi-NCR")
+            hard_excluded = True
+    elif location_restrictions:
+        score -= 45
+        cautions.append("Explicit location restriction: " + ", ".join(dict.fromkeys(location_restrictions[:3])))
+        hard_excluded = True
+    elif allowed_hits or worldwide_location:
         score += 20
         reasons.append("Worldwide or geography-flexible remote language")
     elif "remote" in location_text:
@@ -815,7 +977,8 @@ def score_job(job: Job, rules: dict[str, Any]) -> Job:
 
     # Job-family negatives are title-scoped. A PMM description may legitimately
     # mention the security engineers or account executives it supports.
-    negative_hits = phrase_hits(title, rules["negative_phrases"])
+    seniority_title = FULL_TIME_TRACK.sub("", title)
+    negative_hits = phrase_hits(seniority_title, rules["negative_phrases"])
     if negative_hits:
         penalty = min(sum(points for _, points in negative_hits), 50)
         score -= penalty
@@ -830,7 +993,8 @@ def score_job(job: Job, rules: dict[str, Any]) -> Job:
     blocked_employment = [
         phrase
         for phrase in rules.get("blocked_employment_phrases", [])
-        if phrase.lower() in employment_value or phrase.lower() in title
+        if location_has(phrase, location_words(seniority_title))
+        or (not FULL_TIME.search(employment_value) and location_has(phrase, location_words(employment_value)))
     ]
     if employment_value == "contract" and "contract" not in blocked_employment:
         blocked_employment.append("contract")
@@ -1024,7 +1188,10 @@ def main(argv: Iterable[str] | None = None) -> int:
     parser.add_argument("--alerts", type=Path, default=DEFAULT_ALERTS)
     parser.add_argument("--test-alert", action="store_true")
     parser.add_argument("--no-email", action="store_true")
+    parser.add_argument("--backfill", action="store_true", help="Preview live, unalerted matches from every source")
     args = parser.parse_args(argv)
+    if args.backfill and (not args.no_email or args.test_alert):
+        parser.error("--backfill requires --no-email and cannot be combined with --test-alert")
 
     config = load_json(args.config, {})
     state = load_json(
@@ -1063,7 +1230,7 @@ def main(argv: Iterable[str] | None = None) -> int:
     else:
         collected = collect_jobs(
             config,
-            initialized_discovery=set(state.get("discovery_initialized", [])),
+            initialized_discovery=set() if args.backfill else set(state.get("discovery_initialized", [])),
         )
         if len(collected) == 2:  # backward-compatible seam for existing integrations/tests
             all_jobs, errors = collected
@@ -1080,6 +1247,16 @@ def main(argv: Iterable[str] | None = None) -> int:
             score_job(job, config["rules"])
         is_baseline = not state.get("initialized", False)
         original_seen = json.loads(json.dumps(state.get("seen", {})))
+        to_enrich = [
+            job for job in all_jobs
+            if job.discovery and any("eligibility is unclear" in c.lower() for c in job.cautions)
+            and urllib.parse.urlparse(job.url).scheme == "https"
+            and urllib.parse.urlparse(job.url).netloc in PUBLIC_ATS_HOSTS
+        ][:8]
+        with ThreadPoolExecutor(max_workers=4) as pool:
+            list(pool.map(enrich_discovery_listing, to_enrich))
+        for job in to_enrich:
+            score_job(job, config["rules"])
         alert_candidates: list[Job] = []
         migration_candidates: list[Job] = []
         next_seen = json.loads(json.dumps(original_seen))
@@ -1104,7 +1281,11 @@ def main(argv: Iterable[str] | None = None) -> int:
             # we previously recorded as ineligible becomes eligible. A content
             # or fingerprint schema change must never re-alert an old role.
             is_discovery_baseline = job.discovery and job.source in discovery_baselines
-            if not is_baseline and not is_discovery_baseline and (is_new or became_eligible):
+            if args.backfill and not (previous or {}).get("last_alerted_at"):
+                alert_candidates.append(job)
+            elif not is_baseline and not is_discovery_baseline and (
+                is_new or (became_eligible and not (previous or {}).get("last_alerted_at"))
+            ):
                 alert_candidates.append(job)
             elif previous and "eligible" not in previous and job.eligible:
                 # Hydrate old state once so the eligibility migration is
@@ -1145,7 +1326,7 @@ def main(argv: Iterable[str] | None = None) -> int:
                 if job.deadline_at:
                     next_seen[job.key]["deadline_at"] = job.deadline_at
 
-        jobs = [] if is_baseline else [job for job in alert_candidates if job.eligible]
+        jobs = [job for job in alert_candidates if job.eligible]
         blocked_count = 0 if is_baseline else sum(not job.eligible for job in alert_candidates)
         state["version"] = 4
         state["seen"] = next_seen
@@ -1153,6 +1334,18 @@ def main(argv: Iterable[str] | None = None) -> int:
         state["discovery_initialized"] = sorted(initialized_discovery | set(completed_discovery))
 
     alert_markdown = render_alerts(jobs, errors, detected_at, warnings)
+    if args.backfill:
+        ambiguous = [
+            job for job in alert_candidates
+            if not job.eligible and job.score >= config["rules"]["minimum_score"] - 20
+            and any("eligibility is unclear" in caution.lower() for caution in job.cautions)
+            and not any(caution.startswith(("Broad-market", "No preferred", "Non-IC", "Not a full-time",
+                                             "Explicit", "Application deadline")) for caution in job.cautions)
+        ]
+        if ambiguous:
+            alert_markdown += "\n## Geography needs verification\n\n"
+            for job in sorted(ambiguous, key=lambda item: item.score, reverse=True)[:10]:
+                alert_markdown += f"- {job.company} — {job.title} ({job.location or 'location not stated'}): {job.url}\n"
     args.alerts.write_text(alert_markdown, encoding="utf-8")
     email_sent = False
     email_error = ""
@@ -1168,7 +1361,7 @@ def main(argv: Iterable[str] | None = None) -> int:
     # Never consume a new or newly eligible match unless its email was
     # delivered. Persist unrelated state while leaving failed/dry-run alerts
     # pending for the next execution.
-    if not args.test_alert:
+    if not args.test_alert and not args.backfill:
         if jobs and not email_sent:
             for job in jobs:
                 if job.key in original_seen:
