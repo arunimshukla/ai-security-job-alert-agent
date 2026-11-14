@@ -66,6 +66,7 @@ The fixed company watchlist remains the fastest path. A second, best-effort laye
 | [Jobicy](https://jobicy.com/) | Public JSON API | 60 minutes |
 | [Remote Gig](https://remotegig.in/alerts) | Public Atom feed | 60 minutes |
 | [YC startup jobs via Hacker News](https://news.ycombinator.com/jobs) | Official Hacker News Job Stories API, latest 12 posts | 60 minutes |
+| [YC Startup Jobs remote marketing](https://www.ycombinator.com/jobs/role/marketing/remote) and [India marketing](https://www.ycombinator.com/jobs/role/marketing/india) | Public listings and matched job detail pages | 60 minutes per page, staggered |
 | [Arbeitnow](https://www.arbeitnow.com/) | Europe and UK APIs | 6 hours |
 | [Remotive](https://remotive.com/) | Public API | 6 hours |
 
@@ -73,7 +74,7 @@ These checks are staggered across the existing fifteen-minute workflow. They do 
 
 Each discovery source creates a quiet baseline on its first successful check. Existing listings are indexed without email; only roles appearing after that source is initialized can alert. This prevents deployment from flooding the recipient with old aggregated jobs.
 
-Remote Gig provides a short summary and a link to its listing. Check the employer's posting for final eligibility details. The Hacker News API covers the YC startup jobs posted to Hacker News. The full [YC Startup Jobs board](https://www.ycombinator.com/jobs) is available for manual browsing.
+Remote Gig provides a short summary and a link to its listing. Check the employer's posting for final eligibility details. The two YC Startup Jobs sources check public marketing listings and retain the job's stated location and employment type. The Hacker News API remains a separate source. The full [YC Startup Jobs board](https://www.ycombinator.com/jobs) is available for manual browsing.
 
 ## Alert decision
 
@@ -89,6 +90,8 @@ A listing produces an email only when all configured conditions pass. In the inc
 8. If structured compensation is published, it meets the configured floor.
 
 The first execution creates a quiet baseline. Later executions alert only on genuinely unseen roles or roles that cross from ineligible to eligible. Ordinary listing edits and internal fingerprint-format changes are recorded silently and cannot re-alert an old role. Failed email delivery leaves a genuine match pending for the next run.
+
+To review live matches that were silently baselined, run `python watcher.py --backfill --no-email`. The preview checks all sources, lists unalerted matches and promising roles with unclear geography, and leaves the alert history intact.
 
 ## Architecture
 

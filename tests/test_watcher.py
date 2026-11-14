@@ -1,4 +1,5 @@
 import json
+import html
 import tempfile
 import unittest
 from datetime import datetime, timezone
@@ -89,6 +90,70 @@ class WatcherTests(unittest.TestCase):
         watcher.score_job(job, self.rules)
         self.assertTrue(job.eligible)
 
+    def test_location_normalization_requires_real_geographic_evidence(self):
+        cases = {
+            "Worldwide": True, "Remote — Worldwide": True, "Remote (Worldwide)": True,
+            "Remote (India)": True, "Bengaluru": False, "Bengaluru, Remote": True,
+            "Remote (US)": False, "Boston / Remote (US)": False,
+            "India / Remote (US)": False, "Remote": False, "Remote - APAC": False,
+        }
+        for location, expected in cases.items():
+            with self.subTest(location=location):
+                job = watcher.Job("test", "Example", "test", "Technical Product Marketing Manager",
+                                  location, "Own AI security positioning.", "https://example.com", company_priority=25)
+                self.assertEqual(watcher.score_job(job, self.rules).eligible, expected)
+
+    def test_html_board_keeps_separate_career_cards_with_shared_apply_link(self):
+        config = json.loads((Path(__file__).parents[1] / "config.json").read_text())
+        target = next(t for t in config["targets"] if t["name"] == "Grafyn")
+        def card(anchor, title):
+            return (f'<div class="careeritem"><div id="{anchor}"><h4>{title}</h4>'
+                    '<div>Remote</div><p>AI security positioning.</p></div>'
+                    '<div>Location: <p>India</p></div><a href="/shared-form">Apply</a></div>')
+
+        with patch.object(watcher, "fetch_text", return_value=card(
+            "pmm", "Product Marketing Manager (Full-time/Intern/Co-op)"
+        ) + card("content", "Technical Content Writer")):
+            jobs = watcher.fetch_html_board(target)
+        self.assertEqual(len(jobs), 2)
+        self.assertNotEqual(jobs[0].key, jobs[1].key)
+        self.assertEqual(jobs[0].location, "Remote India")
+        self.assertTrue(watcher.score_job(jobs[0], self.rules).eligible)
+
+    def test_yc_board_reads_public_role_records_and_uses_detail_evidence(self):
+        target = {"name": "YC Startup Jobs", "type": "yc_jobs", "url": "https://www.ycombinator.com/jobs"}
+        listing = {"id": 7, "url": "/companies/example/jobs/j7-security-pmm", "companyName": "Example",
+                   "title": "Technical Product Marketing Manager", "location": "Remote", "type": "Full-time",
+                   "companyOneLiner": "AI security", "salaryRange": "$90K – $120K"}
+        def page(props):
+            return f'<div data-page="{html.escape(json.dumps({"props": props}), quote=True)}"></div>'
+
+        responses = [page({"jobPostings": [listing]}), page({"job": {"description": "Remote — Worldwide. Own positioning."}})]
+        with patch.object(watcher, "fetch_text", side_effect=responses):
+            jobs = watcher.fetch_yc_jobs_market(target)
+        self.assertEqual(len(jobs), 1)
+        self.assertEqual(jobs[0].url, "https://www.ycombinator.com/companies/example/jobs/j7-security-pmm")
+        self.assertEqual(jobs[0].employment_type, "Full-time")
+        self.assertTrue(watcher.score_job(jobs[0], self.rules).eligible)
+
+    def test_backfill_previews_unalerted_live_roles_without_mutating_state(self):
+        config = {"rules": self.rules, "targets": []}
+        job = watcher.Job("baseline:1", "Example", "test", "Technical Product Marketing Manager",
+                          "Remote worldwide", "AI cybersecurity", "https://example.com/job", company_priority=20)
+        initial = json.dumps({"initialized": True, "seen": {job.key: {"eligible": True}}})
+        with tempfile.TemporaryDirectory() as tmp, patch.object(
+            watcher, "collect_jobs", return_value=([job], [])
+        ), patch.object(watcher, "send_email") as send_email:
+            root = Path(tmp)
+            config_path, state_path, alerts_path = (root / "config", root / "state", root / "alerts")
+            config_path.write_text(json.dumps(config))
+            state_path.write_text(initial)
+            watcher.main(["--backfill", "--no-email", "--config", str(config_path),
+                          "--state", str(state_path), "--alerts", str(alerts_path)])
+            self.assertEqual(state_path.read_text(), initial)
+            self.assertIn("1 high-signal", alerts_path.read_text())
+        send_email.assert_not_called()
+
     def test_part_time_role_is_hard_excluded(self):
         job = watcher.Job(
             key="x",
@@ -149,7 +214,7 @@ class WatcherTests(unittest.TestCase):
             "company_priority": 10,
         }
         worldwide = watcher.Job(**common, location="Remote worldwide")
-        india = watcher.Job(**{**common, "key": "y"}, location="India")
+        india = watcher.Job(**{**common, "key": "y"}, location="Remote India")
         watcher.score_job(worldwide, self.rules)
         watcher.score_job(india, self.rules)
         self.assertTrue(worldwide.eligible)
@@ -216,11 +281,11 @@ class WatcherTests(unittest.TestCase):
         names = {target["name"] for target in config["targets"]}
         removed_irrelevant = {
             "OpenAI", "Anthropic", "ElevenLabs", "Canonical", "Cloudflare",
-            "OpenZeppelin", "JumpCloud", "Cyara", "Kantiv", "Chainguard", "Wiz",
+            "OpenZeppelin", "Cyara", "Kantiv", "Chainguard", "Wiz",
         }
         expected_core = {
             "Arcanna.ai", "Harmonic Security", "Dropzone AI", "CloudSEK",
-            "Prophet Security", "HiddenLayer", "XBOW", "WitnessAI", "Simbian",
+            "Prophet Security", "HiddenLayer", "XBOW", "WitnessAI", "Simbian", "JumpCloud", "Grafyn",
         }
         self.assertTrue(removed_irrelevant.isdisjoint(names))
         self.assertTrue(expected_core.issubset(names))
@@ -232,6 +297,7 @@ class WatcherTests(unittest.TestCase):
             "ZeroDay Careers", "Startup.jobs", "Himalayas", "Remote OK", "Jobicy",
             "We Work Remotely — Sales and Marketing", "Remotive",
             "Remote Gig", "YC startup jobs via Hacker News",
+            "YC Startup Jobs — Remote Marketing", "YC Startup Jobs — India Marketing",
         }
         self.assertTrue(expected.issubset(names))
         self.assertTrue(all(source["cadence_minutes"] >= 30 for source in config["discovery_sources"]))
@@ -411,7 +477,7 @@ Own positioning for an AI security platform.</summary>
             company="Example Security",
             source="test",
             title="Product Marketing Manager",
-            location="India",
+            location="Remote India",
             description="Manage a team while owning cybersecurity positioning.",
             url="https://example.com",
             company_priority=50,
@@ -426,7 +492,7 @@ Own positioning for an AI security platform.</summary>
             company="Example Security",
             source="test",
             title="Product Marketing Manager",
-            location="India",
+            location="Remote India",
             description="Cybersecurity positioning.",
             url="https://example.com",
             deadline_at="2020-01-01T00:00:00Z",
@@ -446,7 +512,7 @@ Own positioning for an AI security platform.</summary>
             company="Example",
             source="Ashby",
             title="Product Marketing Manager",
-            location="India",
+            location="Remote India",
             description="Cybersecurity",
             url="https://example.com/job",
             company_priority=20,
@@ -512,7 +578,7 @@ Own positioning for an AI security platform.</summary>
             company="Example",
             source="Ashby",
             title="Technical Product Marketing Manager",
-            location="India",
+            location="Remote India",
             description="AI cybersecurity positioning and technical content",
             url="https://example.com/new-job",
             company_priority=20,
@@ -539,7 +605,7 @@ Own positioning for an AI security platform.</summary>
             company="Example",
             source="test",
             title="Technical Product Marketing Manager",
-            location="India",
+            location="Remote India",
             description="AI cybersecurity positioning",
             url="https://example.com/job",
             company_priority=20,
@@ -564,7 +630,7 @@ Own positioning for an AI security platform.</summary>
             company="Example",
             source="test",
             title="Product Marketing Manager",
-            location="India",
+            location="Remote India",
             description="Product positioning.",
             url="https://example.com/job",
             company_priority=20,
@@ -646,7 +712,7 @@ Own positioning for an AI security platform.</summary>
             company="Example",
             source="test",
             title="Product Marketing Manager",
-            location="India",
+            location="Remote India",
             description="AI cybersecurity positioning.",
             url="https://example.com/job",
             company_priority=20,
@@ -685,7 +751,7 @@ Own positioning for an AI security platform.</summary>
             company="Example",
             source="test",
             title="Product Marketing Manager",
-            location="India",
+            location="Remote India",
             description="AI cybersecurity positioning.",
             url="https://example.com/job",
             company_priority=20,
