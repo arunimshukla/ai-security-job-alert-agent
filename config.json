@@ -236,13 +236,9 @@
     },
     {
       "name": "Dropzone AI",
-      "type": "html",
-      "url": "https://www.dropzone.ai/careers",
-      "priority": 22,
-      "hydrate_job_pages": true,
-      "hydrate_title_regex": "(?i)(product marketing|technical marketing|security marketing|content|communications|developer relations|social media)",
-      "include_href_regex": "(?i)(ats\\.rippling\\.com/dropzone-ai/jobs|dropzone\\.ai/.+(jobs|careers))",
-      "exclude_href_regex": "(?i)(#|javascript:|mailto:|/careers/?$)"
+      "type": "greenhouse",
+      "board": "dropzoneai",
+      "priority": 22
     },
     {
       "name": "Abnormal Security",
