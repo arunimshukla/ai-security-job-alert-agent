@@ -524,6 +524,15 @@
       "title": "Vice President, Product Marketing",
       "url": "https://www.arbeitnow.com/jobs/companies/spring-health/remote-vice-president-product-marketing-154707"
     },
+    "discovery:global:08a3932204b828a2f513": {
+      "company": "Tailscale",
+      "eligible": false,
+      "fingerprint": "eb68916ff7a65ace355b481f",
+      "first_seen_at": "2026-11-15T14:17:13+00:00",
+      "last_seen_at": "2026-11-15T14:17:13+00:00",
+      "title": "Developer Relations Engineer",
+      "url": "https://jobicy.com/jobs/162295-developer-relations-engineer-3"
+    },
     "discovery:global:0a435cd004efba988a93": {
       "company": "Datadog",
       "eligible": false,
@@ -1531,6 +1540,15 @@
       "last_seen_at": "2026-11-08T08:17:14+00:00",
       "title": "Developer Relations Lead",
       "url": "https://himalayas.app/companies/zenrows/jobs/developer-relations-lead"
+    },
+    "discovery:global:88bd6d103b99e87dae61": {
+      "company": "Reedsy",
+      "eligible": false,
+      "fingerprint": "b1315d8e76ffa23fa74a8ecf",
+      "first_seen_at": "2026-11-15T14:17:13+00:00",
+      "last_seen_at": "2026-11-15T14:17:13+00:00",
+      "title": "Social Media Manager",
+      "url": "https://jobicy.com/jobs/162308-social-media-manager-3"
     },
     "discovery:global:89a0fba1a284de0d1c84": {
       "company": "BEFORE EIGHT Group GmbH",
