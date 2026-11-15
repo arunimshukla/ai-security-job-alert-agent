@@ -37,12 +37,30 @@ USER_AGENT = (
 DEFAULT_HTML_ROLE_REGEX = (
     r"(?i)(technical product marketing|product marketing|technical marketing|"
     r"security marketing|solutions marketing|developer marketing|product communications|"
-    r"technical communications|content marketing|content strategist|technical content|"
+    r"technical communications|content marketing|content strateg(?:ist|y)|technical content|"
     r"developer advocate|developer relations|founder brand|social media|"
     r"marketing communications)"
 )
 DISCOVERY_WINDOW_MINUTES = 15
 PUBLIC_ATS_HOSTS = {"jobs.ashbyhq.com", "jobs.lever.co", "jobs.eu.lever.co", "job-boards.greenhouse.io"}
+EMPLOYMENT_LABEL = re.compile(
+    r"\b(?:employment type|job type)\s*:\s*"
+    r"(full[- ]time|part[- ]time|fixed[- ]term|contract(?:or)?|temporary|freelance|internship)\b",
+    re.IGNORECASE,
+)
+CONTRACT_ROLE = re.compile(
+    r"\b(?:this(?: (?:role|position|job))?|the (?:role|position|job)) is (?:an? )?"
+    r"(?:full[- ]time )?(?:\w+[- ](?:months?|weeks?|years?)\s+)?"
+    r"(contract(?:or)?|fixed[- ]term|temporary|freelance|part[- ]time|internship)"
+    r"(?:\s+(?:role|position|job|assignment)\b|(?=[.!,;:]|$))",
+    re.IGNORECASE,
+)
+INDIA_EXCLUSION = re.compile(
+    r"\b(?:except(?: for)? india|excluding india|india (?:is )?excluded|"
+    r"(?:cannot|can not|can t|do not|don t|unable to) (?:currently )?(?:hire|employ) "
+    r"(?:(?:candidates|people|remotely) )?(?:in|from|based in) india|"
+    r"not (?:open|available) to (?:applicants|candidates) (?:in|from|based in) india)\b"
+)
 
 
 @dataclass
@@ -65,6 +83,7 @@ class Job:
     reasons: list[str] = field(default_factory=list)
     cautions: list[str] = field(default_factory=list)
     eligible: bool = True
+    workplace_type: str = ""
 
 
 FULL_TIME = re.compile(r"\bfull[ -]time\b", re.IGNORECASE)
@@ -262,30 +281,32 @@ def hydrate_candidate_metadata(job: Job) -> None:
         return
     detail_url = job.url.removesuffix("/application")
     try:
-        page = fetch_text(detail_url, attempts=2)
+        page = fetch_text(detail_url, attempts=2, timeout=8)
     except RuntimeError:
         return
-    match = re.search(r'"applicationDeadline":"([^"]+)"', page)
+    match = re.search(r'"applicationDeadline"\s*:\s*(?:"([^"]*)"|(null))', page)
     if match:
-        job.deadline_at = match.group(1)
+        deadline = match.group(1)
+        if match.group(2) or (deadline and parse_datetime(deadline)):
+            job.deadline_at = deadline or ""
 
 
 def enrich_discovery_listing(job: Job) -> None:
     """Recover evidence from established public ATS hosts when a feed omits it."""
     page = VisibleTextParser()
     try:
-        page.feed(fetch_text(job.url.removesuffix("/application"), attempts=1))
+        page.feed(fetch_text(job.url.removesuffix("/application"), attempts=1, timeout=6))
     except RuntimeError:
         return
     if page.text():
-        job.description = page.text()
+        job.description = clean_text(f"{job.description} {page.text()}")
 
 
 def fetch_json(url: str) -> Any:
     return json.loads(fetch_text(url))
 
 
-def fetch_text(url: str, attempts: int = 3) -> str:
+def fetch_text(url: str, attempts: int = 3, *, timeout: int = 25) -> str:
     request = urllib.request.Request(
         url,
         headers={"User-Agent": USER_AGENT, "Accept": "application/json,text/html;q=0.9,*/*;q=0.8"},
@@ -293,7 +314,7 @@ def fetch_text(url: str, attempts: int = 3) -> str:
     last_error: Exception | None = None
     for attempt in range(attempts):
         try:
-            with urllib.request.urlopen(request, timeout=25) as response:
+            with urllib.request.urlopen(request, timeout=timeout) as response:
                 return response.read().decode("utf-8", errors="replace")
         except (urllib.error.URLError, TimeoutError) as exc:
             last_error = exc
@@ -305,6 +326,28 @@ def fetch_text(url: str, attempts: int = 3) -> str:
 def stable_key(source: str, company: str, raw_id: str, url: str) -> str:
     identity = raw_id or url
     return f"{source}:{company}:{hashlib.sha256(identity.encode()).hexdigest()[:20]}"
+
+
+def posting_url(url: str) -> str:
+    if not url:
+        return ""
+    try:
+        parsed = urllib.parse.urlsplit(url)
+    except ValueError:
+        return url
+    host = parsed.netloc.lower()
+    path = parsed.path.rstrip("/")
+    if host == "jobs.ashbyhq.com":
+        path = path.removesuffix("/application")
+    elif host in {"jobs.lever.co", "jobs.eu.lever.co"}:
+        path = path.removesuffix("/apply")
+    query = urllib.parse.urlencode(sorted(
+        (key, value)
+        for key, value in urllib.parse.parse_qsl(parsed.query, keep_blank_values=True)
+        if not key.lower().startswith("utm_") and key.lower() not in {"gh_src", "lever-source"}
+    ))
+    fragment = "" if host in PUBLIC_ATS_HOSTS else parsed.fragment
+    return urllib.parse.urlunsplit((parsed.scheme.lower(), host, path, query, fragment))
 
 
 def fetch_ashby(target: dict[str, Any]) -> list[Job]:
@@ -335,6 +378,7 @@ def fetch_ashby(target: dict[str, Any]) -> list[Job]:
                 employment_type=clean_text(item.get("employmentType", "")),
                 compensation=clean_text(compensation),
                 company_priority=int(target.get("priority", 0)),
+                workplace_type=clean_text(workplace),
             )
         )
     return jobs
@@ -344,9 +388,13 @@ def fetch_greenhouse(target: dict[str, Any]) -> list[Job]:
     board = target["board"]
     url = f"https://boards-api.greenhouse.io/v1/boards/{urllib.parse.quote(board)}/jobs?content=true"
     payload = fetch_json(url)
+    if not isinstance(payload, dict) or not isinstance(payload.get("jobs"), list):
+        raise ValueError("Greenhouse response is missing its job list")
     jobs: list[Job] = []
-    for item in payload.get("jobs", []):
+    for item in payload["jobs"]:
         job_url = item.get("absolute_url", "")
+        description = clean_text(item.get("content"))
+        employment = CONTRACT_ROLE.search(description) or EMPLOYMENT_LABEL.search(description)
         jobs.append(
             Job(
                 key=stable_key("greenhouse", target["name"], str(item.get("id", "")), job_url),
@@ -354,9 +402,10 @@ def fetch_greenhouse(target: dict[str, Any]) -> list[Job]:
                 source="Greenhouse",
                 title=clean_text(item.get("title")),
                 location=clean_text((item.get("location") or {}).get("name")),
-                description=clean_text(item.get("content")),
+                description=description,
                 url=job_url,
                 posted_at=item.get("updated_at", ""),
+                employment_type=employment.group(1) if employment else "",
                 company_priority=int(target.get("priority", 0)),
             )
         )
@@ -374,6 +423,16 @@ def fetch_lever(target: dict[str, Any]) -> list[Job]:
         locations = categories.get("allLocations") or [categories.get("location", "")]
         job_url = item.get("applyUrl") or item.get("hostedUrl") or ""
         salary = item.get("salaryDescriptionPlain", "")
+        salary_range = item.get("salaryRange") or {}
+        bounds = [
+            f"{salary_range[key]:,}" for key in ("min", "max")
+            if isinstance(salary_range.get(key), (int, float))
+        ]
+        if bounds and salary_range.get("currency"):
+            interval = salary_range.get("interval", "")
+            unit = re.search(r"\bper-(year|month|week|day|hour)\b", interval or "")
+            period = f" per {unit.group(1)}" if unit else ""
+            salary = f"{salary_range['currency']} {'–'.join(bounds)}{period}"
         jobs.append(
             Job(
                 key=stable_key("lever", target["name"], item.get("id", ""), job_url),
@@ -387,6 +446,7 @@ def fetch_lever(target: dict[str, Any]) -> list[Job]:
                 employment_type=clean_text(categories.get("commitment", "")),
                 compensation=clean_text(salary),
                 company_priority=int(target.get("priority", 0)),
+                workplace_type=clean_text(item.get("workplaceType")),
             )
         )
     return jobs
@@ -409,7 +469,7 @@ def fetch_html_board(target: dict[str, Any]) -> list[Job]:
             if re.match(r"^Remote\b", details.removeprefix(title).strip(), re.IGNORECASE):
                 location = f"Remote {location}".strip()
             jobs.append(Job(
-                key=stable_key("html", target["name"], title, page_url),
+                key=stable_key("html", target["name"], anchor or title, page_url),
                 company=target["name"], source="Career page", title=title, location=location,
                 description=details, url=f"{page_url}#{anchor}" if anchor else page_url,
                 employment_type="Full-time track" if FULL_TIME_TRACK.search(title) else "",
@@ -490,8 +550,13 @@ def discovery_due(target: dict[str, Any], now: datetime | None = None) -> bool:
 
 
 def discovery_title_matches(target: dict[str, Any], title: str) -> bool:
-    pattern = target.get("include_title_regex", DEFAULT_HTML_ROLE_REGEX)
-    return bool(re.search(pattern, title))
+    pattern = target.get("include_title_regex")
+    if pattern:
+        return bool(re.search(pattern, title))
+    roles = target.get("role_phrases")
+    if roles is not None:
+        return any(phrase.casefold() in title.casefold() for phrase in roles)
+    return bool(re.search(DEFAULT_HTML_ROLE_REGEX, title))
 
 
 def normalize_discovery_location(value: Any, default: str = "") -> str:
@@ -523,10 +588,7 @@ def build_discovery_job(
         return None
     source_name = clean_text(target["name"])
     clean_company = clean_text(company) or source_name
-    shared_identity = "|".join(
-        re.sub(r"[^a-z0-9]+", "", value.lower()) for value in [clean_company, clean_title]
-    )
-    key = stable_key("discovery", "global", shared_identity or clean_text(raw_id), clean_url)
+    key = stable_key("discovery", "global", "", posting_url(clean_url))
     if target.get("type") == "yc_jobs":
         key = stable_key("yc", "global", clean_text(raw_id), clean_url)
     return Job(
@@ -546,25 +608,17 @@ def build_discovery_job(
 
 
 def deduplicate_jobs(jobs: list[Job]) -> list[Job]:
-    """Prefer first-party records and collapse cross-market copies of one role."""
+    """Prefer first-party copies when multiple sources link to the same posting."""
     selected: dict[str, Job] = {}
-    order: list[str] = []
     for job in jobs:
-        identity = "|".join(
-            re.sub(r"[^a-z0-9]+", "", value.lower()) for value in [job.company, job.title]
-        )
-        if not identity:
-            identity = job.key
+        identity = posting_url(job.url) or job.key
         existing = selected.get(identity)
-        if existing is None:
+        if (
+            existing is None
+            or (existing.discovery, -len(existing.description)) > (job.discovery, -len(job.description))
+        ):
             selected[identity] = job
-            order.append(identity)
-            continue
-        if existing.discovery and not job.discovery:
-            selected[identity] = job
-        elif existing.discovery == job.discovery and len(job.description) > len(existing.description):
-            selected[identity] = job
-    return [selected[identity] for identity in order]
+    return list(selected.values())
 
 
 def xml_local_name(tag: str) -> str:
@@ -843,39 +897,40 @@ def phrase_hits(text: str, weighted_phrases: dict[str, int]) -> list[tuple[str, 
 
 
 def compensation_below_floor(job: Job, rules: dict[str, Any]) -> str:
-    """Return a hard-rejection reason only for explicit structured salary ranges."""
+    """Compare explicit salaries with the configured annual floors."""
     text = clean_text(job.compensation)
-    if not text or re.search(r"(?i)(per hour|/hour|/hr|hourly)", text):
+    if not text:
         return ""
 
     thresholds = [
-        (r"(?:US\$|USD|\$)", int(rules.get("minimum_usd_salary", 0)), "USD"),
+        (r"(?:US\$|\bUSD\b|(?<![A-Z])\$)", int(rules.get("minimum_usd_salary", 0)), "USD"),
         (r"(?:INR|₹)", int(rules.get("minimum_inr_salary", 0)), "INR"),
     ]
+    multipliers = {
+        "k": 1_000, "m": 1_000_000, "lakh": 100_000, "lakhs": 100_000, "lpa": 100_000,
+        "lac": 100_000, "lacs": 100_000, "crore": 10_000_000, "crores": 10_000_000,
+    }
+    number = r"\d+(?:,\d+)*(?:\.\d+)?"
+    unit = rf"(?:{'|'.join(multipliers)})\b"
+    interval = r"month(?:ly)?|mo|week(?:ly)?|day|daily|hour(?:ly)?|hr|year(?:ly)?|annum"
     for marker, minimum, currency in thresholds:
         if not minimum:
             continue
         amounts: list[float] = []
-        range_pattern = (
-            rf"(?i){marker}\s*([\d,.]+)\s*([km]?)\s*(?:-|–|—|to)\s*"
-            rf"(?:{marker}\s*)?([\d,.]+)\s*([km]?)"
+        pattern = re.compile(
+            rf"{marker}\s*({number})(?:\s*({unit}))?"
+            rf"(?:\s*(?:-|–|—|\bto\b)\s*(?:{marker}\s*)?({number})(?:\s*({unit}))?)?"
+            rf"(?:\s*(?:/\s*|per\s+|a\s+)?({interval})\b)?",
+            re.IGNORECASE,
         )
-        for low_raw, low_suffix, high_raw, high_suffix in re.findall(range_pattern, text):
-            for raw, suffix in [(low_raw, low_suffix), (high_raw, high_suffix)]:
-                value = float(raw.replace(",", ""))
-                if suffix.lower() == "k":
-                    value *= 1_000
-                elif suffix.lower() == "m":
-                    value *= 1_000_000
-                amounts.append(value)
-        single_pattern = rf"(?i){marker}\s*([\d,.]+)\s*([km]?)"
-        for raw, suffix in re.findall(single_pattern, text):
-            value = float(raw.replace(",", ""))
-            if suffix.lower() == "k":
-                value *= 1_000
-            elif suffix.lower() == "m":
-                value *= 1_000_000
-            amounts.append(value)
+        for low, low_unit, high, high_unit, period in pattern.findall(text):
+            period = period.lower()
+            if period.startswith(("hour", "hr", "day", "dai")):
+                continue
+            annual_factor = 12 if period.startswith("mo") else 52 if period.startswith("week") else 1
+            for raw, suffix in ((low, low_unit or high_unit), (high, high_unit or low_unit)):
+                if raw:
+                    amounts.append(float(raw.replace(",", "")) * multipliers.get(suffix.lower(), 1) * annual_factor)
         if amounts and max(amounts) < minimum:
             formatted = f"${minimum:,}" if currency == "USD" else f"₹{minimum:,}"
             return f"Explicit {currency} compensation tops out below {formatted}"
@@ -921,38 +976,62 @@ def score_job(job: Job, rules: dict[str, Any]) -> Job:
             hard_excluded = True
 
     location_value = location_words(job.location)
-    location_text = location_words(f"{job.location} {job.description}")
-    explicit_restrictions = [p for p in rules["blocked_location_phrases"] if location_has(p, location_text)]
+    description_location = location_words(job.description)
+    location_text = f"{location_value} {description_location}"
+    explicit_restrictions = [p for p in rules["blocked_location_phrases"] if location_has(p, location_value)]
+    description_restrictions = [
+        p for p in rules["blocked_location_phrases"] if location_has(p, description_location)
+    ]
     location_restrictions = [
         p for p in rules.get("blocked_location_only_phrases", []) if location_has(p, location_value)
     ]
-    allowed_hits = [p for p in rules["allowed_location_phrases"] if location_has(p, location_text)]
+    worldwide_text = re.sub(
+        r"\banywhere (?:in|within|across|on) (?!the world\b|the globe\b|earth\b)",
+        "within ",
+        location_text,
+    )
+    allowed_hits = [p for p in rules["allowed_location_phrases"] if location_has(p, worldwide_text)]
     worldwide_location = location_value in {"worldwide", "global", "anywhere", "anywhere worldwide"}
     india_hits = [p for p in rules["india_location_phrases"] if location_has(p, location_value)]
-    india_eligibility_hits = [
-        p for p in rules.get("india_eligibility_phrases", []) if location_has(p, location_text)
+    india_remote_phrases = [
+        p for p in rules.get("india_eligibility_phrases", []) if "work in india" not in p.casefold()
     ]
     remote_scopes = re.findall(r"\bremote\s*\(([^)]+)\)", job.location, re.IGNORECASE)
-    regional_remote = any(
-        not any(location_has(p, location_words(scope)) for p in rules["india_location_phrases"])
-        and location_words(scope) not in {"global", "worldwide", "anywhere"}
-        for scope in remote_scopes
+    india_scopes = [
+        scope for scope in remote_scopes
+        if any(location_has(p, location_words(scope)) for p in rules["india_location_phrases"])
+    ]
+    other_scopes = [
+        scope for scope in remote_scopes
+        if scope not in india_scopes and location_words(scope) not in {"global", "worldwide", "anywhere"}
+    ]
+    india_remote = (
+        bool(india_scopes)
+        or any(location_has(p, description_location) for p in india_remote_phrases)
+        or any(location_has(p, location_value) for p in india_remote_phrases) and not other_scopes
+        or bool(re.search(r"\banywhere (?:in|within|across) india\b", description_location))
     )
-    if regional_remote:
-        location_restrictions.extend(remote_scopes)
+    workplace = location_words(job.workplace_type)
+    explicitly_local = workplace in {"on site", "onsite", "hybrid"} or any(
+        location_has(p, location_value) for p in ("on site", "onsite", "hybrid")
+    )
+    location_remote = workplace == "remote" or location_has("remote", location_value)
+    india_excluded = INDIA_EXCLUSION.search(location_text)
 
-    if explicit_restrictions or (regional_remote and not india_eligibility_hits):
+    if india_excluded or description_restrictions or ((explicit_restrictions or other_scopes) and not india_remote):
         score -= 45
-        restrictions = [*explicit_restrictions, *location_restrictions]
+        restrictions = [*description_restrictions, *explicit_restrictions, *other_scopes]
+        if india_excluded:
+            restrictions.insert(0, india_excluded.group(0))
         cautions.append("Explicit location restriction: " + ", ".join(dict.fromkeys(restrictions[:3])))
         hard_excluded = True
-    elif india_hits or india_eligibility_hits:
+    elif india_hits or india_remote:
         score += 15
         reasons.append("India/Delhi-NCR location match")
         if rules.get("require_remote_outside_delhi_ncr") and not any(
             location_has(place, location_value)
             for place in ("noida", "delhi", "gurugram", "gurgaon")
-        ) and not (india_eligibility_hits or location_has("remote", location_value) or allowed_hits):
+        ) and (explicitly_local or not (india_remote or location_remote or allowed_hits)):
             cautions.append("India remote eligibility is unclear outside Delhi-NCR")
             hard_excluded = True
     elif location_restrictions:
@@ -996,7 +1075,7 @@ def score_job(job: Job, rules: dict[str, Any]) -> Job:
         if location_has(phrase, location_words(seniority_title))
         or (not FULL_TIME.search(employment_value) and location_has(phrase, location_words(employment_value)))
     ]
-    if employment_value == "contract" and "contract" not in blocked_employment:
+    if location_has("contract", location_words(employment_value)) and "contract" not in blocked_employment:
         blocked_employment.append("contract")
     if blocked_employment:
         cautions.append("Not a full-time role: " + ", ".join(blocked_employment[:2]))
@@ -1052,7 +1131,7 @@ def collect_jobs(
     initialized_discovery = initialized_discovery or set()
     targets = [target for target in config["targets"] if target.get("enabled", True)]
     discovery_targets = [
-        target
+        {**target, "role_phrases": config.get("rules", {}).get("role_phrases")}
         for target in config.get("discovery_sources", [])
         if target.get("enabled", True)
         and (target["name"] not in initialized_discovery or discovery_due(target, now))
@@ -1243,18 +1322,49 @@ def main(argv: Iterable[str] | None = None) -> int:
             all_jobs, errors, warnings, completed_discovery = collected
         all_jobs = deduplicate_jobs(all_jobs)
         scanned_count = len(all_jobs)
+        is_baseline = not state.get("initialized", False)
+        original_seen = state.get("seen", {})
+        history_by_url: dict[str, Any] = {}
+        for record in original_seen.values():
+            url = posting_url(record.get("url", ""))
+            if not url:
+                continue
+            prior = history_by_url.get(url)
+            rank = (record.get("last_alerted_at", ""), record.get("last_seen_at", ""))
+            if prior is None or rank > (
+                prior.get("last_alerted_at", ""), prior.get("last_seen_at", "")
+            ):
+                history_by_url[url] = record
+
+        previous_records = {}
+        expired_ashby = []
+        for job in all_jobs:
+            alias = history_by_url.get(posting_url(job.url), {})
+            prior = original_seen.get(job.key, {})
+            previous = dict(prior or alias)
+            if alias.get("last_alerted_at") and not previous.get("last_alerted_at"):
+                previous["last_alerted_at"] = alias["last_alerted_at"]
+            previous_records[job.key] = previous
+            if not job.deadline_at:
+                job.deadline_at = previous.get("deadline_at", "")
+            if job.source == "Ashby" and job_deadline_expired(job):
+                expired_ashby.append(job)
+        if expired_ashby:
+            with ThreadPoolExecutor(max_workers=4) as pool:
+                list(pool.map(hydrate_candidate_metadata, expired_ashby))
+        refreshed = {job.key for job in expired_ashby}
+
         for job in all_jobs:
             score_job(job, config["rules"])
-        is_baseline = not state.get("initialized", False)
-        original_seen = json.loads(json.dumps(state.get("seen", {})))
         to_enrich = [
             job for job in all_jobs
             if job.discovery and any("eligibility is unclear" in c.lower() for c in job.cautions)
             and urllib.parse.urlparse(job.url).scheme == "https"
             and urllib.parse.urlparse(job.url).netloc in PUBLIC_ATS_HOSTS
-        ][:8]
-        with ThreadPoolExecutor(max_workers=4) as pool:
-            list(pool.map(enrich_discovery_listing, to_enrich))
+        ]
+        if to_enrich:
+            with ThreadPoolExecutor(max_workers=8) as pool:
+                list(pool.map(enrich_discovery_listing, to_enrich))
         for job in to_enrich:
             score_job(job, config["rules"])
         alert_candidates: list[Job] = []
@@ -1264,11 +1374,11 @@ def main(argv: Iterable[str] | None = None) -> int:
         discovery_baselines = set(completed_discovery) - initialized_discovery
 
         for job in all_jobs:
-            previous = original_seen.get(job.key)
+            previous = previous_records[job.key]
             fingerprint = job_fingerprint(job)
-            is_new = previous is None
+            is_new = not previous
             is_updated = bool(previous and previous.get("fingerprint") and previous["fingerprint"] != fingerprint)
-            previous_eligible = (previous or {}).get("eligible")
+            previous_eligible = previous.get("eligible")
             became_eligible = previous_eligible is False and job.eligible
             if is_new:
                 new_count += 1
@@ -1281,10 +1391,10 @@ def main(argv: Iterable[str] | None = None) -> int:
             # we previously recorded as ineligible becomes eligible. A content
             # or fingerprint schema change must never re-alert an old role.
             is_discovery_baseline = job.discovery and job.source in discovery_baselines
-            if args.backfill and not (previous or {}).get("last_alerted_at"):
+            if args.backfill and not previous.get("last_alerted_at"):
                 alert_candidates.append(job)
             elif not is_baseline and not is_discovery_baseline and (
-                is_new or (became_eligible and not (previous or {}).get("last_alerted_at"))
+                is_new or (became_eligible and not previous.get("last_alerted_at"))
             ):
                 alert_candidates.append(job)
             elif previous and "eligible" not in previous and job.eligible:
@@ -1298,33 +1408,41 @@ def main(argv: Iterable[str] | None = None) -> int:
             needs_record_update = (
                 is_new
                 or is_updated
-                or not (previous or {}).get("fingerprint")
-                or (previous or {}).get("company") != job.company
+                or not previous.get("fingerprint")
+                or previous.get("company") != job.company
+                or previous != original_seen.get(job.key)
                 or previous_eligible is None
                 or previous_eligible != job.eligible
             )
             if needs_record_update:
                 next_seen[job.key] = {
-                    **(previous or {}),
+                    **previous,
                     "company": job.company,
                     "title": job.title,
                     "url": job.url,
                     "fingerprint": fingerprint,
                     "eligible": job.eligible,
-                    "first_seen_at": (previous or {}).get("first_seen_at", detected_at),
+                    "first_seen_at": previous.get("first_seen_at", detected_at),
                     "last_seen_at": detected_at,
                 }
+                if job.deadline_at:
+                    next_seen[job.key]["deadline_at"] = job.deadline_at
+                else:
+                    next_seen[job.key].pop("deadline_at", None)
 
         candidate_count = len(alert_candidates)
         enrichment_candidates = alert_candidates + migration_candidates
         for job in enrichment_candidates:
             if job.eligible:
-                hydrate_candidate_metadata(job)
+                if job.key not in refreshed:
+                    hydrate_candidate_metadata(job)
                 score_job(job, config["rules"])
                 next_seen[job.key]["fingerprint"] = job_fingerprint(job)
                 next_seen[job.key]["eligible"] = job.eligible
                 if job.deadline_at:
                     next_seen[job.key]["deadline_at"] = job.deadline_at
+                else:
+                    next_seen[job.key].pop("deadline_at", None)
 
         jobs = [job for job in alert_candidates if job.eligible]
         blocked_count = 0 if is_baseline else sum(not job.eligible for job in alert_candidates)

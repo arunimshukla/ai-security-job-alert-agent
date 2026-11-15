@@ -1,3 +1,5 @@
+import contextlib
+import io
 import json
 import html
 import tempfile
@@ -419,7 +421,7 @@ Own positioning for an AI security platform.</summary>
             title="Technical Product Marketing Manager",
             location="Remote worldwide",
             description="AI security role",
-            url="https://remote.example/jobs/1",
+            url="https://arcanna.ai/jobs/technical-product-marketing-manager?utm_source=remote",
             discovery=True,
         )
         direct = watcher.Job(
@@ -781,6 +783,191 @@ Own positioning for an AI security platform.</summary>
         rendered = watcher.markdown_to_html("Source: https://example.com/jobs/:")
         self.assertIn('href="https://example.com/jobs/"', rendered)
         self.assertNotIn('href="https://example.com/jobs/:"', rendered)
+
+
+class AuditRegressionTests(unittest.TestCase):
+    def setUp(self):
+        self.config = json.loads(watcher.DEFAULT_CONFIG.read_text())
+        self.rules = self.config["rules"]
+        directory = tempfile.TemporaryDirectory()
+        self.addCleanup(directory.cleanup)
+        self.state = Path(directory.name) / "state.json"
+        self.alerts = Path(directory.name) / "alerts.md"
+        self.save_seen({})
+
+    def job(self, **overrides):
+        fields = {
+            "key": "role", "company": "Example Security", "source": "Lever",
+            "title": "Senior Product Marketing Manager", "location": "Remote worldwide",
+            "description": "AI security positioning, messaging and launches.",
+            "url": "https://jobs.lever.co/example/role", "employment_type": "Full-time",
+            "company_priority": 18,
+        }
+        return watcher.Job(**(fields | overrides))
+
+    def save_seen(self, seen):
+        self.state.write_text(json.dumps({"initialized": True, "seen": seen}))
+
+    def scan(self, jobs, *args):
+        output = io.StringIO()
+        with patch.object(watcher, "collect_jobs", return_value=(jobs, [], [], [])):
+            with contextlib.redirect_stdout(output):
+                watcher.main(["--state", str(self.state), "--alerts", str(self.alerts), *args])
+        return json.loads(output.getvalue())
+
+    def test_separate_requisitions_with_same_title_survive_deduplication(self):
+        us = self.job(key="us", location="Remote (US)", description="Long US job description. " * 12)
+        india = self.job(key="india", location="Remote India", url="https://jobs.lever.co/example/india")
+        with patch.object(watcher, "send_email") as send:
+            summary = self.scan([us, india])
+        self.assertEqual(summary["scanned"], 2)
+        self.assertEqual(summary["alerts"], 1)
+        self.assertIn(india.url, send.call_args.args[1])
+
+    def test_legacy_url_keeps_alert_history_while_a_new_requisition_alerts(self):
+        target = {"name": "Discovery", "type": "rss", "priority": 15}
+        def listing(posting_id):
+            return watcher.build_discovery_job(
+                target, raw_id=posting_id, company="Example Security",
+                title="Senior Product Marketing Manager", location="Remote India",
+                description="AI security positioning and messaging", employment_type="Full-time",
+                url=f"https://jobs.lever.co/example/{posting_id}/apply",
+            )
+        old, new = listing("original"), listing("new")
+        self.save_seen({
+            "legacy-company-and-title": {
+                "url": "https://jobs.lever.co/example/original?utm_source=market",
+                "eligible": True, "last_alerted_at": "2026-01-01T00:00:00+00:00",
+            }
+        })
+        with patch.object(watcher, "send_email") as send:
+            self.assertEqual(self.scan([old, new])["alerts"], 1)
+            self.assertIn(new.url, send.call_args.args[1])
+            self.assertNotIn(old.url, send.call_args.args[1])
+            self.assertEqual(self.scan([listing("original"), listing("new")])["alerts"], 0)
+            send.assert_called_once()
+
+    def test_scoped_remote_hiring_overrides_generic_location_wording(self):
+        cases = [
+            ("Remote", "You may work from anywhere in Europe.", False),
+            ("Remote", "Work from anywhere in the world.", True),
+            ("Remote", "Work from anywhere in India.", True),
+            ("Remote worldwide", "We cannot hire in India.", False),
+            ("Bengaluru, India (on-site)", "You must be authorized to work in India.", False),
+            ("India / Remote (US)", "", False),
+            ("Remote (US) or Remote (India)", "", True),
+        ]
+        for location, evidence, expected in cases:
+            with self.subTest(location=location, evidence=evidence):
+                job = self.job(location=location, description=f"AI security positioning. {evidence}")
+                self.assertEqual(watcher.score_job(job, self.rules).eligible, expected)
+
+    def test_ashby_remote_flag_is_used_for_work_outside_delhi(self):
+        target = {"type": "ashby", "name": "Example Security", "board": "example", "priority": 22}
+        for workplace, expected in (("Remote", True), ("Hybrid", False), ("OnSite", False)):
+            with self.subTest(workplace=workplace):
+                payload = {"jobs": [{
+                    "title": "Product Marketing Manager", "location": "Bengaluru, India",
+                    "workplaceType": workplace, "descriptionPlain": "AI security positioning.",
+                    "jobUrl": "https://jobs.ashbyhq.com/example/role", "employmentType": "FullTime",
+                }]}
+                with patch.object(watcher, "fetch_json", return_value=payload):
+                    job, = watcher.fetch_ashby(target)
+                self.assertEqual(watcher.score_job(job, self.rules).eligible, expected)
+
+    def test_dropzone_reads_greenhouse_and_distinguishes_invalid_and_empty_lists(self):
+        target = next(t for t in self.config["targets"] if t["name"] == "Dropzone AI")
+        self.assertEqual(target["type"], "greenhouse")
+        with patch.object(watcher, "fetch_json", return_value={"jobs": []}) as fetch:
+            self.assertEqual(watcher.FETCHERS[target["type"]](target), [])
+            self.assertIn("/dropzoneai/jobs?", fetch.call_args.args[0])
+        with patch.object(watcher, "fetch_json", return_value={"message": "temporarily unavailable"}):
+            _, errors, _, _ = watcher.collect_jobs({"targets": [target]})
+        self.assertIn("missing its job list", errors[0])
+
+    def test_salary_units_and_punctuation(self):
+        for salary, eligible in [
+            ("$8k / month", True), ("$4k–$5k monthly", False),
+            ("₹35 lakh per year", True), ("₹20–25 lakhs", False),
+            ("USD 75,000.00.", True), ("USD 42,000.00.", False),
+        ]:
+            with self.subTest(salary=salary):
+                self.assertEqual(watcher.score_job(self.job(compensation=salary), self.rules).eligible, eligible)
+
+    def test_lever_structured_salary_range_is_scored(self):
+        target = {"name": "Example", "board": "example", "priority": 18}
+        payload = [{
+            "id": "role", "text": "Product Marketing Manager", "descriptionPlain": "AI security positioning.",
+            "categories": {"location": "India", "commitment": "Full-time"}, "workplaceType": "remote",
+            "salaryRange": {"currency": "INR", "min": 1000000, "max": 1500000, "interval": "per-year-salary"},
+        }]
+        with patch.object(watcher, "fetch_json", return_value=payload):
+            job, = watcher.fetch_lever(target)
+        self.assertFalse(watcher.score_job(job, self.rules).eligible)
+        self.assertIn("Explicit INR compensation", " ".join(job.cautions))
+
+    def test_greenhouse_uses_role_specific_employment_evidence(self):
+        target = {"name": "Example", "board": "example", "priority": 18}
+        for evidence, eligible in [
+            ("This is a six-month contract role.", False),
+            ("This is a six-month contract role with a possible extension.", False),
+            ("Job type: Contract", False),
+            ("This role is not a contract role.", True),
+            ("Work with external contractors.", True),
+        ]:
+            with self.subTest(evidence=evidence):
+                payload = {"jobs": [{
+                    "id": 1, "title": "Product Marketing Manager", "location": {"name": "Remote worldwide"},
+                    "content": "<p>AI security positioning.</p><p>" + evidence + "</p>",
+                }]}
+                with patch.object(watcher, "fetch_json", return_value=payload):
+                    job, = watcher.fetch_greenhouse(target)
+                self.assertEqual(watcher.score_job(job, self.rules).eligible, eligible)
+
+    def test_known_ashby_expiry_survives_timeout_and_can_be_reopened(self):
+        def listing():
+            return self.job(source="Ashby", url="https://jobs.ashbyhq.com/example/role")
+        with patch.object(watcher, "send_email") as send:
+            with patch.object(watcher, "fetch_text", return_value='{"applicationDeadline":"2020-01-01T00:00:00Z"}'):
+                self.assertEqual(self.scan([listing()])["alerts"], 0)
+            with patch.object(watcher, "fetch_text", side_effect=RuntimeError("temporary timeout")):
+                self.assertEqual(self.scan([listing()])["alerts"], 0)
+            with patch.object(watcher, "fetch_text", return_value='{"applicationDeadline":"unavailable"}'):
+                self.assertEqual(self.scan([listing()])["alerts"], 0)
+            saved = json.loads(self.state.read_text())["seen"]["role"]
+            self.assertEqual(saved["deadline_at"], "2020-01-01T00:00:00Z")
+            with patch.object(watcher, "fetch_text", return_value='{"applicationDeadline": null}'):
+                self.assertEqual(self.scan([listing()])["alerts"], 1)
+            send.assert_called_once()
+        self.assertNotIn("deadline_at", json.loads(self.state.read_text())["seen"]["role"])
+
+    def test_discovery_collection_uses_configured_role_phrases(self):
+        target = {"name": "Example RSS", "type": "rss", "url": "https://example.com/feed"}
+        config = {
+            "targets": [], "discovery_sources": [target],
+            "rules": {"role_phrases": {"Editorial Lead": 38, "Content Strategy": 34}},
+        }
+        feed = (
+            '<rss><channel><item><title>Editorial Lead</title><link>https://example.com/1</link></item>'
+            '<item><title>Content Strategy Lead</title><link>https://example.com/2</link></item>'
+            '<item><title>Product Marketing Manager</title><link>https://example.com/3</link></item></channel></rss>'
+        )
+        with patch.object(watcher, "fetch_text", return_value=feed):
+            jobs, errors, warnings, _ = watcher.collect_jobs(config)
+        self.assertEqual([job.title for job in jobs], ["Editorial Lead", "Content Strategy Lead"])
+        self.assertFalse(errors or warnings)
+
+    def test_ninth_ambiguous_discovery_listing_gets_checked(self):
+        jobs = [self.job(
+            key=str(i), source="Example feed", location="Remote", discovery=True,
+            url=f"https://jobs.lever.co/example/{i}",
+        ) for i in range(9)]
+        def detail(url, **kwargs):
+            return "<main>Remote worldwide.</main>" if url.endswith("/8") else "<main>Remote.</main>"
+        with patch.object(watcher, "fetch_text", side_effect=detail) as fetch:
+            self.assertEqual(self.scan(jobs, "--backfill", "--no-email")["alerts"], 1)
+        self.assertEqual(fetch.call_count, 9)
+        self.assertIn(jobs[-1].url, self.alerts.read_text())
 
 
 if __name__ == "__main__":
