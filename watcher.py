@@ -43,6 +43,7 @@ DEFAULT_HTML_ROLE_REGEX = (
 )
 DISCOVERY_WINDOW_MINUTES = 15
 PUBLIC_ATS_HOSTS = {"jobs.ashbyhq.com", "jobs.lever.co", "jobs.eu.lever.co", "job-boards.greenhouse.io"}
+PUBLIC_ATS_PREFIXES = tuple(f"{scheme}://{host}/" for scheme in ("https", "http") for host in PUBLIC_ATS_HOSTS)
 EMPLOYMENT_LABEL = re.compile(
     r"\b(?:employment type|job type)\s*:\s*"
     r"(full[- ]time|part[- ]time|fixed[- ]term|contract(?:or)?|temporary|freelance|internship)\b",
@@ -350,6 +351,14 @@ def posting_url(url: str) -> str:
     return urllib.parse.urlunsplit((parsed.scheme.lower(), host, path, query, fragment))
 
 
+def posting_identity(url: str, title: str) -> str:
+    address = posting_url(url)
+    if not address or address.startswith(PUBLIC_ATS_PREFIXES):
+        return address
+    # Employers can point several roles to a single application page.
+    return f"{address}\n{location_words(title)}"
+
+
 def fetch_ashby(target: dict[str, Any]) -> list[Job]:
     board = target["board"]
     url = f"https://api.ashbyhq.com/posting-api/job-board/{urllib.parse.quote(board)}?includeCompensation=true"
@@ -588,7 +597,7 @@ def build_discovery_job(
         return None
     source_name = clean_text(target["name"])
     clean_company = clean_text(company) or source_name
-    key = stable_key("discovery", "global", "", posting_url(clean_url))
+    key = stable_key("discovery", "global", "", posting_identity(clean_url, clean_title))
     if target.get("type") == "yc_jobs":
         key = stable_key("yc", "global", clean_text(raw_id), clean_url)
     return Job(
@@ -611,7 +620,7 @@ def deduplicate_jobs(jobs: list[Job]) -> list[Job]:
     """Prefer first-party copies when multiple sources link to the same posting."""
     selected: dict[str, Job] = {}
     for job in jobs:
-        identity = posting_url(job.url) or job.key
+        identity = posting_identity(job.url, job.title) or job.key
         existing = selected.get(identity)
         if (
             existing is None
@@ -1326,7 +1335,7 @@ def main(argv: Iterable[str] | None = None) -> int:
         original_seen = state.get("seen", {})
         history_by_url: dict[str, Any] = {}
         for record in original_seen.values():
-            url = posting_url(record.get("url", ""))
+            url = posting_identity(record.get("url", ""), record.get("title", ""))
             if not url:
                 continue
             prior = history_by_url.get(url)
@@ -1339,7 +1348,7 @@ def main(argv: Iterable[str] | None = None) -> int:
         previous_records = {}
         expired_ashby = []
         for job in all_jobs:
-            alias = history_by_url.get(posting_url(job.url), {})
+            alias = history_by_url.get(posting_identity(job.url, job.title), {})
             prior = original_seen.get(job.key, {})
             previous = dict(prior or alias)
             if alias.get("last_alerted_at") and not previous.get("last_alerted_at"):

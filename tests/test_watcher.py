@@ -824,6 +824,13 @@ class AuditRegressionTests(unittest.TestCase):
         self.assertEqual(summary["alerts"], 1)
         self.assertIn(india.url, send.call_args.args[1])
 
+    def test_distinct_roles_can_share_an_employer_application_page(self):
+        first = self.job(key="first", url="https://example.com/careers")
+        second = self.job(
+            key="second", url=first.url, title="Developer Marketing Manager",
+        )
+        self.assertEqual(watcher.deduplicate_jobs([first, second]), [first, second])
+
     def test_legacy_url_keeps_alert_history_while_a_new_requisition_alerts(self):
         target = {"name": "Discovery", "type": "rss", "priority": 15}
         def listing(posting_id):
