@@ -731,6 +731,15 @@
       "title": "Director of Product Marketing - Cloud & OT Security",
       "url": "https://jobicy.com/jobs/152656-director-of-product-marketing-cloud-ot-security"
     },
+    "discovery:global:21d5f0cc2e6710e9bcbd": {
+      "company": "Recidiviz",
+      "eligible": false,
+      "fingerprint": "23cb0bb01698ba2da3123cfe",
+      "first_seen_at": "2026-11-15T00:02:17+00:00",
+      "last_seen_at": "2026-11-15T13:17:42+00:00",
+      "title": "Senior Product Marketing Manager",
+      "url": "https://remotefirstjobs.com/companies/recidiviz/jobs/senior-product-marketing-manager-883099"
+    },
     "discovery:global:26080d88701862ea5dbb": {
       "company": "Nash",
       "eligible": false,
@@ -1009,6 +1018,15 @@
       "last_seen_at": "2026-11-14T19:17:15+00:00",
       "title": "Social Media Coordinator",
       "url": "https://remotefirstjobs.com/companies/valnet/jobs/social-media-coordinator-883003"
+    },
+    "discovery:global:4b70f8436cb0aeec11b8": {
+      "company": "Abnormal AI",
+      "eligible": false,
+      "fingerprint": "7d5a104141aa002ee58298ce",
+      "first_seen_at": "2026-11-13T14:02:14+00:00",
+      "last_seen_at": "2026-11-15T13:17:42+00:00",
+      "title": "Senior Technical Product Marketing Manager",
+      "url": "https://remotefirstjobs.com/companies/abnormal-security/jobs/senior-technical-product-marketing-manager-882388"
     },
     "discovery:global:4c5e6a2e174affa27f79": {
       "company": "PandaDoc",
@@ -1460,6 +1478,15 @@
       "title": "Developer Advocate",
       "url": "https://jobicy.com/jobs/158994-developer-advocate-2"
     },
+    "discovery:global:86476c154d8abb185405": {
+      "company": "Thanx",
+      "eligible": false,
+      "fingerprint": "3e85c480d117cf6dcce4f947",
+      "first_seen_at": "2026-11-14T21:02:18+00:00",
+      "last_seen_at": "2026-11-15T13:17:42+00:00",
+      "title": "Product Marketing Manager",
+      "url": "https://remotefirstjobs.com/companies/thanx/jobs/product-marketing-manager-883138"
+    },
     "discovery:global:87795d05d447ba0202da": {
       "company": "TribalVision",
       "eligible": false,
@@ -1729,6 +1756,15 @@
       "last_seen_at": "2026-11-15T12:32:15+00:00",
       "title": "Product Marketing Manager",
       "url": "https://remotefirstjobs.com/companies/thanx/jobs/product-marketing-manager-883138"
+    },
+    "discovery:global:b21622caa09ebf7e8fdd": {
+      "company": "Huntress",
+      "eligible": false,
+      "fingerprint": "b32f3ba282d7fdfdc8567ba5",
+      "first_seen_at": "2026-11-14T09:47:14+00:00",
+      "last_seen_at": "2026-11-15T13:17:42+00:00",
+      "title": "Principal Product Marketing Manager - Identity",
+      "url": "https://remotefirstjobs.com/companies/huntress/jobs/principal-product-marketing-manager-identity-882786"
     },
     "discovery:global:b27e2a7ad59914d4f4b2": {
       "company": "Yugabyte",
@@ -2134,6 +2170,15 @@
       "last_seen_at": "2026-11-10T06:02:26+00:00",
       "title": "Product Marketing Manager",
       "url": "https://startup.jobs/product-marketing-manager-zhl-zillow-home-loans-llc-10727836?utm_source=rss&utm_medium=feed&utm_campaign=remote"
+    },
+    "discovery:global:e8b070a39fc7c759558e": {
+      "company": "Bolster",
+      "eligible": false,
+      "fingerprint": "f57e85b7a16fc14041fefc8b",
+      "first_seen_at": "2026-11-13T10:02:16+00:00",
+      "last_seen_at": "2026-11-15T13:17:42+00:00",
+      "title": "Director of Product Marketing",
+      "url": "https://remotefirstjobs.com/companies/bolster-inc/jobs/director-of-product-marketing-882307"
     },
     "discovery:global:ebd2ced77a2d397c9fbf": {
       "company": "Horizon3 AI",
@@ -3422,6 +3467,105 @@
       "title": "Regional Sales Director - North America",
       "url": "https://job-boards.greenhouse.io/cloudsek/jobs/6163523004"
     },
+    "greenhouse:Dropzone AI:12d0d9a87390fd5843dd": {
+      "company": "Dropzone AI",
+      "eligible": false,
+      "fingerprint": "ce4c477a94cccd2872424072",
+      "first_seen_at": "2026-11-15T13:17:42+00:00",
+      "last_seen_at": "2026-11-15T13:17:42+00:00",
+      "title": "AI Research Engineer",
+      "url": "https://job-boards.greenhouse.io/dropzoneai/jobs/4387701009"
+    },
+    "greenhouse:Dropzone AI:136e53de756c69dcd4d6": {
+      "company": "Dropzone AI",
+      "eligible": false,
+      "fingerprint": "b94e303777003c3439a557b0",
+      "first_seen_at": "2026-11-15T13:17:42+00:00",
+      "last_seen_at": "2026-11-15T13:17:42+00:00",
+      "title": "Forward Deployed Engineer",
+      "url": "https://job-boards.greenhouse.io/dropzoneai/jobs/4394458009"
+    },
+    "greenhouse:Dropzone AI:42d80e0a1319337edfc1": {
+      "company": "Dropzone AI",
+      "eligible": false,
+      "fingerprint": "6ff88c3cef7cf31f3045b1c5",
+      "first_seen_at": "2026-11-15T13:17:42+00:00",
+      "last_seen_at": "2026-11-15T13:17:42+00:00",
+      "title": "Account Executive-Southeast",
+      "url": "https://job-boards.greenhouse.io/dropzoneai/jobs/4488853009"
+    },
+    "greenhouse:Dropzone AI:5ff0f17ffa045e8fbfde": {
+      "company": "Dropzone AI",
+      "eligible": false,
+      "fingerprint": "b6ed72bef9e72c7f5dfc62ff",
+      "first_seen_at": "2026-11-15T13:17:42+00:00",
+      "last_seen_at": "2026-11-15T13:17:42+00:00",
+      "title": "Account Executive-N. Central",
+      "url": "https://job-boards.greenhouse.io/dropzoneai/jobs/4454152009"
+    },
+    "greenhouse:Dropzone AI:67c40d8febcc81724adb": {
+      "company": "Dropzone AI",
+      "eligible": false,
+      "fingerprint": "fcc0624d16632cde867e3811",
+      "first_seen_at": "2026-11-15T13:17:42+00:00",
+      "last_seen_at": "2026-11-15T13:17:42+00:00",
+      "title": "Federal Regional Sales Manager",
+      "url": "https://job-boards.greenhouse.io/dropzoneai/jobs/4274805009"
+    },
+    "greenhouse:Dropzone AI:6f7fdf82b9664eb9e089": {
+      "company": "Dropzone AI",
+      "eligible": false,
+      "fingerprint": "be771af891591c15a7ba57b5",
+      "first_seen_at": "2026-11-15T13:17:42+00:00",
+      "last_seen_at": "2026-11-15T13:17:42+00:00",
+      "title": "Senior Software Engineer - Integrations",
+      "url": "https://job-boards.greenhouse.io/dropzoneai/jobs/4472146009"
+    },
+    "greenhouse:Dropzone AI:76e78ac8c4e114e978c7": {
+      "company": "Dropzone AI",
+      "eligible": false,
+      "fingerprint": "a6d54f5ca79637a40b0fcb96",
+      "first_seen_at": "2026-11-15T13:17:42+00:00",
+      "last_seen_at": "2026-11-15T13:17:42+00:00",
+      "title": "Senior DevOps Engineer",
+      "url": "https://job-boards.greenhouse.io/dropzoneai/jobs/4317969009"
+    },
+    "greenhouse:Dropzone AI:b5045c86cfad0e2381b1": {
+      "company": "Dropzone AI",
+      "eligible": false,
+      "fingerprint": "262199d8f4d4696700bc81d0",
+      "first_seen_at": "2026-11-15T13:17:42+00:00",
+      "last_seen_at": "2026-11-15T13:17:42+00:00",
+      "title": "Principal Sales Engineer",
+      "url": "https://job-boards.greenhouse.io/dropzoneai/jobs/4308319009"
+    },
+    "greenhouse:Dropzone AI:cbc22d0f3ce5001a5256": {
+      "company": "Dropzone AI",
+      "eligible": false,
+      "fingerprint": "b947b8560f2a14edd384fe88",
+      "first_seen_at": "2026-11-15T13:17:42+00:00",
+      "last_seen_at": "2026-11-15T13:17:42+00:00",
+      "title": "Senior Technical Writer",
+      "url": "https://job-boards.greenhouse.io/dropzoneai/jobs/4411918009"
+    },
+    "greenhouse:Dropzone AI:e2826db3aeb45531337b": {
+      "company": "Dropzone AI",
+      "eligible": false,
+      "fingerprint": "3d1539921ea21fae43d3553f",
+      "first_seen_at": "2026-11-15T13:17:42+00:00",
+      "last_seen_at": "2026-11-15T13:17:42+00:00",
+      "title": "Regional Director, West",
+      "url": "https://job-boards.greenhouse.io/dropzoneai/jobs/4506434009"
+    },
+    "greenhouse:Dropzone AI:fcb8f226f0634ac0efd0": {
+      "company": "Dropzone AI",
+      "eligible": false,
+      "fingerprint": "adfa51d63b9db9cd133c1352",
+      "first_seen_at": "2026-11-15T13:17:42+00:00",
+      "last_seen_at": "2026-11-15T13:17:42+00:00",
+      "title": "Senior Product Manager, Integrations & Platform",
+      "url": "https://job-boards.greenhouse.io/dropzoneai/jobs/4438191009"
+    },
     "greenhouse:HiddenLayer:11ca0ce321c321de4f12": {
       "company": "HiddenLayer",
       "eligible": false,
@@ -3745,6 +3889,15 @@
       "last_seen_at": "2026-11-03T16:42:16+00:00",
       "title": "Enterprise Account Executive - SLED, Higher Ed (North)",
       "url": "https://www.sentinelone.com/jobs/?gh_jid=7992594003"
+    },
+    "greenhouse:SentinelOne:10ef4ffc45a04f05279b": {
+      "company": "SentinelOne",
+      "eligible": false,
+      "fingerprint": "427caab09e99055c7bce1158",
+      "first_seen_at": "2026-11-15T13:17:42+00:00",
+      "last_seen_at": "2026-11-15T13:17:42+00:00",
+      "title": "Senior Technical Support Engineer- Windows & Identity Security",
+      "url": "https://www.sentinelone.com/jobs/?gh_jid=8199005003"
     },
     "greenhouse:SentinelOne:12a5924a98c4bd59758d": {
       "company": "SentinelOne",
@@ -4258,6 +4411,15 @@
       "last_seen_at": "2026-11-03T16:42:16+00:00",
       "title": "Senior Infrastructure Engineer - Observability",
       "url": "https://www.sentinelone.com/jobs/?gh_jid=8044438003"
+    },
+    "greenhouse:SentinelOne:3d40529ea2d5e3de37d0": {
+      "company": "SentinelOne",
+      "eligible": false,
+      "fingerprint": "9f4b8438c1e4b2ebc37695a9",
+      "first_seen_at": "2026-11-15T13:17:42+00:00",
+      "last_seen_at": "2026-11-15T13:17:42+00:00",
+      "title": "Commercial Sales Representative (Northern Italy)",
+      "url": "https://www.sentinelone.com/jobs/?gh_jid=8203608003"
     },
     "greenhouse:SentinelOne:3e82e1a35bb73d7dbbaa": {
       "company": "SentinelOne",
@@ -5054,9 +5216,9 @@
     "greenhouse:SentinelOne:8521bea9b9665b910924": {
       "company": "SentinelOne",
       "eligible": false,
-      "fingerprint": "54b36df569607c527ab14a23",
+      "fingerprint": "d9bf3c42cbc103f1f5591a00",
       "first_seen_at": "2026-11-03T16:42:16+00:00",
-      "last_seen_at": "2026-11-03T16:42:16+00:00",
+      "last_seen_at": "2026-11-15T13:17:42+00:00",
       "title": "Professional Services Architect",
       "url": "https://www.sentinelone.com/jobs/?gh_jid=8026507003"
     },
@@ -5243,9 +5405,9 @@
     "greenhouse:SentinelOne:9385c29befa11c244b45": {
       "company": "SentinelOne",
       "eligible": false,
-      "fingerprint": "4315d053dabd129fdd5711e1",
+      "fingerprint": "e1fec857e5784b865a385e06",
       "first_seen_at": "2026-11-03T16:42:16+00:00",
-      "last_seen_at": "2026-11-03T16:42:16+00:00",
+      "last_seen_at": "2026-11-15T13:17:42+00:00",
       "title": "Temp Legal Counsel (Product Legal)",
       "url": "https://www.sentinelone.com/jobs/?gh_jid=8036934003"
     },
@@ -5311,6 +5473,15 @@
       "last_seen_at": "2026-11-03T16:42:16+00:00",
       "title": "Senior Software Engineer in Test - Test Platform",
       "url": "https://www.sentinelone.com/jobs/?gh_jid=8011347003"
+    },
+    "greenhouse:SentinelOne:99f238b7e733d11b8bde": {
+      "company": "SentinelOne",
+      "eligible": false,
+      "fingerprint": "dfdf23b75cf72172924ebea6",
+      "first_seen_at": "2026-11-15T13:17:42+00:00",
+      "last_seen_at": "2026-11-15T13:17:42+00:00",
+      "title": "Staff Technical Project Manager",
+      "url": "https://www.sentinelone.com/jobs/?gh_jid=8176141003"
     },
     "greenhouse:SentinelOne:9aa28b1d4339941d5e8b": {
       "company": "SentinelOne",
@@ -5770,6 +5941,15 @@
       "last_seen_at": "2026-11-03T16:42:16+00:00",
       "title": "Principal AI Platform Engineer (Lead Architect)",
       "url": "https://www.sentinelone.com/jobs/?gh_jid=7824589003"
+    },
+    "greenhouse:SentinelOne:cb133623cdb1f90372df": {
+      "company": "SentinelOne",
+      "eligible": false,
+      "fingerprint": "3e9f71387c6c359fabe3c44e",
+      "first_seen_at": "2026-11-15T13:17:42+00:00",
+      "last_seen_at": "2026-11-15T13:17:42+00:00",
+      "title": "Professional Services Architect (AI SIEM & Hyperautomation)",
+      "url": "https://www.sentinelone.com/jobs/?gh_jid=8201401003"
     },
     "greenhouse:SentinelOne:cb35dc4cb95510d656e3": {
       "company": "SentinelOne",
@@ -6314,9 +6494,9 @@
     "greenhouse:SentinelOne:f8392f5d4bd99f9106d1": {
       "company": "SentinelOne",
       "eligible": false,
-      "fingerprint": "82cab660a3ef4330ba33fd16",
+      "fingerprint": "4e39f617e77e02d713524fcc",
       "first_seen_at": "2026-11-03T16:42:16+00:00",
-      "last_seen_at": "2026-11-03T16:42:16+00:00",
+      "last_seen_at": "2026-11-15T13:17:42+00:00",
       "title": "Professional Services Architect",
       "url": "https://www.sentinelone.com/jobs/?gh_jid=8008026003"
     },
@@ -6427,6 +6607,16 @@
       "last_seen_at": "2026-11-14T14:47:15+00:00",
       "title": "Technical Product Marketing Manager Remote",
       "url": "https://arcanna.ai/jobs/technical-product-marketing-manager"
+    },
+    "html:Grafyn:2ca90b703dfe3b6e826c": {
+      "company": "Grafyn",
+      "eligible": true,
+      "fingerprint": "454d8769977a11bfaffb55c8",
+      "first_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_alerted_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-15T13:17:42+00:00",
+      "title": "Product Marketing Manager (Full-time/Intern/Co-op)",
+      "url": "https://www.grafyn.ai/careers#w-node-c31647c8-41ac-496a-f819-4bbdb02a85f6-0779011a"
     },
     "html:Grafyn:f8abaae8635c6e018d26": {
       "company": "Grafyn",
