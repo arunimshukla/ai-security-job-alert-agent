@@ -149,9 +149,9 @@
     "ashby:Harmonic Security:503b0b7a05f2e4d58216": {
       "company": "Harmonic Security",
       "eligible": false,
-      "fingerprint": "4636b6e5df054f34ad1754dd",
+      "fingerprint": "0e12d3ad738ac3e064e34f6b",
       "first_seen_at": "2026-11-16T19:47:14+00:00",
-      "last_seen_at": "2026-11-16T20:17:18+00:00",
+      "last_seen_at": "2026-11-16T20:47:17+00:00",
       "title": "Enterprise Account Executive - Denver/Rockies",
       "url": "https://jobs.ashbyhq.com/harmonic-security-inc/d525e0a9-2255-4a19-b6d0-1b8651911f13/application"
     },
@@ -181,6 +181,15 @@
       "last_seen_at": "2026-11-03T16:42:16+00:00",
       "title": "Senior Product Manager",
       "url": "https://jobs.ashbyhq.com/harmonic-security-inc/6a38f154-1d05-4d4c-9692-bdb77a5bee69/application"
+    },
+    "ashby:Harmonic Security:7440042f23bcb801798a": {
+      "company": "Harmonic Security",
+      "eligible": false,
+      "fingerprint": "a3f7247f81773b8198de38e5",
+      "first_seen_at": "2026-11-16T20:47:17+00:00",
+      "last_seen_at": "2026-11-16T20:47:17+00:00",
+      "title": "Enterprise Account Executive - San Francisco, CA",
+      "url": "https://jobs.ashbyhq.com/harmonic-security-inc/f143b57d-d1ad-44b8-9aee-3bf6e14ab162/application"
     },
     "ashby:Harmonic Security:89bffef0968c62f8ac74": {
       "company": "Harmonic Security",
