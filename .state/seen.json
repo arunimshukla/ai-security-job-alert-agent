@@ -113,9 +113,9 @@
     "ashby:Harmonic Security:0a37e3a0c49f678eae44": {
       "company": "Harmonic Security",
       "eligible": false,
-      "fingerprint": "fbda6e15f157bbaef48fd8e6",
+      "fingerprint": "1f3d8de0809d3d24c8db6473",
       "first_seen_at": "2026-11-03T16:42:16+00:00",
-      "last_seen_at": "2026-11-16T16:17:17+00:00",
+      "last_seen_at": "2026-11-17T20:17:18+00:00",
       "title": "Enterprise Account Executive - Chicago",
       "url": "https://jobs.ashbyhq.com/harmonic-security-inc/1b8e0562-d12d-476c-8710-934a28a0765d/application"
     },
@@ -131,9 +131,9 @@
     "ashby:Harmonic Security:1ed9907e6e4a6ac4c9ce": {
       "company": "Harmonic Security",
       "eligible": false,
-      "fingerprint": "75e9d1f5fd22fa6b5906d927",
+      "fingerprint": "18b55faf165c5e0b91c7f9ab",
       "first_seen_at": "2026-11-16T18:02:18+00:00",
-      "last_seen_at": "2026-11-16T21:02:16+00:00",
+      "last_seen_at": "2026-11-17T20:17:18+00:00",
       "title": "Enterprise Account Executive -South East",
       "url": "https://jobs.ashbyhq.com/harmonic-security-inc/6c90dcd5-8d72-4128-8db6-6ba311dbea9e/application"
     },
@@ -149,18 +149,18 @@
     "ashby:Harmonic Security:503b0b7a05f2e4d58216": {
       "company": "Harmonic Security",
       "eligible": false,
-      "fingerprint": "0e12d3ad738ac3e064e34f6b",
+      "fingerprint": "d49c6da221c3fe2d2d6d4a78",
       "first_seen_at": "2026-11-16T19:47:14+00:00",
-      "last_seen_at": "2026-11-16T20:47:17+00:00",
+      "last_seen_at": "2026-11-17T20:17:18+00:00",
       "title": "Enterprise Account Executive - Denver/Rockies",
       "url": "https://jobs.ashbyhq.com/harmonic-security-inc/d525e0a9-2255-4a19-b6d0-1b8651911f13/application"
     },
     "ashby:Harmonic Security:523e187ddb3c53afd0f9": {
       "company": "Harmonic Security",
       "eligible": false,
-      "fingerprint": "346d99e00b5f5a10591e46da",
+      "fingerprint": "ff86d12d7d8f546158f84f2b",
       "first_seen_at": "2026-11-03T16:42:16+00:00",
-      "last_seen_at": "2026-11-16T16:17:17+00:00",
+      "last_seen_at": "2026-11-17T20:17:18+00:00",
       "title": "Enterprise Account Executive - New York",
       "url": "https://jobs.ashbyhq.com/harmonic-security-inc/419cf92b-0817-465e-b73c-14a91a246a33/application"
     },
@@ -194,9 +194,9 @@
     "ashby:Harmonic Security:7440042f23bcb801798a": {
       "company": "Harmonic Security",
       "eligible": false,
-      "fingerprint": "a3f7247f81773b8198de38e5",
+      "fingerprint": "312667381ff5e294afbee304",
       "first_seen_at": "2026-11-16T20:47:17+00:00",
-      "last_seen_at": "2026-11-16T20:47:17+00:00",
+      "last_seen_at": "2026-11-17T20:17:18+00:00",
       "title": "Enterprise Account Executive - San Francisco, CA",
       "url": "https://jobs.ashbyhq.com/harmonic-security-inc/f143b57d-d1ad-44b8-9aee-3bf6e14ab162/application"
     },
@@ -230,9 +230,9 @@
     "ashby:Harmonic Security:b477e8d377ebd10dde8e": {
       "company": "Harmonic Security",
       "eligible": false,
-      "fingerprint": "8a7b6dd85156dc81ba1a256a",
+      "fingerprint": "fdb105e2f55c4678a4f4348d",
       "first_seen_at": "2026-11-16T19:47:14+00:00",
-      "last_seen_at": "2026-11-16T20:17:18+00:00",
+      "last_seen_at": "2026-11-17T20:17:18+00:00",
       "title": "Enterprise Account Executive - SoCal/Las Vegas",
       "url": "https://jobs.ashbyhq.com/harmonic-security-inc/90778410-0b21-4224-a9b6-53791a056966/application"
     },
@@ -257,9 +257,9 @@
     "ashby:Harmonic Security:fa9fd863806a4b88040d": {
       "company": "Harmonic Security",
       "eligible": false,
-      "fingerprint": "6969c6e1ea6f8d518dc690d5",
+      "fingerprint": "6e619baac99a8e5208a8afb4",
       "first_seen_at": "2026-11-03T16:42:16+00:00",
-      "last_seen_at": "2026-11-16T16:17:17+00:00",
+      "last_seen_at": "2026-11-17T20:17:18+00:00",
       "title": "Enterprise Account Executive - Pacific Northwest",
       "url": "https://jobs.ashbyhq.com/harmonic-security-inc/216a3449-1c2c-4614-9a26-16ece016e9c7/application"
     },
@@ -1783,6 +1783,15 @@
       "last_seen_at": "2026-11-16T21:17:15+00:00",
       "title": "Manager, Product Marketing Communications",
       "url": "https://himalayas.app/companies/stryker/jobs/manager-product-marketing-communications"
+    },
+    "discovery:global:9800f8730ddac4341b9e": {
+      "company": "Enumerate",
+      "eligible": false,
+      "fingerprint": "3e5194fea0379f41202647c0",
+      "first_seen_at": "2026-11-17T20:17:18+00:00",
+      "last_seen_at": "2026-11-17T20:17:18+00:00",
+      "title": "Product Marketing Manager",
+      "url": "https://himalayas.app/companies/enumerate/jobs/product-marketing-manager"
     },
     "discovery:global:9860f1e0d04cff5aa12a": {
       "company": "DuploCloud",
