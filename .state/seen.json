@@ -4883,9 +4883,9 @@
     "greenhouse:SentinelOne:47385655dfcbe554f195": {
       "company": "SentinelOne",
       "eligible": false,
-      "fingerprint": "00f6d757052801e223164b31",
+      "fingerprint": "2c8ae0f209aac76586e91be4",
       "first_seen_at": "2026-11-03T16:42:16+00:00",
-      "last_seen_at": "2026-11-17T10:02:21+00:00",
+      "last_seen_at": "2026-11-17T10:32:15+00:00",
       "title": "Offensive Security Researcher (Bangalore/Noida)",
       "url": "https://www.sentinelone.com/jobs/?gh_jid=8030657003"
     },
@@ -4982,9 +4982,9 @@
     "greenhouse:SentinelOne:4df83ecc5a6e2b4f8e4a": {
       "company": "SentinelOne",
       "eligible": false,
-      "fingerprint": "144d7e5a897b483c68f58e73",
+      "fingerprint": "bc0bc073305713d41c3aeef2",
       "first_seen_at": "2026-11-03T16:42:16+00:00",
-      "last_seen_at": "2026-11-17T10:02:21+00:00",
+      "last_seen_at": "2026-11-17T10:32:15+00:00",
       "title": "Staff Software Engineer - (Bangalore/Noida Hybrid Model)",
       "url": "https://www.sentinelone.com/jobs/?gh_jid=7763249003"
     },
