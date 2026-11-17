@@ -2648,6 +2648,15 @@
       "title": "Product Marketing Director",
       "url": "https://jobicy.com/jobs/159259-product-marketing-director"
     },
+    "discovery:global:fef5b6a5f1e733742a41": {
+      "company": "Karbon",
+      "eligible": false,
+      "fingerprint": "4e1b62da1541507a258c1691",
+      "first_seen_at": "2026-11-17T10:17:13+00:00",
+      "last_seen_at": "2026-11-17T10:17:13+00:00",
+      "title": "Product Marketing Team Lead",
+      "url": "https://remotefirstjobs.com/companies/karbon/jobs/product-marketing-team-lead-883388"
+    },
     "discovery:global:ff1ace4a63e28710a48d": {
       "company": "Canonical",
       "eligible": false,
@@ -4816,6 +4825,15 @@
       "last_seen_at": "2026-11-16T23:17:48+00:00",
       "title": "Manager, Observability Engineering",
       "url": "https://www.sentinelone.com/jobs/?gh_jid=8201994003"
+    },
+    "greenhouse:SentinelOne:43723350220d38e0d552": {
+      "company": "SentinelOne",
+      "eligible": false,
+      "fingerprint": "23a6bb12b14e9e35ecca55fb",
+      "first_seen_at": "2026-11-17T10:17:13+00:00",
+      "last_seen_at": "2026-11-17T10:17:13+00:00",
+      "title": "Staff Customer Success Manager",
+      "url": "https://www.sentinelone.com/jobs/?gh_jid=8012861003"
     },
     "greenhouse:SentinelOne:43f59280aa841c2b9559": {
       "company": "SentinelOne",
