@@ -6485,9 +6485,9 @@
     "greenhouse:SentinelOne:afabb881239c5efc2f72": {
       "company": "SentinelOne",
       "eligible": false,
-      "fingerprint": "c21d94950110f6d60f711e23",
+      "fingerprint": "8a8bdecd146345d912aaba0d",
       "first_seen_at": "2026-11-03T16:42:16+00:00",
-      "last_seen_at": "2026-11-03T16:42:16+00:00",
+      "last_seen_at": "2026-11-19T13:32:17+00:00",
       "title": "Account Executive, SMB (Midwest)",
       "url": "https://www.sentinelone.com/jobs/?gh_jid=7993160003"
     },
