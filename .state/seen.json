@@ -1022,9 +1022,9 @@
     "discovery:global:277f9a6d0b7263e03ebc": {
       "company": "Stripe",
       "eligible": false,
-      "fingerprint": "eeea6b9fb9af8aa81afa4319",
+      "fingerprint": "3c7124a323ad64bbac918da1",
       "first_seen_at": "2026-11-20T10:32:17+00:00",
-      "last_seen_at": "2026-11-20T19:32:16+00:00",
+      "last_seen_at": "2026-11-20T20:32:18+00:00",
       "title": "Briefing Content Strategist",
       "url": "https://remoteOK.com/remote-jobs/remote-briefing-content-strategist-stripe-1137812"
     },
@@ -8113,6 +8113,15 @@
       "last_seen_at": "2026-11-14T14:47:15+00:00",
       "title": "Customer Support Engineer, Tier 1 Windows - Mexico",
       "url": "https://jobs.lever.co/jumpcloud/bc24de3b-d0f9-4729-81d6-75b700bbae27/apply"
+    },
+    "lever:JumpCloud:9aeaa027e5655a02e7d0": {
+      "company": "JumpCloud",
+      "eligible": false,
+      "fingerprint": "b49e2bcdb2c671a000352069",
+      "first_seen_at": "2026-11-20T20:32:18+00:00",
+      "last_seen_at": "2026-11-20T20:32:18+00:00",
+      "title": "Product Marketing Manager - Mexico",
+      "url": "https://jobs.lever.co/jumpcloud/c401c627-8627-40ba-ac58-606b3940ad08/apply"
     },
     "lever:JumpCloud:9f9aab78e710c8b45da5": {
       "company": "JumpCloud",
