@@ -1022,9 +1022,9 @@
     "discovery:global:277f9a6d0b7263e03ebc": {
       "company": "Stripe",
       "eligible": false,
-      "fingerprint": "ec04175be314c01860db4b5e",
+      "fingerprint": "7d53d5d81b16fcd30d90620d",
       "first_seen_at": "2026-11-20T10:32:17+00:00",
-      "last_seen_at": "2026-11-21T05:32:15+00:00",
+      "last_seen_at": "2026-11-21T06:32:15+00:00",
       "title": "Briefing Content Strategist",
       "url": "https://remoteOK.com/remote-jobs/remote-briefing-content-strategist-stripe-1137812"
     },
@@ -2939,10 +2939,10 @@
     "discovery:global:dd4262adacfd42aff447": {
       "company": "Camunda",
       "eligible": true,
-      "fingerprint": "91a7be865945383071b5da5e",
+      "fingerprint": "afd9c08afee869ddb8b478ae",
       "first_seen_at": "2026-11-21T00:32:14+00:00",
       "last_alerted_at": "2026-11-21T00:32:14+00:00",
-      "last_seen_at": "2026-11-21T00:32:14+00:00",
+      "last_seen_at": "2026-11-21T06:32:15+00:00",
       "title": "Senior Product Marketing Manager - EMEA",
       "url": "https://www.arbeitnow.com/jobs/companies/camunda/remote-senior-product-marketing-manager-emea-383561"
     },
