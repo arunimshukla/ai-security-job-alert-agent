@@ -275,10 +275,10 @@
     "ashby:Keycard:013f38808b30016d1cf6": {
       "company": "Keycard",
       "eligible": false,
-      "fingerprint": "defcde894d24ac4279f6b85f",
+      "fingerprint": "855cc47d7ef6306355ab1b9a",
       "first_seen_at": "2026-11-18T19:47:17+00:00",
-      "last_seen_at": "2026-11-18T19:47:17+00:00",
-      "title": "Events Lead",
+      "last_seen_at": "2026-11-21T01:02:17+00:00",
+      "title": "Events Marketer",
       "url": "https://jobs.ashbyhq.com/keycard-labs/8c53c432-fbb8-44f3-ad60-91b9d8ba0279/application"
     },
     "ashby:Keycard:4d009b3ad543d6963567": {
@@ -329,10 +329,10 @@
     "ashby:Keycard:8537e6625f03f834b57d": {
       "company": "Keycard",
       "eligible": false,
-      "fingerprint": "ecacca1c4b188e6133580ca7",
+      "fingerprint": "2beedc56c6b6c17c4cd50371",
       "first_seen_at": "2026-11-03T16:42:16+00:00",
-      "last_seen_at": "2026-11-20T14:02:17+00:00",
-      "title": "Product Marketing Manager",
+      "last_seen_at": "2026-11-21T01:02:17+00:00",
+      "title": "Product Marketer",
       "url": "https://jobs.ashbyhq.com/keycard-labs/b1ac5f6d-9c1a-42e9-967f-daabfd51c05e/application"
     },
     "ashby:Keycard:939af002f4dab93fd9be": {
@@ -1396,6 +1396,15 @@
       "last_seen_at": "2026-11-08T11:47:13+00:00",
       "title": "Senior Product Marketing Manager, Workflows",
       "url": "https://remotefirstjobs.com/companies/pandadoc/jobs/senior-product-marketing-manager-workflows-880843"
+    },
+    "discovery:global:4c68af2ffecbd4211b64": {
+      "company": "AlphaSense",
+      "eligible": false,
+      "fingerprint": "e93e6b7650e4f0ab4f2c3d34",
+      "first_seen_at": "2026-11-21T01:02:17+00:00",
+      "last_seen_at": "2026-11-21T01:02:17+00:00",
+      "title": "Principal, Life Sciences Solutions Marketing",
+      "url": "https://remotefirstjobs.com/companies/alphasense/jobs/principal-life-sciences-solutions-marketing-886267"
     },
     "discovery:global:4d0cde96cf9a79901fc9": {
       "company": "M-Files",
