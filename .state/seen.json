@@ -1022,9 +1022,9 @@
     "discovery:global:277f9a6d0b7263e03ebc": {
       "company": "Stripe",
       "eligible": false,
-      "fingerprint": "f9b1a880f4c42c41f0895a7e",
+      "fingerprint": "a9a52030c2d506d28a881a76",
       "first_seen_at": "2026-11-20T10:32:17+00:00",
-      "last_seen_at": "2026-11-21T07:32:16+00:00",
+      "last_seen_at": "2026-11-21T08:32:30+00:00",
       "title": "Briefing Content Strategist",
       "url": "https://remoteOK.com/remote-jobs/remote-briefing-content-strategist-stripe-1137812"
     },
@@ -2332,6 +2332,15 @@
       "last_seen_at": "2026-11-08T20:17:15+00:00",
       "title": "Content Strategist - 12 Month Contract",
       "url": "https://jobicy.com/jobs/159841-content-strategist-12-month-contract"
+    },
+    "discovery:global:a8cbfaab8f9c04584a8a": {
+      "company": "Lifelancer",
+      "eligible": false,
+      "fingerprint": "29c9d05a75116a32ddc98a5b",
+      "first_seen_at": "2026-11-21T08:32:30+00:00",
+      "last_seen_at": "2026-11-21T08:32:30+00:00",
+      "title": "Content Strategy & Innovation, Director",
+      "url": "https://remotegig.in/jobs/lifelancer-content-strategy-innovation-director-111473ec"
     },
     "discovery:global:a8cecba8062d383b3685": {
       "company": "TCP Software",
