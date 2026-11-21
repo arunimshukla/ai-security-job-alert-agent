@@ -320,9 +320,9 @@
     "ashby:Keycard:72dffb2a6c52cfe9ccb0": {
       "company": "Keycard",
       "eligible": false,
-      "fingerprint": "a8d7f0af9bd57271a13e20cd",
+      "fingerprint": "209bdb93b92804e944739757",
       "first_seen_at": "2026-11-03T16:42:16+00:00",
-      "last_seen_at": "2026-11-03T16:42:16+00:00",
+      "last_seen_at": "2026-11-21T02:47:15+00:00",
       "title": "Software Engineer, Security",
       "url": "https://jobs.ashbyhq.com/keycard-labs/0f3524bb-b20b-4513-9c8a-bf35d1078ba4/application"
     },
@@ -3179,6 +3179,15 @@
       "last_seen_at": "2026-11-18T12:17:15+00:00",
       "title": "Microsoft Solutions Marketing Manager",
       "url": "https://himalayas.app/companies/accenture/jobs/microsoft-solutions-marketing-manager"
+    },
+    "discovery:global:f458b9866417301c3d43": {
+      "company": "Legatics",
+      "eligible": false,
+      "fingerprint": "4aa564b05aeca645e221f933",
+      "first_seen_at": "2026-11-21T02:47:15+00:00",
+      "last_seen_at": "2026-11-21T02:47:15+00:00",
+      "title": "Product Marketing Manager",
+      "url": "https://remotefirstjobs.com/companies/legatics/jobs/product-marketing-manager-886318"
     },
     "discovery:global:f477fae30a73647542c9": {
       "company": "Acosta Group",
