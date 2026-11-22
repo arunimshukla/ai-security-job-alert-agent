@@ -4971,6 +4971,15 @@
       "title": "Enterprise Account Director- NYC",
       "url": "https://job-boards.greenhouse.io/hiddenlayer/jobs/4962185007"
     },
+    "greenhouse:SentinelOne:01ddb172e0e9511d462d": {
+      "company": "SentinelOne",
+      "eligible": false,
+      "fingerprint": "dcc055d94eada0326349e60c",
+      "first_seen_at": "2026-11-22T16:47:13+00:00",
+      "last_seen_at": "2026-11-22T16:47:13+00:00",
+      "title": "Engineering Manager - Prompt Security Cloud",
+      "url": "https://www.sentinelone.com/jobs/?gh_jid=8205375003"
+    },
     "greenhouse:SentinelOne:0260b95a777c523a6c9a": {
       "company": "SentinelOne",
       "eligible": false,
@@ -5114,6 +5123,15 @@
       "last_seen_at": "2026-11-03T16:42:16+00:00",
       "title": "Enterprise Account Executive - SLED, Higher Ed (North)",
       "url": "https://www.sentinelone.com/jobs/?gh_jid=7992594003"
+    },
+    "greenhouse:SentinelOne:10ed5bdcd262662fb517": {
+      "company": "SentinelOne",
+      "eligible": false,
+      "fingerprint": "3ece8a447fb68bfd85d83247",
+      "first_seen_at": "2026-11-22T16:47:13+00:00",
+      "last_seen_at": "2026-11-22T16:47:13+00:00",
+      "title": "Senior Software Engineer in Test, Prompt",
+      "url": "https://www.sentinelone.com/jobs/?gh_jid=8205414003"
     },
     "greenhouse:SentinelOne:10ef4ffc45a04f05279b": {
       "company": "SentinelOne",
