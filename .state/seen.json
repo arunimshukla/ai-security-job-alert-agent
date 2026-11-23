@@ -416,6 +416,15 @@
       "title": "Regional Sales Director, Minnesota",
       "url": "https://jobs.ashbyhq.com/prophet-security/b2e9a1be-2324-412d-8ab2-563a5d562e23/application"
     },
+    "ashby:Prophet Security:a1968eea8925eff133d6": {
+      "company": "Prophet Security",
+      "eligible": false,
+      "fingerprint": "6fd6d1d2f5682498b3453731",
+      "first_seen_at": "2026-11-23T22:32:19+00:00",
+      "last_seen_at": "2026-11-23T22:32:19+00:00",
+      "title": "Regional Sales Director, Upstate NY/NJ",
+      "url": "https://jobs.ashbyhq.com/prophet-security/4fdb2c79-c651-42d9-b4b4-3ec33a5b7f70/application"
+    },
     "ashby:Prophet Security:c2ac1ed8ab99a86714ce": {
       "company": "Prophet Security",
       "eligible": false,
@@ -1886,9 +1895,9 @@
     "discovery:global:733e5f29485bd532a2dd": {
       "company": "Bitwarden",
       "eligible": false,
-      "fingerprint": "4008925f96ab55af221483b0",
+      "fingerprint": "47366cbf7b0448f1649fa0ad",
       "first_seen_at": "2026-11-22T02:32:17+00:00",
-      "last_seen_at": "2026-11-23T21:32:24+00:00",
+      "last_seen_at": "2026-11-23T22:32:19+00:00",
       "title": "Sr. Product Marketing Manager, Secrets Manager",
       "url": "https://remoteOK.com/remote-jobs/remote-sr-product-marketing-manager-secrets-manager-bitwarden-1137931"
     },
