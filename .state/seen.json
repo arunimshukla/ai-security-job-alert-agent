@@ -1886,9 +1886,9 @@
     "discovery:global:733e5f29485bd532a2dd": {
       "company": "Bitwarden",
       "eligible": false,
-      "fingerprint": "4008925f96ab55af221483b0",
+      "fingerprint": "696d81b83ba3052b7754d96b",
       "first_seen_at": "2026-11-22T02:32:17+00:00",
-      "last_seen_at": "2026-11-23T17:32:17+00:00",
+      "last_seen_at": "2026-11-23T18:32:16+00:00",
       "title": "Sr. Product Marketing Manager, Secrets Manager",
       "url": "https://remoteOK.com/remote-jobs/remote-sr-product-marketing-manager-secrets-manager-bitwarden-1137931"
     },
@@ -7305,9 +7305,9 @@
     "greenhouse:SentinelOne:bc7ddbb8aad3bcda9129": {
       "company": "SentinelOne",
       "eligible": false,
-      "fingerprint": "e8a36cc9fffc5c0804907580",
+      "fingerprint": "1f74845e4c5bc77123584c83",
       "first_seen_at": "2026-11-03T16:42:16+00:00",
-      "last_seen_at": "2026-11-03T16:42:16+00:00",
+      "last_seen_at": "2026-11-23T18:32:16+00:00",
       "title": "Solutions Engineer, SLED (South)",
       "url": "https://www.sentinelone.com/jobs/?gh_jid=7997067003"
     },
