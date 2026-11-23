@@ -6936,10 +6936,10 @@
     "greenhouse:SentinelOne:9e1a331118be11b68352": {
       "company": "SentinelOne",
       "eligible": false,
-      "fingerprint": "15f68fc1ed44ed840c100162",
+      "fingerprint": "a5ec085c3f517e227da42606",
       "first_seen_at": "2026-11-19T17:02:23+00:00",
-      "last_seen_at": "2026-11-19T17:02:23+00:00",
-      "title": "Deployment Customer Success Manager, Strategic Accounts",
+      "last_seen_at": "2026-11-23T16:47:18+00:00",
+      "title": "Deployment Customer Success Manager",
       "url": "https://www.sentinelone.com/jobs/?gh_jid=8204547003"
     },
     "greenhouse:SentinelOne:9e8929810cfee6710384": {
@@ -8460,9 +8460,9 @@
     "lever:JumpCloud:8f9303fa856625c21d7f": {
       "company": "JumpCloud",
       "eligible": false,
-      "fingerprint": "368cdaa0fada8b81ee58a76c",
+      "fingerprint": "2774f97f3c0fbc95ac567dba",
       "first_seen_at": "2026-11-14T14:47:15+00:00",
-      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-23T16:47:18+00:00",
       "title": "Director, Product Marketing Management - United States",
       "url": "https://jobs.lever.co/jumpcloud/61788a74-57b5-4821-bbb0-8e1605fbed5c/apply"
     },
