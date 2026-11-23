@@ -26,7 +26,7 @@ class WatcherTests(unittest.TestCase):
             ])
         self.assertEqual(exit_code, 0)
         send.assert_called_once()
-        self.assertTrue(send.call_args.args[0].startswith("TEST JOB ALERT: "))
+        self.assertTrue(send.call_args.args[0].startswith("WATCHER TEST: "))
         self.assertFalse(send.call_args.args[0].startswith("JOB ALERT: "))
 
     def test_high_fit_india_role_passes(self):
