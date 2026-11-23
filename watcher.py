@@ -1479,7 +1479,8 @@ def main(argv: Iterable[str] | None = None) -> int:
     if jobs and not args.no_email:
         try:
             top = max(jobs, key=lambda item: item.score)
-            send_email(f"JOB ALERT: {top.score}/100 {top.company} — {top.title}", alert_markdown)
+            prefix = "TEST JOB ALERT" if args.test_alert else "JOB ALERT"
+            send_email(f"{prefix}: {top.score}/100 {top.company} — {top.title}", alert_markdown)
             email_sent = True
         except Exception as exc:
             email_error = str(exc)
