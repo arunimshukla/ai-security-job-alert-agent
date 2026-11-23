@@ -8,7 +8,7 @@ The existing watcher already sends a Gmail-compatible `JOB ALERT:` message when 
 2. Open **Work** on the web or a supported mobile app. Ask it to create an **event-triggered task for new Gmail messages**.
 3. Choose the same Gmail account, filter by the actual sender (`ALERT_EMAIL_FROM`, defaulting to `SMTP_USERNAME`) and subject starting with **`JOB ALERT:`**.
 4. Review the proposed **Trigger**, **Condition**, and **Prompt**, then authorise the task. Check its status under **Scheduled**.
-5. Test with one genuine eligible alert. The workflow's `--test-alert` email intentionally uses **`TEST JOB ALERT:`** and should not satisfy the subject filter.
+5. Test with one genuine eligible alert. The workflow's `--test-alert` email intentionally uses **`WATCHER TEST:`** and should not satisfy the subject filter.
 
 No ChatGPT API key, webhook URL, or extra GitHub Action is needed for this handoff. It depends on Work event-trigger availability and the connected Gmail account.
 
