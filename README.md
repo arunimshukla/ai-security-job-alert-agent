@@ -113,7 +113,7 @@ flowchart TD
 
 ## ChatGPT Work handoff
 
-Connect the existing `JOB ALERT:` emails to an event-triggered task in ChatGPT Work. The agent needs no ChatGPT credentials or additional scheduler. Synthetic test emails use `TEST JOB ALERT:` and are excluded by the production subject filter. Setup steps, a ready-to-paste Work task prompt, and LinkedIn approval boundaries are in [the Work handoff guide](docs/WORK-HANDOFF.md).
+Connect the existing `JOB ALERT:` emails to an event-triggered task in ChatGPT Work. The agent needs no ChatGPT credentials or additional scheduler. Synthetic test emails use `WATCHER TEST:` and are excluded by the production subject filter. Setup steps, a ready-to-paste Work task prompt, and LinkedIn approval boundaries are in [the Work handoff guide](docs/WORK-HANDOFF.md).
 
 ## Quick start
 
