@@ -15,6 +15,20 @@ class WatcherTests(unittest.TestCase):
     def setUp(self):
         self.rules = json.loads((Path(__file__).parents[1] / "config.json").read_text())["rules"]
 
+    def test_synthetic_alert_cannot_match_production_work_subject(self):
+        with tempfile.TemporaryDirectory() as tmp, patch.object(watcher, "send_email") as send:
+            root = Path(tmp)
+            exit_code = watcher.main([
+                "--test-alert",
+                "--config", str(Path(__file__).parents[1] / "config.json"),
+                "--state", str(root / "state.json"),
+                "--alerts", str(root / "alerts.md"),
+            ])
+        self.assertEqual(exit_code, 0)
+        send.assert_called_once()
+        self.assertTrue(send.call_args.args[0].startswith("WATCHER TEST: "))
+        self.assertFalse(send.call_args.args[0].startswith("JOB ALERT: "))
+
     def test_high_fit_india_role_passes(self):
         job = watcher.Job(
             key="x",

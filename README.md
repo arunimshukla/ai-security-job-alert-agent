@@ -111,6 +111,10 @@ flowchart TD
 - **GitHub Actions** runs the scanner, sends email and persists deduplication state.
 - **Change-only CI** runs Python and Node tests when code or configuration changes, not on every scan.
 
+## ChatGPT Work handoff
+
+Connect the existing `JOB ALERT:` emails to an event-triggered task in ChatGPT Work. The agent needs no ChatGPT credentials or additional scheduler. Synthetic test emails use `WATCHER TEST:` and are excluded by the production subject filter. Setup steps, a ready-to-paste Work task prompt, and LinkedIn approval boundaries are in [the Work handoff guide](docs/WORK-HANDOFF.md).
+
 ## Quick start
 
 ### 1. Fork and customize
