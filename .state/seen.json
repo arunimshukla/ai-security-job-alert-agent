@@ -6006,6 +6006,15 @@
       "title": "Software Engineering Manager - Test Platform",
       "url": "https://www.sentinelone.com/jobs/?gh_jid=7992370003"
     },
+    "greenhouse:SentinelOne:504ea638cceeef83c5aa": {
+      "company": "SentinelOne",
+      "eligible": false,
+      "fingerprint": "f6d40165fec0d0cff92ec585",
+      "first_seen_at": "2026-11-23T16:17:20+00:00",
+      "last_seen_at": "2026-11-23T16:17:20+00:00",
+      "title": "Enterprise Sales Representative",
+      "url": "https://www.sentinelone.com/jobs/?gh_jid=8031348003"
+    },
     "greenhouse:SentinelOne:511195848f1a873780b8": {
       "company": "SentinelOne",
       "eligible": false,
@@ -8352,10 +8361,10 @@
     "lever:JumpCloud:4ad347fd410782dfccad": {
       "company": "JumpCloud",
       "eligible": false,
-      "fingerprint": "9d7415ddce87ff8d80676e48",
+      "fingerprint": "d08bef82b866622a4cb6a1cd",
       "first_seen_at": "2026-11-14T14:47:15+00:00",
-      "last_seen_at": "2026-11-14T14:47:15+00:00",
-      "title": "Staff Data Scientist, Machine Learning - India",
+      "last_seen_at": "2026-11-23T16:17:20+00:00",
+      "title": "Staff Data Engineer , India",
       "url": "https://jobs.lever.co/jumpcloud/60f9796e-9f63-416e-8c7b-8e16cd2ee3dc/apply"
     },
     "lever:JumpCloud:4f9a23e1d4037dbc4dad": {
