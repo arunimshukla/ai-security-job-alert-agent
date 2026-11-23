@@ -1886,9 +1886,9 @@
     "discovery:global:733e5f29485bd532a2dd": {
       "company": "Bitwarden",
       "eligible": false,
-      "fingerprint": "2aa5de299a5cb6c31b4ca0aa",
+      "fingerprint": "d172b173a3fe63cd4337bcff",
       "first_seen_at": "2026-11-22T02:32:17+00:00",
-      "last_seen_at": "2026-11-23T07:32:27+00:00",
+      "last_seen_at": "2026-11-23T08:32:17+00:00",
       "title": "Sr. Product Marketing Manager, Secrets Manager",
       "url": "https://remoteOK.com/remote-jobs/remote-sr-product-marketing-manager-secrets-manager-bitwarden-1137931"
     },
@@ -7413,9 +7413,9 @@
     "greenhouse:SentinelOne:c63fdf798d99a7fbeae8": {
       "company": "SentinelOne",
       "eligible": false,
-      "fingerprint": "b928536bbc52230c9f9ca2c8",
+      "fingerprint": "eae14793d9987aa7a50d539c",
       "first_seen_at": "2026-11-19T17:17:15+00:00",
-      "last_seen_at": "2026-11-20T13:32:19+00:00",
+      "last_seen_at": "2026-11-23T08:32:17+00:00",
       "title": "Staff Data Analytics & Forward Deployed AI Engineer",
       "url": "https://www.sentinelone.com/jobs/?gh_jid=8193933003"
     },
