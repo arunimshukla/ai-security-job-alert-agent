@@ -1886,9 +1886,9 @@
     "discovery:global:733e5f29485bd532a2dd": {
       "company": "Bitwarden",
       "eligible": false,
-      "fingerprint": "47366cbf7b0448f1649fa0ad",
+      "fingerprint": "4008925f96ab55af221483b0",
       "first_seen_at": "2026-11-22T02:32:17+00:00",
-      "last_seen_at": "2026-11-23T20:32:21+00:00",
+      "last_seen_at": "2026-11-23T21:32:24+00:00",
       "title": "Sr. Product Marketing Manager, Secrets Manager",
       "url": "https://remoteOK.com/remote-jobs/remote-sr-product-marketing-manager-secrets-manager-bitwarden-1137931"
     },
@@ -8636,6 +8636,15 @@
       "last_seen_at": "2026-11-14T14:47:15+00:00",
       "title": "GTM Strategy Program Manager - Mexico",
       "url": "https://jobs.lever.co/jumpcloud/794d57b9-9269-4835-80b6-2be9c2d87921/apply"
+    },
+    "lever:JumpCloud:fa69043a3bd321c60cd3": {
+      "company": "JumpCloud",
+      "eligible": false,
+      "fingerprint": "6e0ce6a866779cbf0a801093",
+      "first_seen_at": "2026-11-23T21:32:24+00:00",
+      "last_seen_at": "2026-11-23T21:32:24+00:00",
+      "title": "Solutions Architect - Mexico",
+      "url": "https://jobs.lever.co/jumpcloud/24beb193-4036-45ef-a3e9-7242ad228a9e/apply"
     },
     "yc:global:3c07d67a5b20073fee9f": {
       "company": "LightSprint",
