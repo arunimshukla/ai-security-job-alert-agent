@@ -1886,9 +1886,9 @@
     "discovery:global:733e5f29485bd532a2dd": {
       "company": "Bitwarden",
       "eligible": false,
-      "fingerprint": "aef0d41abba5b39d64f995a0",
+      "fingerprint": "c413ba9b610991f827028b36",
       "first_seen_at": "2026-11-22T02:32:17+00:00",
-      "last_seen_at": "2026-11-23T10:32:16+00:00",
+      "last_seen_at": "2026-11-23T11:32:21+00:00",
       "title": "Sr. Product Marketing Manager, Secrets Manager",
       "url": "https://remoteOK.com/remote-jobs/remote-sr-product-marketing-manager-secrets-manager-bitwarden-1137931"
     },
@@ -4223,6 +4223,15 @@
       "last_seen_at": "2026-11-03T16:42:16+00:00",
       "title": "AI Security Sales Executive, Public Sector",
       "url": "https://abnormal.ai/careers/jobs/8039165003?gh_jid=8039165003"
+    },
+    "greenhouse:Abnormal Security:bc4974e927cc4bd4b831": {
+      "company": "Abnormal Security",
+      "eligible": false,
+      "fingerprint": "de54ca01617de753fc2d1d7d",
+      "first_seen_at": "2026-11-23T11:32:21+00:00",
+      "last_seen_at": "2026-11-23T11:32:21+00:00",
+      "title": "Enterprise Account Executive",
+      "url": "https://abnormal.ai/careers/jobs/8208400003?gh_jid=8208400003"
     },
     "greenhouse:Abnormal Security:c00ebaa387c4def85d4d": {
       "company": "Abnormal Security",
