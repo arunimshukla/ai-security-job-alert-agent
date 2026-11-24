@@ -650,6 +650,15 @@
       "title": "Director Product Marketing - Clinical Operations",
       "url": "https://himalayas.app/companies/lifelancer/jobs/director-product-marketing-clinical-operations"
     },
+    "discovery:global:05d559457fdb49fe6f2f": {
+      "company": "MaintainX",
+      "eligible": false,
+      "fingerprint": "b812d11cb83c99d3aa346c08",
+      "first_seen_at": "2026-11-24T08:17:16+00:00",
+      "last_seen_at": "2026-11-24T08:17:16+00:00",
+      "title": "Product Marketing Manager",
+      "url": "https://jobicy.com/jobs/156824-product-marketing-manager-4"
+    },
     "discovery:global:066d87321f35f4fa04b0": {
       "company": "Postscript",
       "eligible": false,
@@ -1180,6 +1189,15 @@
       "last_seen_at": "2026-11-21T06:47:15+00:00",
       "title": "Senior Product Marketing Manager",
       "url": "https://weworkremotely.com/remote-jobs/modern-health-senior-product-marketing-manager"
+    },
+    "discovery:global:2baa86df4fea6ecfd3a8": {
+      "company": "Amgen",
+      "eligible": false,
+      "fingerprint": "09bd905f85063f64d05c8699",
+      "first_seen_at": "2026-11-24T08:17:16+00:00",
+      "last_seen_at": "2026-11-24T08:17:16+00:00",
+      "title": "Content Strategy & Innovation, Director",
+      "url": "https://himalayas.app/companies/amgen/jobs/content-strategy-innovation-director"
     },
     "discovery:global:2e331b66cab924f51f9a": {
       "company": "UpBound",
@@ -2729,6 +2747,15 @@
       "title": "Product Marketing Managers: GTM Brief Review for Bike Repair Tool",
       "url": "https://weworkremotely.com/remote-jobs/terac-product-marketing-managers-gtm-brief-review-for-bike-repair-tool"
     },
+    "discovery:global:bc8af1b76931f69beac6": {
+      "company": "Roboflow",
+      "eligible": false,
+      "fingerprint": "c6da68e4299a4b04d79c11eb",
+      "first_seen_at": "2026-11-24T08:17:16+00:00",
+      "last_seen_at": "2026-11-24T08:17:16+00:00",
+      "title": "Developer Advocate",
+      "url": "https://jobicy.com/jobs/151412-developer-advocate"
+    },
     "discovery:global:be111c569c887b638940": {
       "company": "Grafana Labs",
       "eligible": false,
@@ -2908,6 +2935,15 @@
       "last_seen_at": "2026-11-11T17:47:20+00:00",
       "title": "Product Marketing Manager",
       "url": "https://weworkremotely.com/remote-jobs/leap-tools-product-marketing-manager"
+    },
+    "discovery:global:c801598fd527e520a74a": {
+      "company": "1Password",
+      "eligible": false,
+      "fingerprint": "6d62689e30da7f9b5846f0cd",
+      "first_seen_at": "2026-11-24T08:17:16+00:00",
+      "last_seen_at": "2026-11-24T08:17:16+00:00",
+      "title": "Senior Developer Marketing Manager, Social & Content",
+      "url": "https://jobicy.com/jobs/156806-senior-developer-marketing-manager-social-content"
     },
     "discovery:global:c8aa4cb3c2af97fcefa2": {
       "company": "PandaDoc",
@@ -6455,6 +6491,15 @@
       "last_seen_at": "2026-11-03T16:42:16+00:00",
       "title": "Sales Development Representative",
       "url": "https://www.sentinelone.com/jobs/?gh_jid=7762120003"
+    },
+    "greenhouse:SentinelOne:70c5da2060b25409ee9e": {
+      "company": "SentinelOne",
+      "eligible": false,
+      "fingerprint": "f5f420e4d55c1c36d5723c9c",
+      "first_seen_at": "2026-11-24T08:17:16+00:00",
+      "last_seen_at": "2026-11-24T08:17:16+00:00",
+      "title": "IT Infrastructure Automation Engineer",
+      "url": "https://www.sentinelone.com/jobs/?gh_jid=8204712003"
     },
     "greenhouse:SentinelOne:71b07302fa64ce22a9fd": {
       "company": "SentinelOne",
