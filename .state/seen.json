@@ -41,10 +41,10 @@
     "ashby:Cracken:2f4dbba01f3ae5ea5364": {
       "company": "Cracken",
       "eligible": false,
-      "fingerprint": "e00347b061b1d760e041e28d",
+      "fingerprint": "3ae0f41adbb817eb11199af4",
       "first_seen_at": "2026-11-24T11:47:15+00:00",
-      "last_seen_at": "2026-11-24T11:47:15+00:00",
-      "title": "Account Executive",
+      "last_seen_at": "2026-11-24T22:32:17+00:00",
+      "title": "Founding Account Executive",
       "url": "https://jobs.ashbyhq.com/crackenagi/dbd538d3-b4f7-450a-beeb-a5560a0b4919/application"
     },
     "ashby:Cracken:308ca52020a4961ff614": {
@@ -2012,9 +2012,9 @@
     "discovery:global:733e5f29485bd532a2dd": {
       "company": "Bitwarden",
       "eligible": false,
-      "fingerprint": "1ec89fc67f4455561b62aefe",
+      "fingerprint": "779dec1bc3421ab1a50fa247",
       "first_seen_at": "2026-11-22T02:32:17+00:00",
-      "last_seen_at": "2026-11-24T21:32:33+00:00",
+      "last_seen_at": "2026-11-24T22:32:17+00:00",
       "title": "Sr. Product Marketing Manager, Secrets Manager",
       "url": "https://remoteOK.com/remote-jobs/remote-sr-product-marketing-manager-secrets-manager-bitwarden-1137931"
     },
