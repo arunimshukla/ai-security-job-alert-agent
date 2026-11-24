@@ -158,9 +158,9 @@
     "ashby:Harmonic Security:45cdb325dfb2735dad8d": {
       "company": "Harmonic Security",
       "eligible": false,
-      "fingerprint": "d9f6c7577afd28e3e920e560",
+      "fingerprint": "6c979e348ac2f2c4ba8aeb5a",
       "first_seen_at": "2026-11-24T10:02:24+00:00",
-      "last_seen_at": "2026-11-24T10:02:24+00:00",
+      "last_seen_at": "2026-11-24T14:17:29+00:00",
       "title": "AI Enablement Engineer",
       "url": "https://jobs.ashbyhq.com/harmonic-security-inc/f1368e84-0f17-43be-80db-77c7bbac9985/application"
     },
@@ -8183,6 +8183,15 @@
       "last_seen_at": "2026-11-03T16:42:16+00:00",
       "title": "Senior Software Engineer - Low Level C++ - Linux & Cloud Security",
       "url": "https://www.sentinelone.com/jobs/?gh_jid=7561108003"
+    },
+    "greenhouse:SentinelOne:ed254dbda2d35e85088c": {
+      "company": "SentinelOne",
+      "eligible": false,
+      "fingerprint": "1f890aed9cdcb4eac2407d9a",
+      "first_seen_at": "2026-11-24T14:17:29+00:00",
+      "last_seen_at": "2026-11-24T14:17:29+00:00",
+      "title": "Professional Services Architect",
+      "url": "https://www.sentinelone.com/jobs/?gh_jid=8215264003"
     },
     "greenhouse:SentinelOne:ed85e94cbe2e1c6b2b67": {
       "company": "SentinelOne",
