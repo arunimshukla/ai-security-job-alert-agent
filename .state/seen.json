@@ -2810,6 +2810,15 @@
       "title": "Director, Product Marketing",
       "url": "https://remotefirstjobs.com/companies/performline/jobs/director-product-marketing-881890"
     },
+    "discovery:global:bc2558384f12f91971dc": {
+      "company": "Collibra",
+      "eligible": false,
+      "fingerprint": "ef017b21a8460399c57a645b",
+      "first_seen_at": "2026-11-24T18:47:22+00:00",
+      "last_seen_at": "2026-11-24T18:47:22+00:00",
+      "title": "VP, Product Marketing & Executive Thought Leadership",
+      "url": "https://weworkremotely.com/remote-jobs/collibra-vp-product-marketing-executive-thought-leadership"
+    },
     "discovery:global:bc4c4ba54ff01c370903": {
       "company": "Terac",
       "eligible": false,
@@ -3710,6 +3719,15 @@
       "last_seen_at": "2026-11-06T09:17:16+00:00",
       "title": "Product Marketing Director",
       "url": "https://jobicy.com/jobs/159259-product-marketing-director"
+    },
+    "discovery:global:fcff703c04f896f338c6": {
+      "company": "Glossier",
+      "eligible": false,
+      "fingerprint": "b9c74d96774dba7d87b40afc",
+      "first_seen_at": "2026-11-24T18:47:22+00:00",
+      "last_seen_at": "2026-11-24T18:47:22+00:00",
+      "title": "Director, Product Marketing (Contractor)",
+      "url": "https://weworkremotely.com/remote-jobs/glossier-director-product-marketing-contractor"
     },
     "discovery:global:fda1c64dd62a24feb846": {
       "company": "Travoom",
@@ -8151,10 +8169,10 @@
     "greenhouse:SentinelOne:e773e670b62da95f3d6b": {
       "company": "SentinelOne",
       "eligible": false,
-      "fingerprint": "e339af46f0426a840bd6d531",
+      "fingerprint": "ca986f0a2c003136c37e57a5",
       "first_seen_at": "2026-11-03T16:42:16+00:00",
-      "last_seen_at": "2026-11-03T16:42:16+00:00",
-      "title": "Staff Knowledge Manager",
+      "last_seen_at": "2026-11-24T18:47:22+00:00",
+      "title": "Staff Automation Engineer, Provisioning & Onboarding",
       "url": "https://www.sentinelone.com/jobs/?gh_jid=8012058003"
     },
     "greenhouse:SentinelOne:e7b79cc678ce4de01c84": {
