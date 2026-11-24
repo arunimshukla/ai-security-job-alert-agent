@@ -1985,9 +1985,9 @@
     "discovery:global:733e5f29485bd532a2dd": {
       "company": "Bitwarden",
       "eligible": false,
-      "fingerprint": "34d8f06004ed24449620ed72",
+      "fingerprint": "6e3cd9971c5a634a367d06fd",
       "first_seen_at": "2026-11-22T02:32:17+00:00",
-      "last_seen_at": "2026-11-24T11:32:17+00:00",
+      "last_seen_at": "2026-11-24T12:32:17+00:00",
       "title": "Sr. Product Marketing Manager, Secrets Manager",
       "url": "https://remoteOK.com/remote-jobs/remote-sr-product-marketing-manager-secrets-manager-bitwarden-1137931"
     },
@@ -5793,10 +5793,10 @@
     "greenhouse:SentinelOne:35a057c07e38ff16429f": {
       "company": "SentinelOne",
       "eligible": false,
-      "fingerprint": "c61217637903f40d4c501fdb",
+      "fingerprint": "e17f048a483ba3e920089172",
       "first_seen_at": "2026-11-03T16:42:16+00:00",
-      "last_seen_at": "2026-11-03T16:42:16+00:00",
-      "title": "Senior Software Engineer (Go, Java) - 3rd Party Integrations",
+      "last_seen_at": "2026-11-24T12:32:17+00:00",
+      "title": "Staff Software Engineer (Go, Java) - 3rd Party Integrations",
       "url": "https://www.sentinelone.com/jobs/?gh_jid=7827900003"
     },
     "greenhouse:SentinelOne:35ac773a085e10f5f994": {
@@ -6396,10 +6396,10 @@
     "greenhouse:SentinelOne:687e6798aff63d33b96b": {
       "company": "SentinelOne",
       "eligible": false,
-      "fingerprint": "70beec7e1920475cb18129eb",
+      "fingerprint": "94935400b5bc490c504aab6f",
       "first_seen_at": "2026-11-03T16:42:16+00:00",
-      "last_seen_at": "2026-11-03T16:42:16+00:00",
-      "title": "Senior Software Engineer (Go, Java) - 3rd Party Integrations",
+      "last_seen_at": "2026-11-24T12:32:17+00:00",
+      "title": "Staff Software Engineer (Go, Java) - 3rd Party Integrations",
       "url": "https://www.sentinelone.com/jobs/?gh_jid=7827882003"
     },
     "greenhouse:SentinelOne:688b6760f8af2bd692a3": {
@@ -7701,19 +7701,19 @@
     "greenhouse:SentinelOne:ccfdbf63f965eeb2f27e": {
       "company": "SentinelOne",
       "eligible": false,
-      "fingerprint": "e5f95073f5b42e56f210d21f",
+      "fingerprint": "a9ad84daecc40b55197311c0",
       "first_seen_at": "2026-11-03T16:42:16+00:00",
-      "last_seen_at": "2026-11-03T16:42:16+00:00",
-      "title": "Senior Software Engineer (Go, Java) - 3rd Party Integrations",
+      "last_seen_at": "2026-11-24T12:32:17+00:00",
+      "title": "Staff Software Engineer (Go, Java) - 3rd Party Integrations",
       "url": "https://www.sentinelone.com/jobs/?gh_jid=7827830003"
     },
     "greenhouse:SentinelOne:cd38c2f486cd910075ca": {
       "company": "SentinelOne",
       "eligible": false,
-      "fingerprint": "bb11e3ac11c526d650d48960",
+      "fingerprint": "5aa3670573098dfceb120aac",
       "first_seen_at": "2026-11-03T16:42:16+00:00",
-      "last_seen_at": "2026-11-03T16:42:16+00:00",
-      "title": "Senior Software Engineer (Go, Java) - 3rd Party Integrations",
+      "last_seen_at": "2026-11-24T12:32:17+00:00",
+      "title": "Staff Software Engineer (Go, Java) - 3rd Party Integrations",
       "url": "https://www.sentinelone.com/jobs/?gh_jid=7827879003"
     },
     "greenhouse:SentinelOne:cd6ea51926f7e90f5b98": {
