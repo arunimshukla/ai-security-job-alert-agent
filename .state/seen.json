@@ -1433,6 +1433,15 @@
       "title": "Technical Communications Specialist",
       "url": "https://remotefirstjobs.com/companies/lawrence-livermore-national-laboratory/jobs/technical-communications-specialist-885999"
     },
+    "discovery:global:3f199450a17952536021": {
+      "company": "CSI",
+      "eligible": false,
+      "fingerprint": "e05d900fc91bee900bb177f8",
+      "first_seen_at": "2026-11-24T20:17:15+00:00",
+      "last_seen_at": "2026-11-24T20:17:15+00:00",
+      "title": "Content Marketing Manager",
+      "url": "https://himalayas.app/companies/csi/jobs/content-marketing-manager"
+    },
     "discovery:global:414c1c934c23e9f5d2b2": {
       "company": "NovoEd, Inc.",
       "eligible": false,
@@ -8300,6 +8309,15 @@
       "last_seen_at": "2026-11-24T14:17:29+00:00",
       "title": "Professional Services Architect",
       "url": "https://www.sentinelone.com/jobs/?gh_jid=8215264003"
+    },
+    "greenhouse:SentinelOne:ed39a7c73882d849c989": {
+      "company": "SentinelOne",
+      "eligible": false,
+      "fingerprint": "63beb6e436c34f410dd8f5cf",
+      "first_seen_at": "2026-11-24T20:17:15+00:00",
+      "last_seen_at": "2026-11-24T20:17:15+00:00",
+      "title": "Senior Customer Success Manager, Dedicated",
+      "url": "https://www.sentinelone.com/jobs/?gh_jid=8209730003"
     },
     "greenhouse:SentinelOne:ed85e94cbe2e1c6b2b67": {
       "company": "SentinelOne",
