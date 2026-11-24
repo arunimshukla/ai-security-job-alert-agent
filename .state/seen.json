@@ -7998,9 +7998,9 @@
     "greenhouse:SentinelOne:df11d096d57585aa127e": {
       "company": "SentinelOne",
       "eligible": false,
-      "fingerprint": "833c2836e47cd9697d2874ed",
+      "fingerprint": "52d0b36f017c40d911d4e9ed",
       "first_seen_at": "2026-11-16T16:45:06+00:00",
-      "last_seen_at": "2026-11-16T16:45:06+00:00",
+      "last_seen_at": "2026-11-24T18:02:22+00:00",
       "title": "Email Specialist",
       "url": "https://www.sentinelone.com/jobs/?gh_jid=8180952003"
     },
