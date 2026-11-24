@@ -1985,9 +1985,9 @@
     "discovery:global:733e5f29485bd532a2dd": {
       "company": "Bitwarden",
       "eligible": false,
-      "fingerprint": "6e3cd9971c5a634a367d06fd",
+      "fingerprint": "7b231c81c9e24dffe4a41718",
       "first_seen_at": "2026-11-22T02:32:17+00:00",
-      "last_seen_at": "2026-11-24T12:32:17+00:00",
+      "last_seen_at": "2026-11-24T13:32:23+00:00",
       "title": "Sr. Product Marketing Manager, Secrets Manager",
       "url": "https://remoteOK.com/remote-jobs/remote-sr-product-marketing-manager-secrets-manager-bitwarden-1137931"
     },
@@ -2125,6 +2125,15 @@
       "last_seen_at": "2026-11-04T12:47:18+00:00",
       "title": "Lead Product Marketing Manager - Novus",
       "url": "https://weworkremotely.com/remote-jobs/pendo-lead-product-marketing-manager-novus"
+    },
+    "discovery:global:7d6f88c32c325691b3cd": {
+      "company": "Curriculum Associates",
+      "eligible": false,
+      "fingerprint": "39d284a1c2b74900910fc675",
+      "first_seen_at": "2026-11-24T13:32:23+00:00",
+      "last_seen_at": "2026-11-24T13:32:23+00:00",
+      "title": "Temp - Product Marketing Manager",
+      "url": "https://remotegig.in/jobs/curriculum-associates-temp-product-marketing-manager-9b4f910f"
     },
     "discovery:global:7df0e161a07491ee3555": {
       "company": "True Talent Solutions Partners",
