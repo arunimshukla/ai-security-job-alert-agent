@@ -1967,9 +1967,9 @@
     "discovery:global:733e5f29485bd532a2dd": {
       "company": "Bitwarden",
       "eligible": false,
-      "fingerprint": "4b5b5df6d8e3a39d96fbe7a1",
+      "fingerprint": "5d4bc2c7ce04b905025699eb",
       "first_seen_at": "2026-11-22T02:32:17+00:00",
-      "last_seen_at": "2026-11-24T09:32:19+00:00",
+      "last_seen_at": "2026-11-24T10:32:18+00:00",
       "title": "Sr. Product Marketing Manager, Secrets Manager",
       "url": "https://remoteOK.com/remote-jobs/remote-sr-product-marketing-manager-secrets-manager-bitwarden-1137931"
     },
@@ -6279,9 +6279,9 @@
     "greenhouse:SentinelOne:57f24413313e5ba45540": {
       "company": "SentinelOne",
       "eligible": false,
-      "fingerprint": "515d20f9841f90cb310e9bf3",
+      "fingerprint": "0be72f90d8d6b85ec6fe7762",
       "first_seen_at": "2026-11-03T16:42:16+00:00",
-      "last_seen_at": "2026-11-03T16:42:16+00:00",
+      "last_seen_at": "2026-11-24T10:32:18+00:00",
       "title": "Staff Solutions Engineer, MSSP Partner",
       "url": "https://www.sentinelone.com/jobs/?gh_jid=8017832003"
     },
