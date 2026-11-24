@@ -1985,9 +1985,9 @@
     "discovery:global:733e5f29485bd532a2dd": {
       "company": "Bitwarden",
       "eligible": false,
-      "fingerprint": "7b231c81c9e24dffe4a41718",
+      "fingerprint": "7ee8056ab80436d62656b4a3",
       "first_seen_at": "2026-11-22T02:32:17+00:00",
-      "last_seen_at": "2026-11-24T13:32:23+00:00",
+      "last_seen_at": "2026-11-24T14:32:20+00:00",
       "title": "Sr. Product Marketing Manager, Secrets Manager",
       "url": "https://remoteOK.com/remote-jobs/remote-sr-product-marketing-manager-secrets-manager-bitwarden-1137931"
     },
@@ -8457,9 +8457,9 @@
     "html:Arcanna.ai:766f9bb9831f85bd8508": {
       "company": "Arcanna.ai",
       "eligible": false,
-      "fingerprint": "90b3d92b712292a2f55ee769",
+      "fingerprint": "95552abc389b5d8638e1df5b",
       "first_seen_at": "2026-11-03T16:42:16+00:00",
-      "last_seen_at": "2026-11-14T14:47:15+00:00",
+      "last_seen_at": "2026-11-24T14:32:20+00:00",
       "title": "Technical Product Marketing Manager Remote",
       "url": "https://arcanna.ai/jobs/technical-product-marketing-manager"
     },
