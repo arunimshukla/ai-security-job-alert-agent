@@ -7701,9 +7701,9 @@
     "greenhouse:SentinelOne:ccfdbf63f965eeb2f27e": {
       "company": "SentinelOne",
       "eligible": false,
-      "fingerprint": "a9ad84daecc40b55197311c0",
+      "fingerprint": "12d1860533b6d242f67b43ed",
       "first_seen_at": "2026-11-03T16:42:16+00:00",
-      "last_seen_at": "2026-11-24T12:32:17+00:00",
+      "last_seen_at": "2026-11-24T12:47:15+00:00",
       "title": "Staff Software Engineer (Go, Java) - 3rd Party Integrations",
       "url": "https://www.sentinelone.com/jobs/?gh_jid=7827830003"
     },
