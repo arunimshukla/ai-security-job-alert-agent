@@ -1643,9 +1643,9 @@
     "discovery:global:4e409eb2be7c5dfd6812": {
       "company": "Glossier",
       "eligible": false,
-      "fingerprint": "be9cf0551ab7bcf524d6cece",
+      "fingerprint": "5817448821db9139d5193943",
       "first_seen_at": "2026-11-25T10:32:17+00:00",
-      "last_seen_at": "2026-11-25T11:32:16+00:00",
+      "last_seen_at": "2026-11-25T12:32:15+00:00",
       "title": "Director, Product Marketing (Contractor)",
       "url": "https://remoteOK.com/remote-jobs/remote-director-product-marketing-contractor-glossier-1138085"
     },
@@ -2057,9 +2057,9 @@
     "discovery:global:733e5f29485bd532a2dd": {
       "company": "Bitwarden",
       "eligible": false,
-      "fingerprint": "0da7580efa623bee54f19c50",
+      "fingerprint": "039c40e1f2366bdda93917e9",
       "first_seen_at": "2026-11-22T02:32:17+00:00",
-      "last_seen_at": "2026-11-25T11:32:16+00:00",
+      "last_seen_at": "2026-11-25T12:32:15+00:00",
       "title": "Sr. Product Marketing Manager, Secrets Manager",
       "url": "https://remoteOK.com/remote-jobs/remote-sr-product-marketing-manager-secrets-manager-bitwarden-1137931"
     },
@@ -2647,6 +2647,15 @@
       "last_seen_at": "2026-11-15T13:47:15+00:00",
       "title": "Principal Product Marketing Manager",
       "url": "https://weworkremotely.com/remote-jobs/clickhouse-principal-product-marketing-manager"
+    },
+    "discovery:global:a6920559f799974933af": {
+      "company": "Intermate Media GmbH",
+      "eligible": false,
+      "fingerprint": "870e4fdbb1eab8144283e53c",
+      "first_seen_at": "2026-11-25T12:32:15+00:00",
+      "last_seen_at": "2026-11-25T12:32:15+00:00",
+      "title": "(Senior) Social Media Manager:in (gn)",
+      "url": "https://www.arbeitnow.com/jobs/companies/intermate-media-gmbh/senior-social-media-managerin-gn-berlin-310778"
     },
     "discovery:global:a82b1c70bd0ef55daf87": {
       "company": "2100 NVIDIA USA",
