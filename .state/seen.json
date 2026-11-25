@@ -1697,9 +1697,9 @@
     "discovery:global:4e409eb2be7c5dfd6812": {
       "company": "Glossier",
       "eligible": false,
-      "fingerprint": "4aa23123f774a043200392b0",
+      "fingerprint": "681a2ff952267a30750ff377",
       "first_seen_at": "2026-11-25T10:32:17+00:00",
-      "last_seen_at": "2026-11-25T19:32:26+00:00",
+      "last_seen_at": "2026-11-25T20:32:19+00:00",
       "title": "Director, Product Marketing (Contractor)",
       "url": "https://remoteOK.com/remote-jobs/remote-director-product-marketing-contractor-glossier-1138085"
     },
@@ -2156,9 +2156,9 @@
     "discovery:global:733e5f29485bd532a2dd": {
       "company": "Bitwarden",
       "eligible": false,
-      "fingerprint": "2b29e93d770264d7e79c5ed4",
+      "fingerprint": "0399597d8b17d992e10c2c46",
       "first_seen_at": "2026-11-22T02:32:17+00:00",
-      "last_seen_at": "2026-11-25T19:32:26+00:00",
+      "last_seen_at": "2026-11-25T20:32:19+00:00",
       "title": "Sr. Product Marketing Manager, Secrets Manager",
       "url": "https://remoteOK.com/remote-jobs/remote-sr-product-marketing-manager-secrets-manager-bitwarden-1137931"
     },
@@ -4358,6 +4358,15 @@
       "last_seen_at": "2026-11-06T16:32:18+00:00",
       "title": "Channel Enablement Manager",
       "url": "https://abnormal.ai/careers/jobs/8196038003?gh_jid=8196038003"
+    },
+    "greenhouse:Abnormal Security:677069242866ca7da1d0": {
+      "company": "Abnormal Security",
+      "eligible": false,
+      "fingerprint": "d3f4521e8158af31fb079a58",
+      "first_seen_at": "2026-11-25T20:32:19+00:00",
+      "last_seen_at": "2026-11-25T20:32:19+00:00",
+      "title": "Senior Product Manager - Cloud Email Security",
+      "url": "https://abnormal.ai/careers/jobs/8217243003?gh_jid=8217243003"
     },
     "greenhouse:Abnormal Security:6b2d6a3739770bff8272": {
       "company": "Abnormal Security",
