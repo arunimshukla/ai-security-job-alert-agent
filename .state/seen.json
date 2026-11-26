@@ -1724,9 +1724,9 @@
     "discovery:global:4e409eb2be7c5dfd6812": {
       "company": "Glossier",
       "eligible": false,
-      "fingerprint": "e577e374ab461d7e850e2503",
+      "fingerprint": "74107d81c90b4ab4e6be338d",
       "first_seen_at": "2026-11-25T10:32:17+00:00",
-      "last_seen_at": "2026-11-26T07:32:23+00:00",
+      "last_seen_at": "2026-11-26T08:32:17+00:00",
       "title": "Director, Product Marketing (Contractor)",
       "url": "https://remoteOK.com/remote-jobs/remote-director-product-marketing-contractor-glossier-1138085"
     },
@@ -2219,9 +2219,9 @@
     "discovery:global:733e5f29485bd532a2dd": {
       "company": "Bitwarden",
       "eligible": false,
-      "fingerprint": "2f07f259f58df9ee4504bf14",
+      "fingerprint": "ea34a01d10d2ff370a1dbe99",
       "first_seen_at": "2026-11-22T02:32:17+00:00",
-      "last_seen_at": "2026-11-26T07:32:23+00:00",
+      "last_seen_at": "2026-11-26T08:32:17+00:00",
       "title": "Sr. Product Marketing Manager, Secrets Manager",
       "url": "https://remoteOK.com/remote-jobs/remote-sr-product-marketing-manager-secrets-manager-bitwarden-1137931"
     },
@@ -6177,6 +6177,15 @@
       "title": "Staff AI Platform Engineer",
       "url": "https://www.sentinelone.com/jobs/?gh_jid=7805775003"
     },
+    "greenhouse:SentinelOne:2315e923f05dbf55d465": {
+      "company": "SentinelOne",
+      "eligible": false,
+      "fingerprint": "9089c13d72654850dfd0958d",
+      "first_seen_at": "2026-11-26T08:32:17+00:00",
+      "last_seen_at": "2026-11-26T08:32:17+00:00",
+      "title": "Recruiting Coordinator",
+      "url": "https://www.sentinelone.com/jobs/?gh_jid=8213934003"
+    },
     "greenhouse:SentinelOne:2349da5e9ca6f0f870ef": {
       "company": "SentinelOne",
       "eligible": false,
@@ -6437,6 +6446,15 @@
       "last_seen_at": "2026-11-03T16:42:16+00:00",
       "title": "Staff Data Engineer - Enterprise Platform, AI foundations",
       "url": "https://www.sentinelone.com/jobs/?gh_jid=7885786003"
+    },
+    "greenhouse:SentinelOne:37aeb43553807caac5a3": {
+      "company": "SentinelOne",
+      "eligible": false,
+      "fingerprint": "59619194d465d92ada302a16",
+      "first_seen_at": "2026-11-26T08:32:17+00:00",
+      "last_seen_at": "2026-11-26T08:32:17+00:00",
+      "title": "Recruiting Coordinator",
+      "url": "https://www.sentinelone.com/jobs/?gh_jid=8213937003"
     },
     "greenhouse:SentinelOne:384d6706552b5d3ba380": {
       "company": "SentinelOne",
