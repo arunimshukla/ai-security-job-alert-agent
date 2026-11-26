@@ -1733,9 +1733,9 @@
     "discovery:global:4e409eb2be7c5dfd6812": {
       "company": "Glossier",
       "eligible": false,
-      "fingerprint": "8b04fa05d38b0f8aedac78d1",
+      "fingerprint": "7d78204b2a7285afee016ee0",
       "first_seen_at": "2026-11-25T10:32:17+00:00",
-      "last_seen_at": "2026-11-26T17:32:20+00:00",
+      "last_seen_at": "2026-11-26T18:32:17+00:00",
       "title": "Director, Product Marketing (Contractor)",
       "url": "https://remoteOK.com/remote-jobs/remote-director-product-marketing-contractor-glossier-1138085"
     },
@@ -4106,6 +4106,15 @@
       "last_seen_at": "2026-11-07T15:17:14+00:00",
       "title": "Product Marketing Manager",
       "url": "https://himalayas.app/companies/genlogs-corporation/jobs/product-marketing-manager"
+    },
+    "discovery:global:f2f666ef986600881efe": {
+      "company": "Datadog",
+      "eligible": false,
+      "fingerprint": "11dd804cf490af00dbff8c67",
+      "first_seen_at": "2026-11-26T18:32:17+00:00",
+      "last_seen_at": "2026-11-26T18:32:17+00:00",
+      "title": "Senior Developer Advocate, OpenTelemetry",
+      "url": "https://remotefirstjobs.com/companies/datadog/jobs/senior-developer-advocate-opentelemetry-889569"
     },
     "discovery:global:f3986ffd8008587c87a8": {
       "company": "Intapp",
