@@ -1724,9 +1724,9 @@
     "discovery:global:4e409eb2be7c5dfd6812": {
       "company": "Glossier",
       "eligible": false,
-      "fingerprint": "421dcc94c58eb345021d4d7e",
+      "fingerprint": "e577e374ab461d7e850e2503",
       "first_seen_at": "2026-11-25T10:32:17+00:00",
-      "last_seen_at": "2026-11-26T06:32:17+00:00",
+      "last_seen_at": "2026-11-26T07:32:23+00:00",
       "title": "Director, Product Marketing (Contractor)",
       "url": "https://remoteOK.com/remote-jobs/remote-director-product-marketing-contractor-glossier-1138085"
     },
@@ -2210,9 +2210,9 @@
     "discovery:global:733e5f29485bd532a2dd": {
       "company": "Bitwarden",
       "eligible": false,
-      "fingerprint": "83e9c721dc29f3ae6296f900",
+      "fingerprint": "2f07f259f58df9ee4504bf14",
       "first_seen_at": "2026-11-22T02:32:17+00:00",
-      "last_seen_at": "2026-11-26T06:32:17+00:00",
+      "last_seen_at": "2026-11-26T07:32:23+00:00",
       "title": "Sr. Product Marketing Manager, Secrets Manager",
       "url": "https://remoteOK.com/remote-jobs/remote-sr-product-marketing-manager-secrets-manager-bitwarden-1137931"
     },
