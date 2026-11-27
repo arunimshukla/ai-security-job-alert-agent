@@ -1805,9 +1805,9 @@
     "discovery:global:503c318e11127a0adc0a": {
       "company": "Veeva Systems",
       "eligible": false,
-      "fingerprint": "2840c7aa1455856842230b6b",
+      "fingerprint": "7762e7fddd12bbb2f1ace41a",
       "first_seen_at": "2026-11-27T01:32:16+00:00",
-      "last_seen_at": "2026-11-27T15:32:23+00:00",
+      "last_seen_at": "2026-11-27T16:32:16+00:00",
       "title": "Product Marketing Manager - Ostro",
       "url": "https://remoteOK.com/remote-jobs/remote-product-marketing-manager-ostro-veeva-systems-1138153"
     },
@@ -3461,9 +3461,9 @@
     "discovery:global:c32f05775fff898a5219": {
       "company": "aduna",
       "eligible": false,
-      "fingerprint": "14a079882113632f736e3c07",
+      "fingerprint": "15b7b61516f050c10b79fe2d",
       "first_seen_at": "2026-11-27T07:32:19+00:00",
-      "last_seen_at": "2026-11-27T15:32:23+00:00",
+      "last_seen_at": "2026-11-27T16:32:16+00:00",
       "title": "Developer Advocate - Network APIs",
       "url": "https://remoteOK.com/remote-jobs/remote-developer-advocate-network-apis-aduna-1138170"
     },
@@ -5649,9 +5649,9 @@
     "greenhouse:CloudSEK:72516b73bcb30907a71d": {
       "company": "CloudSEK",
       "eligible": false,
-      "fingerprint": "2b38cc39eee5bb6f14fb62a2",
+      "fingerprint": "f03fac64ad50d681ffe0fc8c",
       "first_seen_at": "2026-11-03T16:42:16+00:00",
-      "last_seen_at": "2026-11-17T22:29:59+00:00",
+      "last_seen_at": "2026-11-27T16:32:16+00:00",
       "title": "Cybersecurity Consultant - USA (Remote)",
       "url": "https://job-boards.greenhouse.io/cloudsek/jobs/6241868004"
     },
