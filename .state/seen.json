@@ -3125,6 +3125,15 @@
       "title": "Product Marketing Manager",
       "url": "https://remotefirstjobs.com/companies/thanx/jobs/product-marketing-manager-883138"
     },
+    "discovery:global:b180c7e5be31914912ed": {
+      "company": "ElevenLabs",
+      "eligible": false,
+      "fingerprint": "f05213318438bf41d0126fd7",
+      "first_seen_at": "2026-11-27T07:02:17+00:00",
+      "last_seen_at": "2026-11-27T07:02:17+00:00",
+      "title": "Product Marketing - Agents",
+      "url": "https://startup.jobs/product-marketing-agents-elevenlabs-10897418?utm_source=rss&utm_medium=feed&utm_campaign=remote"
+    },
     "discovery:global:b1b92c2eb78a8a8cc7ff": {
       "company": "NVIDIA",
       "eligible": false,
@@ -5258,6 +5267,15 @@
       "last_seen_at": "2026-11-03T16:42:16+00:00",
       "title": "Enterprise Account Executive",
       "url": "https://abnormal.ai/careers/jobs/8074725003?gh_jid=8074725003"
+    },
+    "greenhouse:Abnormal Security:d25aaf531e910eac34f2": {
+      "company": "Abnormal Security",
+      "eligible": false,
+      "fingerprint": "7466122fd5ff16637e57996c",
+      "first_seen_at": "2026-11-27T07:02:17+00:00",
+      "last_seen_at": "2026-11-27T07:02:17+00:00",
+      "title": "Software Engineer II - Product Data Gateway",
+      "url": "https://abnormal.ai/careers/jobs/7694596003?gh_jid=7694596003"
     },
     "greenhouse:Abnormal Security:d2af9565007d4dfc6eba": {
       "company": "Abnormal Security",
