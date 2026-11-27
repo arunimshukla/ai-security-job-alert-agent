@@ -3044,6 +3044,15 @@
       "title": "Director, Product Marketing - Competitive Intelligence & Analyst Relations",
       "url": "https://himalayas.app/companies/vertex-inc/jobs/director-product-marketing-competitive-intelligence-analyst-relations"
     },
+    "discovery:global:a9f3ef0e1f3439cdede2": {
+      "company": "TokPortal",
+      "eligible": false,
+      "fingerprint": "249d56170d9f34fbaeaa021e",
+      "first_seen_at": "2026-11-27T09:17:15+00:00",
+      "last_seen_at": "2026-11-27T09:17:15+00:00",
+      "title": "Social Media Manager (Freelance)",
+      "url": "https://himalayas.app/companies/tokportal/jobs/social-media-manager-freelance"
+    },
     "discovery:global:aabcf8eae9c8253a05aa": {
       "company": "Revalize",
       "eligible": false,
@@ -6536,6 +6545,15 @@
       "last_seen_at": "2026-11-03T16:42:16+00:00",
       "title": "Automation Engineer, Provisioning & Onboarding",
       "url": "https://www.sentinelone.com/jobs/?gh_jid=8041658003"
+    },
+    "greenhouse:SentinelOne:28f303154e11062589b5": {
+      "company": "SentinelOne",
+      "eligible": false,
+      "fingerprint": "986b85bb55b0bedf91006521",
+      "first_seen_at": "2026-11-27T09:17:15+00:00",
+      "last_seen_at": "2026-11-27T09:17:15+00:00",
+      "title": "Professional Services Architect",
+      "url": "https://www.sentinelone.com/jobs/?gh_jid=8218229003"
     },
     "greenhouse:SentinelOne:2cb45ac931115ff02f90": {
       "company": "SentinelOne",
