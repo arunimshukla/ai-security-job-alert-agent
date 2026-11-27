@@ -1751,9 +1751,9 @@
     "discovery:global:4e409eb2be7c5dfd6812": {
       "company": "Glossier",
       "eligible": false,
-      "fingerprint": "b62d2cdb0542fb51d22fdc87",
+      "fingerprint": "89c26ea923bd8a6847fdf817",
       "first_seen_at": "2026-11-25T10:32:17+00:00",
-      "last_seen_at": "2026-11-27T06:32:16+00:00",
+      "last_seen_at": "2026-11-27T07:32:19+00:00",
       "title": "Director, Product Marketing (Contractor)",
       "url": "https://remoteOK.com/remote-jobs/remote-director-product-marketing-contractor-glossier-1138085"
     },
@@ -1787,9 +1787,9 @@
     "discovery:global:503c318e11127a0adc0a": {
       "company": "Veeva Systems",
       "eligible": false,
-      "fingerprint": "fe8ac2910b4805a2f8bf7c94",
+      "fingerprint": "0f1b6951ac339501f2d6f9ae",
       "first_seen_at": "2026-11-27T01:32:16+00:00",
-      "last_seen_at": "2026-11-27T06:32:16+00:00",
+      "last_seen_at": "2026-11-27T07:32:19+00:00",
       "title": "Product Marketing Manager - Ostro",
       "url": "https://remoteOK.com/remote-jobs/remote-product-marketing-manager-ostro-veeva-systems-1138153"
     },
@@ -3394,6 +3394,15 @@
       "last_seen_at": "2026-11-11T02:17:53+00:00",
       "title": "Social Media Manager (Contractor) | Diablo | Irvine, CA or Remote (US)",
       "url": "https://himalayas.app/companies/blizzard-entertainment/jobs/social-media-manager-contractor-diablo-irvine-ca-or-remote-us"
+    },
+    "discovery:global:c32f05775fff898a5219": {
+      "company": "aduna",
+      "eligible": false,
+      "fingerprint": "7b0390acf4a5017887276564",
+      "first_seen_at": "2026-11-27T07:32:19+00:00",
+      "last_seen_at": "2026-11-27T07:32:19+00:00",
+      "title": "Developer Advocate - Network APIs",
+      "url": "https://remoteOK.com/remote-jobs/remote-developer-advocate-network-apis-aduna-1138170"
     },
     "discovery:global:c40ebd7739b8bafa5675": {
       "company": "Constant Contact",
