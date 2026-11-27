@@ -902,6 +902,16 @@
       "title": "SOCIAL MEDIA MANAGER & DIGITAL MARKETING MANAGER | REMOTO | (INGL\u00c9S)",
       "url": "https://himalayas.app/companies/acierta-headhunter/jobs/social-media-manager-digital-marketing-manager-remoto-ingles"
     },
+    "discovery:global:14a89b9097b39edbcaf4": {
+      "company": "Tailscale",
+      "eligible": true,
+      "fingerprint": "80ea75b79a5f7edd4cc326e5",
+      "first_seen_at": "2026-11-27T18:47:15+00:00",
+      "last_alerted_at": "2026-11-27T18:47:15+00:00",
+      "last_seen_at": "2026-11-27T18:47:15+00:00",
+      "title": "Developer Relations Engineer",
+      "url": "https://weworkremotely.com/remote-jobs/tailscale-developer-relations-engineer"
+    },
     "discovery:global:14da6fa43eb6872b3e4b": {
       "company": "TokPortal",
       "eligible": false,
@@ -1729,6 +1739,15 @@
       "last_seen_at": "2026-11-15T13:17:42+00:00",
       "title": "Senior Technical Product Marketing Manager",
       "url": "https://remotefirstjobs.com/companies/abnormal-security/jobs/senior-technical-product-marketing-manager-882388"
+    },
+    "discovery:global:4b72fbc5f05ecc35b588": {
+      "company": "Tailscale",
+      "eligible": false,
+      "fingerprint": "06008a24f79f5e876b657cae",
+      "first_seen_at": "2026-11-27T18:47:15+00:00",
+      "last_seen_at": "2026-11-27T18:47:15+00:00",
+      "title": "Developer Relations Engineer",
+      "url": "https://weworkremotely.com/remote-jobs/tailscale-developer-relations-engineer-1"
     },
     "discovery:global:4bfc422160821c7e965a": {
       "company": "Pavago",
