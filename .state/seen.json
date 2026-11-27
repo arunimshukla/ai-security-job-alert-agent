@@ -1742,9 +1742,9 @@
     "discovery:global:4e409eb2be7c5dfd6812": {
       "company": "Glossier",
       "eligible": false,
-      "fingerprint": "a3a744a2c6c35ef8f3e06bf2",
+      "fingerprint": "a409ff1ca8e44e5f9c548179",
       "first_seen_at": "2026-11-25T10:32:17+00:00",
-      "last_seen_at": "2026-11-27T00:32:15+00:00",
+      "last_seen_at": "2026-11-27T01:32:16+00:00",
       "title": "Director, Product Marketing (Contractor)",
       "url": "https://remoteOK.com/remote-jobs/remote-director-product-marketing-contractor-glossier-1138085"
     },
@@ -1774,6 +1774,15 @@
       "last_seen_at": "2026-11-11T12:32:16+00:00",
       "title": "Developer Relations Engineer",
       "url": "https://www.arbeitnow.com/jobs/companies/nextcloud/developer-relations-engineer-stuttgart-409029"
+    },
+    "discovery:global:503c318e11127a0adc0a": {
+      "company": "Veeva Systems",
+      "eligible": false,
+      "fingerprint": "ed5933779162811abe7555fa",
+      "first_seen_at": "2026-11-27T01:32:16+00:00",
+      "last_seen_at": "2026-11-27T01:32:16+00:00",
+      "title": "Product Marketing Manager - Ostro",
+      "url": "https://remoteOK.com/remote-jobs/remote-product-marketing-manager-ostro-veeva-systems-1138153"
     },
     "discovery:global:50cf171a403a5b8b8866": {
       "company": "Mercury - Banking for Startups",
@@ -2710,6 +2719,15 @@
       "last_seen_at": "2026-11-16T21:17:15+00:00",
       "title": "Manager, Product Marketing Communications",
       "url": "https://himalayas.app/companies/stryker/jobs/manager-product-marketing-communications"
+    },
+    "discovery:global:97e37caf4fda8fb4fec0": {
+      "company": "Collibra NV",
+      "eligible": false,
+      "fingerprint": "5768637b68ab3051937c9cc8",
+      "first_seen_at": "2026-11-27T01:32:16+00:00",
+      "last_seen_at": "2026-11-27T01:32:16+00:00",
+      "title": "VP, Product Marketing & Executive Thought Leadership",
+      "url": "https://remotefirstjobs.com/companies/collibra/jobs/vp-product-marketing-executive-thought-leadership-889756"
     },
     "discovery:global:9800f8730ddac4341b9e": {
       "company": "Enumerate",
