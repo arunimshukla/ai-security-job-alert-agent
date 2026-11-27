@@ -1805,9 +1805,9 @@
     "discovery:global:503c318e11127a0adc0a": {
       "company": "Veeva Systems",
       "eligible": false,
-      "fingerprint": "7762e7fddd12bbb2f1ace41a",
+      "fingerprint": "2fa1d8ee6a330669b4efbeb2",
       "first_seen_at": "2026-11-27T01:32:16+00:00",
-      "last_seen_at": "2026-11-27T16:32:16+00:00",
+      "last_seen_at": "2026-11-27T17:32:23+00:00",
       "title": "Product Marketing Manager - Ostro",
       "url": "https://remoteOK.com/remote-jobs/remote-product-marketing-manager-ostro-veeva-systems-1138153"
     },
@@ -3470,9 +3470,9 @@
     "discovery:global:c32f05775fff898a5219": {
       "company": "aduna",
       "eligible": false,
-      "fingerprint": "15b7b61516f050c10b79fe2d",
+      "fingerprint": "6172a0f101ee7278073374db",
       "first_seen_at": "2026-11-27T07:32:19+00:00",
-      "last_seen_at": "2026-11-27T16:32:16+00:00",
+      "last_seen_at": "2026-11-27T17:32:23+00:00",
       "title": "Developer Advocate - Network APIs",
       "url": "https://remoteOK.com/remote-jobs/remote-developer-advocate-network-apis-aduna-1138170"
     },
